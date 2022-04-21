@@ -1,0 +1,127 @@
+.bg_shapka_lk{
+    background-color: dimgray;
+    height: 200px;
+}
+.bg_shapka2_lk{
+    background-color: #e9e9e9;
+    height: 100px;
+    text-align: right;
+    position: relative;
+    z-index: -1;
+}
+.prfole_block{
+    display: flex;
+    margin-left: 40px;
+}
+.block_ava_img{
+    position: relative;
+    padding: 5px;
+    background-color: #e9e9e9;
+    box-shadow: -1px 1px 3px black;
+    width: 200px;
+    height: 200px;
+}
+.info_user{
+    margin-left: 10px;
+    color: white;
+}
+.aboutField{
+    color: #0f0f0f;
+    margin-top: 24px;
+}
+.change_profile_btn, .save_profile_btn{
+    margin-top: 14px;
+}
+.img_post{
+    width: 100%;
+}
+.statistics_post{
+    display: flex;
+}
+.block_statistics_post{
+    margin-left: 10px;
+}
+.statistics_post_comment{
+    color: black;
+}
+.ava_block{
+    text-align: center;
+}
+.header_block{
+    position: relative
+}
+
+.header_block > h2 {
+    display: inline-block;
+}
+
+.header_block > img {
+    max-width: 50px;
+    position: absolute;
+    top: 15px;
+}
+
+/* аватар */
+.ava_img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.block_ava_img input[type=file]{
+    outline:0;
+    opacity:0;
+    pointer-events:none;
+    user-select:none
+}
+.block_ava_img span{
+    font-size: 20px;
+}
+.block_ava_img .label{
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border:2px dashed grey;
+    display:block;
+    padding: 60px 20px;
+    transition:border 300ms ease;
+    cursor:pointer;
+    text-align:center
+}
+.block_ava_img .label i{
+    display:block;
+    font-size:42px;
+    padding-bottom:16px
+}
+.block_ava_img .label i,.block_ava_img .label .title{
+    color:grey;
+    transition:200ms color
+}
+.block_ava_img .label:hover{
+    border:2px solid #000
+}
+.block_ava_img .label:hover i,.block_ava_img .label:hover .title{
+    color:#000
+}
+
+.href_avatar{
+    position: absolute;
+    display: inline-block;
+    bottom: 10px;
+    left: 15px;
+    font-size: 14px;
+}
+
+.loader{
+    margin-top: 10px;
+}
+.closed_save_profile{
+    margin-top: 2px;
+    margin-right: 10px;
+}
+#saveProfile{
+    margin-top: 2px;
+}
+.my_post_header{
+    margin-top: 30px;
+}
