@@ -1,0 +1,209 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+@font-face {
+    font-family: "Roboto Regular";
+    src: url("fonts/Roboto_regular.ttf");
+}
+
+p, .ce-paragraph, .cdx-nested-list{
+    word-wrap: break-word;
+    font-size: 16px;
+}
+
+body{
+    font-family: "Roboto Regular";
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+img{
+    object-fit: cover;
+}
+
+.container{
+    flex-grow: 1;
+}
+
+.content {
+    max-width: 1170px;
+    margin:0 auto;
+}
+
+/* Стили для EditorJS */
+.ce-block__content, .ce-toolbar__content {
+    max-width: 1170px;
+}
+
+.required {
+    color: red;
+}
+
+/* бурегр */
+.navbar-toggle {
+    cursor: pointer;
+}
+.navbar-brand {
+    font-weight: bold;
+}
+#slidemenu{
+    font-size: 16px;
+}
+@media (max-width: 767px) {
+    #slidemenu{
+        display: none;
+        background-color: #fff;
+        padding: 0px 10px;
+    }
+    .container {
+        width: 95%;
+    }
+}
+@media (max-width: 991px) {
+    #slidemenu{
+        font-size: 14px;
+    }
+    .sidebar{
+        display: none;
+    }
+}
+
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+
+/* Прелоадер */
+.preloader {
+    /*фиксированное позиционирование*/
+    position: fixed;
+    /* координаты положения */
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    /* фоновый цвет элемента */
+    background: #e0e0e0;
+    /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+    z-index: 1001;
+}
+
+.preloader__row {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-top: -35px;
+    margin-left: -35px;
+    text-align: center;
+    animation: preloader-rotate 2s infinite linear;
+}
+
+.preloader__item {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    background-color: #337ab7;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    animation: preloader-bounce 2s infinite ease-in-out;
+}
+
+.preloader__item:last-child {
+    top: auto;
+    bottom: 0;
+    animation-delay: -1s;
+}
+
+@keyframes preloader-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes preloader-bounce {
+    0%,
+    100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+.loaded_hiding .preloader {
+    transition: 0.3s opacity;
+    opacity: 0;
+}
+
+.loaded .preloader {
+    display: none;
+}
+
+/* Поиск по постам и пользователям */
+.resultSearch{
+    position: absolute;
+    margin-top: 10px;
+    z-index: 2;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    padding: 0px 5px;
+    max-height: 300px;
+    overflow: auto;
+    width: 100%;
+}
+.resultSearch li{
+    list-style: none;
+    cursor: pointer;
+}
+#block_search{
+    position: relative;
+}
+
+/* Общий loader */
+.loader{
+    display: block;
+    margin: 0 auto;
+    max-width: 20%;
+}
+
+.notify{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    font-size: 20px;
+}
+
+/* footer */
+footer{
+    background-color: lightslategrey;
+}
+
+.footer_cont{
+    max-width: 100%;
+}
+
+.footer_row{
+    padding: 10px
+}
+.footer_row > p{
+    color: white;
+}
+
+.readPost{
+    color: gray;
+}

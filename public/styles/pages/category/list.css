@@ -1,0 +1,12 @@
+tr{
+    word-break: break-word;
+}
+.body_change_tag {
+    max-width: 126px
+}
+#btn_send_category_change_closed{
+    margin-right: 10px;
+}
+.clearfix{
+    margin-top: 10px;
+}

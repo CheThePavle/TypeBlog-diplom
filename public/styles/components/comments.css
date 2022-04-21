@@ -1,0 +1,51 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+
+.img-sm {
+    width: 46px;
+    height: 46px;
+}
+.panel {
+    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 15px;
+}
+.panel>:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.panel>:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.panel-body {
+    padding: 25px 20px;
+}
+.media-block .media-left {
+    display: block;
+    float: left
+}
+.media-block .media-body {
+    display: block;
+    overflow: hidden;
+    width: auto
+}
+.middle .media-left,
+.middle .media-body {
+    vertical-align: middle
+}
+.text-muted, a.text-muted:hover, a.text-muted:focus {
+    color: #acacac;
+}
+.text-sm {
+    font-size: 0.9em;
+}
+.text-sm {
+    line-height: 1.25;
+}
+.btn-sm, .btn-group-sm>.btn{
+    padding: 5px 10px !important;
+}
+.mar-top {
+    margin-top: 15px;
+}

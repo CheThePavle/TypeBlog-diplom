@@ -1,0 +1,6 @@
+tr{
+    word-break: break-word;
+}
+select{
+    cursor: pointer;
+}
