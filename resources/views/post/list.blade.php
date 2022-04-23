@@ -10,22 +10,23 @@
 
 @section('content')
 
-    <div class="tabbable">
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Список отправленных постов</h1>
 
-        <x-panel-lk />
+            <x-panel-lk />
 
-        <div class="tab-content">
-            <div class="tab-pane active table-responsive">
+            <div class="table-responsive">
                 <table class="table table-striped body_posts">
                     <thead>
-                        <tr>
-                            <th scope="col">Id поста</th>
-                            <th scope="col">Заголовок</th>
-                            <th scope="col">Создатель</th>
-                            <th scope="col">Дата и время создания</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Id поста</th>
+                        <th scope="col">Заголовок</th>
+                        <th scope="col">Создатель</th>
+                        <th scope="col">Дата и время создания</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
                     @foreach($getList as $list)
@@ -34,9 +35,9 @@
                             <td>{{ $list['heading'] }}</td>
                             <td><a href='{{ route('profile', ['id' => $list['id_user']]) }}' target='_blank'>{{ $list['login'] }}</a></td>
                             <td>{{ $list['created_at'] }}</td>
-                            <td><button type='button' class='btn btn-success published'>Опубликовать</button></td>
-                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn btn-primary changed'>Изменить</button></a></td>
-                            <td><button type='button' class='btn btn-warning rejected'>Отклонить</button></td>
+                            <td><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
+                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></a></td>
+                            <td><button type='button' class='btn hoverBtn btn-warning rejected'><span>Отклонить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>

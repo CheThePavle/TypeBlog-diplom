@@ -9,12 +9,14 @@
 @endsection
 
 @section('content')
-    <div class="tabbable">
 
-        <x-panel-lk />
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Категории</h1>
 
-        <div class="tab-content">
-            <div class="tab-pane active table-responsive">
+            <x-panel-lk />
+
+            <div class="table-responsive">
                 <form id="formCreateCategory">
                     <br>
                     <div class="form-group col-md-3">
@@ -38,8 +40,8 @@
                             <th scope='row'>{{ $list['id_category'] }}</th>
                             <td class='val_category'>{{ $list['name_category'] }}</td>
                             <td class='body_change_category'></td>
-                            <td class='changedTd'><button type='button' class='btn btn-primary changed'>Изменить</button></td>
-                            <td class='deletedTd'><button type='button' class='btn btn-danger deleted'>Удалить</button></td>
+                            <td class='changedTd'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></td>
+                            <td class='deletedTd'><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -47,4 +49,5 @@
             </div>
         </div>
     </div>
+
 @endsection

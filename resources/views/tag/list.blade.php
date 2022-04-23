@@ -9,34 +9,38 @@
 @endsection
 
 @section('content')
-    <div class="tabbable">
 
-        <x-panel-lk />
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Категории</h1>
 
-        <div class="tab-content">
-            <div class="tab-pane active table-responsive">
+            <x-panel-lk />
+
+            <div class="table-responsive">
                 <table class="table table-striped body_tag">
                     <thead>
-                        <tr>
-                            <th scope="col">Id тега</th>
-                            <th scope="col">Название</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Id тега</th>
+                        <th scope="col">Название</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
                     @foreach($getList as $list)
                         <tr class='id_tag' data-id='{{ $list['id_tag'] }}'>
                             <th scope='row'>{{ $list['id_tag'] }}</th>
                             <td class='val_tag'>{{ $list['name_tag'] }}</td>
-                        @if($list['public_tag'] == '1')
-                            <td class='unpublishedTd'><button type='button' class='btn btn-warning unpublished'>Скрыть</button></td>
-                        @else
-                            <td class='publishedTd'><button type='button' class='btn btn-success published'>Опубликовать</button></td>
-                        @endif
+                            @if($list['public_tag'] == '1')
+                                <td class='unpublishedTd'><button type='button' class='btn hoverBtn btn-warning unpublished'><span>Скрыть</span></button></td>
+                            @else
+                                <td class='publishedTd'><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
+                            @endif
                             <td class='body_change_tag'></td>
-                            <td class='deletedTd'><button type='button' class='btn btn-primary changed'>Изменить</button></td>
-                            <td class='deletedTd'><button type='button' class='btn btn-danger deleted'>Удалить</button></td>
+                            <td class='deletedTd'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></td>
+                            <td class='deletedTd'><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -44,4 +48,5 @@
             </div>
         </div>
     </div>
+
 @endsection

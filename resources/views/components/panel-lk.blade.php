@@ -1,19 +1,19 @@
-<ul class="nav nav-tabs">
-    <li class="{{ Route::is('lk') ? 'active' : '' }}"><a href="{{ route('lk') }}" data-toggle="tab">Профиль</a></li>
-    <li class="{{ Route::is('post.create') ? 'active' : '' }}"><a href="{{ route('post.create') }}">Создать пост</a></li>
-    <li class="{{ Route::is('user.change.password') ? 'active' : '' }}"><a href="{{ route('user.change.password') }}">Изменить пароль</a></li>
+<div class="navLk">
+    <a href="{{ route('lk') }}" class="btn hoverBtn {{ Route::is('lk') ? 'activeLinkLk' : '' }}"><span>Профиль</span></a>
+    <a href="{{ route('post.create') }}" class="btn hoverBtn {{ Route::is('post.create') ? 'activeLinkLk' : '' }}"><span>Создать пост</span></a>
+    <a href="{{ route('user.change.password') }}" class="btn hoverBtn {{ Route::is('user.change.password') ? 'activeLinkLk' : '' }}"><span>Изменить пароль</span></a>
     @if (auth()->user()->isAdmin())
-        <li class="{{ Route::is('post.list.all') ? 'active' : '' }}"><a href="{{ route('post.list.all') }}">Список постов</a></li>
+        <a href="{{ route('post.list.all') }}" class="btn hoverBtn {{ Route::is('post.list.all') ? 'activeLinkLk' : '' }}"><span>Список постов</span></a>
     @endif
     @if (auth()->user()->isModer())
-        <li class="{{ Route::is('post.list') ? 'active' : '' }}"><a href="{{ route('post.list') }}">Отправленные посты</a></li>
+        <a href="{{ route('post.list') }}" class="btn hoverBtn {{ Route::is('post.list') ? 'activeLinkLk' : '' }}"><span>Отправленные посты</span></a>
     @endif
     @if (auth()->user()->isModerOrAdmin())
-        <li class="{{ Route::is('user.complaint') ? 'active' : '' }}"><a href="{{ route('user.complaint') }}">Жалобы на пользователей</a></li>
+        <a href="{{ route('user.complaint') }}" class="btn hoverBtn {{ Route::is('user.complaint') ? 'activeLinkLk' : '' }}"><span>Жалобы на пользователей</span></a>
     @endif
     @if (auth()->user()->isAdmin())
-        <li class="{{ Route::is('user.list') ? 'active' : '' }}"><a href="{{ route('user.list') }}">Список пользователей</a></li>
-        <li class="{{ Route::is('category.list') ? 'active' : '' }}"><a href="{{ route('category.list') }}">Категории</a></li>
-        <li class="{{ Route::is('tag.list') ? 'active' : '' }}"><a href="{{ route('tag.list') }}">Теги</a></li>
+        <a href="{{ route('user.list') }}" class="btn hoverBtn {{ Route::is('user.list') ? 'activeLinkLk' : '' }}"><span>Список пользователей</span></a>
+        <a href="{{ route('category.list') }}" class="btn hoverBtn {{ Route::is('category.list') ? 'activeLinkLk' : '' }}"><span>Категории</span></a>
+        <a href="{{ route('tag.list') }}" class="btn hoverBtn {{ Route::is('tag.list') ? 'activeLinkLk' : '' }}"><span>Теги</span></a>
     @endif
-</ul>
+</div>

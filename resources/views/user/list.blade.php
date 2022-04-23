@@ -10,12 +10,13 @@
 
 @section('content')
 
-    <div class="tabbable">
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Список пользователей</h1>
 
-        <x-panel-lk />
+            <x-panel-lk />
 
-        <div class="tab-content">
-            <div class="tab-pane active table-responsive">
+            <div class="table-responsive">
                 <table class="table table-striped body_users">
                     <thead>
                     <tr>
@@ -53,8 +54,8 @@
                             echo "<td><select class='change_role' name='role'>". $roleHTML ."</select></td>";
                             echo "<td>$createdAtUser</td>";
                             echo $blockedUser == '1'
-                                ? "<td class='unblockedTd'><button type='button' class='btn btn-success unblocked'>Разблокировать</button></td>"
-                                : "<td class='blockedTd'><button type='button' class='btn btn-danger blocked'>Заблокировать</button></td>";
+                                ? "<td class='unblockedTd'><button type='button' class='btn hoverBtn btn-success unblocked'><span>Разблокировать</span></button></td>"
+                                : "<td class='blockedTd'><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>";
                             echo "</tr>";
 
                             $roleHTML = '';
