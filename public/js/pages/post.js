@@ -8,7 +8,7 @@ $(function() { // normalizeSpace()
         let likesPost = $(".likesPost");
         let notify = $(".notify");
 
-        let postHTML = $(".body_post");
+        let postHTML = $(".post");
         postHTML.on( "click", ".likePost", function() {
             let likePost = $(`.likePost`);
             let dislikePost = $(`.dislikePost`);
@@ -86,39 +86,28 @@ $(function() { // normalizeSpace()
                 }
                 headingPost.html(`<h1 id="heading">${d?.heading}</h1>`);
                 $(".prevPost").html(`
-                    <div class="hero-unit prev_content">
-                        <p>Автор: <a href="/profile/${d?.id_creator}">${d?.login}</a>, ${d?.created_at}</p>
-                        <img src="${d?.img_main_url}" alt="Картинка для ${d?.heading}"">
-                        <br><br>
+                    <div class="post">
+                        <img src="${d?.img_main_url}" alt="${d?.heading}">
+                        <div class="date">${d?.created_at}</div>
+                        <h3>${d?.heading} ${d?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h3>
+                        <div class="meta">
+                            <div><i class="fa-solid fa-user"></i> <a href="/profile/${d?.id_creator}">${d?.login}</a></div>
+                            <div><a href="/?category=${d?.id_category}">${d?.name_category}</a></div>
+                            <div><i class="fas fa-heart"></i> ${d?.likes > 0 ? '+' + d?.likes : d?.likes}</div>
+                            <div><i class="fas fa-eye"></i> ${d?.views} ${+d?.views_day == '0' || !d?.views_day ? '' : '(+' + d?.views_day + ')'}</div>
+                            <div><i class="fa fa-comments" aria-hidden="true"></i> ${d?.comments_count}</div>
+                        </div>
                         <p>${d?.description}</p>
                     </div>
-                    <h2>Содержание</h2>
                 `);
                 likesPost.html(`
-                    <p>Категория: <a href="/?category=${d?.id_category}">${d?.name_category}</a></p>
                     ${strTags && `<p>Теги: ${strTags}</p>`}
-                    <div class="statistics_post">
-                        <div>
-                            <i class="fas fa-heart"></i>
-                            ${d?.likes > 0 ? '+' + d?.likes : d?.likes}
-                        </div>
-                        <div class="block_statistics_post">
-                            <i class="fas fa-eye"></i>
-                            ${d?.views} ${+d?.views_day == '0' || !d?.views_day ? '' : '(+' + d?.views_day + ')'}
-                        </div>
-                        <div class="block_statistics_post">
-                            <i class="fa fa-comments" aria-hidden="true"></i>
-                            <a class="statistics_post_comment" href="/post/${d?.id_post}#redirect_comments">
-                                ${d?.comments_count}
-                            </a>
-                        </div>
-                    </div>
                     <h3>Понравился пост?</h3>
                     <div class="btn-group">
-                        <span class="btn btn-sm btn-default btn-hover-success likePost ${d?.myLike == true ? 'activeLike' : ''}" >
+                        <span class="btn hoverBtn btn-sm btn-default btn-hover-success likePost ${d?.myLike == true ? 'activeLike' : ''}" >
                             <i class="fa fa-thumbs-up"></i>
                         </span>
-                        <span class="btn btn-sm btn-default btn-hover-danger dislikePost ${d?.myLike == false ? 'activeDislike' : ''}">
+                        <span class="btn hoverBtn btn-sm btn-default btn-hover-danger dislikePost ${d?.myLike == false ? 'activeDislike' : ''}">
                             <i class="fa fa-thumbs-down"></i>
                         </span>
                     </div>

@@ -1,41 +1,432 @@
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
+:root {
+    --bgMenu: #353535; /* Цвет фона меню */
+    --textMenu: #fff; /* Цвет текста меню */
+    --hoverItemMenu: #10ddb4; /* Цвет текста при наведении на ссылку меню */
+    --oneLineMenu: #10ddb4; /* Цвет первой линии при наведении на ссылку меню */
+    --twoLineMenu: #fff; /* Цвет второй линии при наведении на ссылку меню */
+    --bgMain: #1c1c1c; /* Цвет фона контента */
+    --bgFooter: #000000; /* Цвет фона подвала */
+    --textDate: #242529; /* Цвет даты в посте */
+    --name: #242529; /* Цвет отдельных текстов */
+    --bgBlock: #10ddb4; /* Цвет фона отдельных блоков */
+    --textTitle: #fff; /* Цвет текста заголовок */
+    --textSelect: #dcdcdc; /* Цвет текста для списка */
+    --text: #8c8c8c; /* Цвет текста */
+    --textLink: #10ddb4; /* Цвет текста ссылки */
+    --bButtom: #10ddb4; /* Цвет нижнего бордера у блока */
+    --hoverBgBtn: #fff; /* Цвет фона при наведении на кнопку */
+    --hoverBorderBtn: #000; /* Цвет border при наведении на кнопку */
+    --activeBgBtn: #5c636a; /* Цвет фона для выбранного элемента */
+    --activeBgBtnLk: #fff; /* Цвет фона для выбранного элемента в лк */
+    --textColor: #fff; /* Цвет текста для выбранного элемента */
 }
 
 @font-face {
-    font-family: "Roboto Regular";
-    src: url("fonts/Roboto_regular.ttf");
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Regular.ttf");
 }
-
-p, .ce-paragraph, .cdx-nested-list{
-    word-wrap: break-word;
-    font-size: 16px;
+@font-face {
+    font-family: "Roboto Medium";
+    src: url("fonts/Roboto-Medium.ttf");
+}
+@font-face {
+    font-family: "Roboto Bold";
+    src: url("fonts/Roboto-Bold.ttf");
 }
 
 body{
-    font-family: "Roboto Regular";
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    font-family: "Roboto";
+    color: var(--text);
 }
-
-h2 {
-    margin-top: 0px;
+header, footer{
+    font-family: "Roboto Medium";
 }
-
+header{
+    background-color: var(--bgMenu);
+}
+h1, h2, h3, h4, h5, h6{
+    font-family: "Roboto Bold";
+    color: var(--textTitle);
+}
+h1{
+    position: relative;
+    padding: 10px 0;
+}
+h1:after{
+    position: absolute;
+    content: "";
+    width: 70px;
+    height: 4px;
+    bottom: 0;
+    left: calc(50% - 35px);
+    background: var(--bgBlock);
+}
+th, td{
+    color: var(--textTitle);
+}
+.table-responsive{
+    margin-top: 80px;
+}
+main{
+    flex-grow: 1;
+    background-color: var(--bgMain);
+    padding: 80px 0;
+}
 img{
+    width: 100%;
     object-fit: cover;
 }
-
-.container{
-    flex-grow: 1;
+p{
+    font-size: 16px;
+    line-height: 30px;
+}
+a{
+    text-decoration: none;
+    color: var(--textLink);
+}
+a:hover{
+    color: var(--textLink);
+}
+.btn{
+    background-color: var(--bgBlock);
+    border-radius: 0;
+    padding: 10px 25px;
+}
+input, button, textarea{
+    width: 100%;
+    font-size: 14px;
+    padding: 15px 25px;
+    border: none !important;
+    border-bottom: 3px solid var(--bButtom);
+}
+input:focus{
+    box-shadow: none !important;
+}
+input:focus-visible{
+    outline: none;
+}
+button:focus{
+    box-shadow: none !important;
+}
+textarea:focus{
+    border: none;
+    box-shadow: none !important;
+}
+textarea:focus-visible{
+    outline: none;
+}
+input[type="checkbox"]{
+    padding: 9px 20px;
+    margin-right: 5px;
+}
+.bg-gray{
+    background-color: var(--text);
+    color: var(--textTitle);
+}
+.passwordBlock {
+    position: relative;
+}
+.eyePassword{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    cursor: pointer;
 }
 
-.content {
-    max-width: 1170px;
-    margin:0 auto;
+/* header */
+.nav-link{
+    position: relative;
+    color: var(--textMenu) !important;
+}
+.nav-link:hover {
+    color: var(--hoverItemMenu) !important;
+}
+.nav-link:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background-color: var(--twoLineMenu); /* Цвет подчеркивания при исчезании линии*/
+    transition: all 0.5s;
+}
+.nav-link:hover:after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    background-color: var(--oneLineMenu);
+    transition: all 0.5s;
+}
+.navbar-toggler{
+    width: unset;
+}
+.active{
+    color: var(--hoverItemMenu) !important;
+}
+
+/* main */
+.date{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 3px 16px;
+    background: var(--bgBlock);
+    color: var(--textDate);
+}
+.meta > div{
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    padding-right: 15px;
+    margin-right: 14px;
+}
+.meta > div:not(:last-child)::after{
+    position: absolute;
+    content: "|";
+    right: 0;
+    top: 0;
+    font-size: 14px;
+}
+.post{
+    margin-bottom: 80px;
+}
+.post > img{
+    margin-bottom: 25px;
+}
+.post > h3{
+    margin-top: 30px;
+}
+.post > p{
+    margin-top: 30px;
+}
+.title{
+    margin-bottom: 80px;
+}
+
+.hoverBtn {
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+.hoverBtn:hover {
+    background-color: var(--hoverBgBtn);
+}
+.hoverBtn span {
+    transition: all 0.2s ease-out;
+    z-index: 2;
+}
+.hoverBtn:hover span{
+    color: #333;
+}
+.hoverBtn:after {
+    background-color: var(--hoverBgBtn);
+    border: 0 solid var(--hoverBorderBtn);
+    content: "";
+    height: 155px;
+    left: -75px;
+    opacity: .8;
+    position: absolute;
+    top: -50px;
+    -webkit-transform: rotate(35deg);
+    transform: rotate(35deg);
+    width: 50px;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    z-index: 1;
+}
+.hoverBtn:hover:after {
+    background-color: var(--hoverBgBtn);
+    border: 20px solid var(--hoverBorderBtn);
+    opacity: 0;
+    left: 120%;
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+}
+
+/* sidebar */
+.sidebarItem{
+    margin-bottom: 50px;
+}
+.sidebarItem > h5{
+    margin-bottom: 20px;
+}
+
+/* Фильтр по постам */
+.filterSidebar > div{
+    margin-bottom: 20px;
+}
+.select {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+.new-select {
+    position: relative;
+    padding: 15px 25px;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--hoverBgBtn);
+    font-size: 14px;
+    border-bottom: 3px solid var(--bButtom);
+}
+.new-select__list {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    background-color: var(--hoverBgBtn);
+    user-select: none;
+}
+.new-select__list.on {
+    display: block;
+}
+.new-select__item span {
+    display: block;
+    padding: 15px 25px;
+    font-size: 14px;
+}
+.new-select__item span:hover {
+    color: var(--textLink);
+}
+.labelCategory{
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 5px 10px;
+    background-color: var(--text);
+    color: var(--textSelect);
+}
+.countCategory{
+    float: right;
+    display: inline-block;
+    min-width: 25px;
+    height: 25px;
+    font-size: 11px;
+    color: var(--name);
+    border-radius: 35px;
+    background: var(--bgBlock);
+    text-align: center;
+    padding: 5px 5px 0;
+}
+.btn-check:active+.btn-secondary, .btn-check:checked+.btn-secondary, .btn-secondary.active, .btn-secondary:active, .show>.btn-secondary.dropdown-toggle{
+    background-color: var(--activeBgBtn);
+}
+.category{
+    overflow: auto;
+    max-height: 300px;
+}
+.category input{
+    display: none;
+}
+.tags{
+    overflow: auto;
+    max-height: 300px;
+}
+
+ul.listTags {
+    list-style: none;
+}
+ul.listTags label:hover {
+    background-color: var(--activeBgBtn);
+    color: var(--textColor);
+}
+ul.listTags li{
+    display: inline;
+}
+ul.listTags li label{
+    display: inline-block;
+    background-color: var(--text);
+    color: var(--textSelect);
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+ul.listTags li label {
+    padding: 5px 15px;
+    cursor: pointer;
+}
+ul.listTags li input[type="checkbox"]:checked + label {
+    background-color: var(--activeBgBtn);
+    color: var(--textColor);
+    transition: all .2s;
+}
+ul.listTags li input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    display: none;
+}
+
+/* последние новости */
+.newItem{
+    margin-bottom: 30px;
+    position: relative;
+}
+.newItem > img{
+    width: 85px;
+    height: 85px;
+    float: left;
+    margin-right: 27px;
+}
+.newBody{
+    overflow: hidden;
+}
+.newBody > .date{
+    margin-bottom: 10px;
+}
+
+/* последние комментарии */
+.commentItem{
+    margin-bottom: 20px;
+}
+.commentItem > img{
+    float: left;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 24px;
+}
+.bodyCommentItem{
+    overflow: hidden;
+}
+.bodyCommentItem > h6{
+    color: var(--textColor);
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+.bodyCommentItem > h6 > span{
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+    padding: 0 5px;
+}
+.bodyCommentItem > h6 > a{
+    font-size: 14px;
+}
+.bodyCommentItem > div{
+    color: var(--text);
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* footer */
+footer{
+    background-color: var(--bgFooter);
+    padding: 60px 0;
 }
 
 /* Стили для EditorJS */
@@ -47,40 +438,21 @@ img{
     color: red;
 }
 
-/* бурегр */
-.navbar-toggle {
-    cursor: pointer;
-}
-.navbar-brand {
-    font-weight: bold;
-}
-#slidemenu{
-    font-size: 16px;
-}
-@media (max-width: 767px) {
-    #slidemenu{
-        display: none;
-        background-color: #fff;
-        padding: 0px 10px;
-    }
-    .container {
-        width: 95%;
-    }
-}
-@media (max-width: 991px) {
-    #slidemenu{
-        font-size: 14px;
-    }
-    .sidebar{
-        display: none;
-    }
-}
-
 .hide{
     display: none;
 }
 .show{
     display: block;
+}
+
+.navLk{
+    text-align: center;
+}
+.activeLinkLk{
+    background-color: var(--activeBgBtnLk);
+}
+.navLk > a{
+    margin: 5px;
 }
 
 /* Прелоадер */
@@ -186,22 +558,6 @@ img{
     left: 0;
     z-index: 10;
     font-size: 20px;
-}
-
-/* footer */
-footer{
-    background-color: lightslategrey;
-}
-
-.footer_cont{
-    max-width: 100%;
-}
-
-.footer_row{
-    padding: 10px
-}
-.footer_row > p{
-    color: white;
 }
 
 .readPost{

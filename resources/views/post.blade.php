@@ -42,21 +42,34 @@
 @endsection
 
 @section('content')
-    <h1 id="heading">Заголовок</h1>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 body_post">
-            <div class="msg"></div>
-            <div class="prevPost"></div>
-            <div id="editorjs"></div>
-            <div class="likesPost"></div>
-            <div class="repost">
-                <h3>Поделиться в соц. сетях</h3>
-                <div class="ya-share2" data-curtain data-shape="round" data-limit="5" data-services="vkontakte,telegram,odnoklassniki,twitter,whatsapp,facebook,messenger,viber,moimir,skype,tumblr,evernote,linkedin,lj,blogger,delicious,digg,reddit,pocket,qzone,renren,sinaWeibo,surfingbird,tencentWeibo"></div>
+
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">{{ $getCategory }}</h1>
+            <div class="col-lg-8 post">
+                <div class="msg"></div>
+
+                <div class="prevPost"></div>
+
+                <h3>Содержание</h3>
+                <div id="editorjs"></div>
+
+                <div class="likesPost"></div>
+
+                <div class="repost">
+                    <h3>Поделиться в соц. сетях</h3>
+                    <div class="ya-share2" data-curtain data-shape="round" data-limit="5" data-services="vkontakte,telegram,odnoklassniki,twitter,whatsapp,facebook,messenger,viber,moimir,skype,tumblr,evernote,linkedin,lj,blogger,delicious,digg,reddit,pocket,qzone,renren,sinaWeibo,surfingbird,tencentWeibo"></div>
+                </div>
+                <div id="qrcode"></div>
+
+                <div class="row_comments">
+                    <x-comments />
+                </div>
             </div>
-            <div id="qrcode"></div>
+
+{{--            sidebar???--}}
+
         </div>
     </div>
 
-    <x-comments />
 @endsection

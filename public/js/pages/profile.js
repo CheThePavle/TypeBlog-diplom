@@ -56,38 +56,21 @@ $(function() {
                                 strTags = strTags?.slice(0, strTags?.length - 6) + '</a>';
                             }
                             postsHTML.append(`
-                                <div class="hero-unit">
-                                    <h2>${el?.heading} ${el?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h2>
-                                    <p>Автор: <a href="/profile/${el?.id_creator}">${el?.user_login}</a>, ${el?.created_at}</p>
-                                    <img class="img_post" src="${el?.img_url}" alt="Картинка для ${el?.heading}">
-                                    <br><br>
-                                    <p>${el?.description}</p>
-                                    <p>Категория: <a href="/?category=${el?.id_category}">${el?.name_category}</a></p>
-                                    ${strTags && `<p>Теги: ${strTags}</p>`}
-                                    <div class="statistics_post">
-                                        <div>
-                                            <i class="fas fa-heart"></i>
-                                            ${el?.likes > 0 ? '+' + el?.likes : el?.likes}
-                                        </div>
-                                        <div class="block_statistics_post">
-                                            <i class="fas fa-eye"></i>
-                                            ${el?.views} ${+el?.views_day == '0' || !el?.views_day ? '' : '(+' + el?.views_day + ')'}
-                                        </div>
-                                        <div class="block_statistics_post">
-                                            <i class="fa fa-comments" aria-hidden="true"></i>
-                                            <a class="statistics_post_comment" href="/post/${el?.id_post}#redirect_comments">
-                                                ${el?.comments_count}
-                                            </a>
-                                        </div>
+                                <div class="post">
+                                    <img src="${el?.img_url}" alt="${el?.heading}">
+                                    <div class="date">${el?.created_at}</div>
+                                    <h3>${el?.heading} ${el?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h3>
+                                    <div class="meta">
+                                        <div><i class="fa-solid fa-user"></i> <a href="/profile/${el?.id_creator}">${el?.user_login}</a></div>
+                                        <div><a href="/?category=${el?.id_category}">${el?.name_category}</a></div>
+                                        <div><i class="fas fa-heart"></i> ${el?.likes > 0 ? '+' + el?.likes : el?.likes}</div>
+                                        <div><i class="fas fa-eye"></i> ${el?.views} ${+el?.views_day == '0' || !el?.views_day ? '' : '(+' + el?.views_day + ')'}</div>
+                                        <div><i class="fa fa-comments" aria-hidden="true"></i> ${el?.comments_count}</div>
                                     </div>
-                                    <br>
-                                    <p>
-                                        <a href="/post/${el?.id_post}" class="btn btn-primary btn-large">
-                                            Читать дальше
-                                        </a>
-                                    </p>
+                                    <p>${el?.description}</p>
+                                    ${strTags && `<p>Теги: ${strTags}</p>`}
+                                    <a href="/post/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Читать дальше</span></a>
                                 </div>
-                                <br><br>
                             `);
                         });
                     }

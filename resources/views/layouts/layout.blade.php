@@ -5,14 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap-theme.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('libs/bootstrap/js/bootstrap.min.js') }}">
     <link rel="stylesheet" href="{{ asset('libs/FontAwesome6/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
     <link rel="shortcut icon" href="{{ asset('imgs/favicon.png') }}" type="image/x-icon">
     <script src="{{ asset('libs/jQuery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/loader.js') }}"></script>
     <script src="{{ asset('js/functions/normalizeSpace.js') }}"></script>
+    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.js') }}"></script>
     <script src="{{ asset('public/js/index.js') }}"></script>
 
     @yield('head')
@@ -28,60 +27,42 @@
 
     <div class="notify"></div>
 
-    <div class="navbar navbar-default" role="navigation" id="slide-nav" style="z-index: 999">
+    <header>
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-toggle">
-                    <span class="sr-only">Открыть меню</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <a class="navbar-brand" href="/">TypeBlog</a>
-            </div>
-
-            <div id="slidemenu">
-                <form class="navbar-form navbar-right">
-                    <div class="form-group" id="block_search">
-                        <input type="search" placeholder="Найти" class="form-control" id="searchPostAndUser" maxlength="50">
-                        <ul class="resultSearch"></ul>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ route('/') }}">TypeBlog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li><a class="nav-link {{ Route::is('/') ? 'active' : ''}}" href="{{ asset('/') }}">Все посты</a></li>
+                            <li class="randomPost"><a class="nav-link" href="#">Случайный пост</a></li>
+                            @auth()
+                                <li><a class="nav-link" href="{{ route('lk') }}">Привет, {{ auth()->user()->login }}</a></li>
+                                <li><a class="nav-link" href="{{ route('logout') }}">Выход</a></li>
+                            @endauth
+                            @guest()
+                                <li><a class="nav-link {{ Route::is('login') ? 'active' : ''}}" href="{{ route('login') }}">Вход</a></li>
+                                <li><a class="nav-link {{ Route::is('register') ? 'active' : ''}}" href="{{ route('register') }}">Регистрация</a></li>
+                            @endguest
+                        </ul>
                     </div>
-                </form>
-
-                <ul class="nav navbar-nav">
-                    <li class="{{ Route::is('/') ? 'active' : ''}}"><a href="{{ asset('/') }}">Все посты</a></li>
-                    <li class="randomPost"><a href="#">Случайный пост</a></li>
-                    @auth()
-                        <li><a href="{{ route('lk') }}">Привет, {{ auth()->user()->login }}</a></li>
-                        <li><a href="{{ route('logout') }}">Выход</a></li>
-                    @endauth
-                    @guest()
-                        <li class="{{ Route::is('login') ? 'active' : ''}}"><a href="{{ route('login') }}">Вход</a></li>
-                        <li class="{{ Route::is('register') ? 'active' : ''}}"><a href="{{ route('register') }}">Регистрация</a></li>
-                    @endguest
-                </ul>
-            </div>
+                </div>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <div class="container">
-        <div class="row" >
-            <div class="col-lg-12">
+    <main>
 
-                @yield('content')
+        @yield('content')
 
-            </div>
-        </div>
-    </div>
+    </main>
 
     <footer>
-        <div class="footer-bottom">
-            <div class="container footer_cont">
-                <div class="row footer_row">
-                    <p class="pull-left">Copyright ©2021-2022</p>
-                    <p class="pull-right">Чикуров Павел</p>
-                </div>
-            </div>
+        <div class="container text-center">
+            Copyright ©2022 All rights reserved | Сайт разработал Чикуров Павел, гр. ИС-18
         </div>
     </footer>
 </body>

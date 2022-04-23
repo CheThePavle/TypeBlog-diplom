@@ -666,8 +666,8 @@ class PostController extends Controller
         $idPost = correct($id);
 
         $getInfoPost = Auth::check() && Auth::user()->isModerOrAdmin()
-            ? DB::select("SELECT heading, description, main_folder, main_img_type FROM post WHERE id_post = ?;", [$idPost])
-            : DB::select("SELECT heading, description, main_folder, main_img_type FROM post WHERE id_post = ? AND id_status = ?;", [$idPost, 2]);
+            ? DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ?;", [$idPost])
+            : DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ? AND id_status = ?;", [$idPost, 2]);
         if ($getInfoPost) {
             $getTags = DB::select("SELECT t.name_tag FROM post_tag as pt JOIN tag as t ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$idPost]);
             $getInfoPost = $getInfoPost[0];
@@ -758,11 +758,15 @@ class PostController extends Controller
                 }
             }
 
+            $getCategory = DB::select("SELECT name_category FROM category WHERE id_category = ?", [$getInfoPost['id_category']]);
+            $getCategory = $getCategory[0]['name_category'];
+
             return view('post', [
                 'getTagsStr' => $getTagsStr,
                 'getUrl' => $getUrl,
                 'getHeading' => $getHeading,
                 'getDescription' => $getDescription,
+                'getCategory' => $getCategory,
                 'imgUrl' => $imgUrl,
             ]);
         } else {
@@ -805,7 +809,7 @@ class PostController extends Controller
             }
             $whereOrTags = substr($whereOrTags,0,-3);
         } else {
-            $where = $where . "AND p.id_status = ?";
+            $where = $where . "AND p.id_status = ? ";
             array_push($params, 2);
             if ($category) {
                 if ($category != '1') {

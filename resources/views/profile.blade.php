@@ -10,51 +10,58 @@
 @endsection
 
 @section('content')
-    <div class="tab-pane active" id="tab1">
-        <div class="bg_shapka_lk">
-            <br><br>
+
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Профиль</h1>
+
             <div class="prfole_block">
                 <div class="ava_block">
                     <div class="block_ava_img">
                         <img class="ava_img" src="{{ $getUser['img_url'] }}" alt="avatar">
                     </div>
-                    <input id="btn-auth" type="submit" class="btn btn-danger complaint_profile_btn" value="Пожаловаться">
-                </div>
-                <div class="info_user">
-                    <br><br>
-                    <h2>{{ $getUser['login'] }}</h2>
-                    <p>Статус: {{ $getUser['name'] }}</p>
-                    <p>{{ $getUser['about'] }}</p>
-                </div>
-            </div>
-            <div class="modal modal_complaint" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Жалоба на пользователя</h5>
+                    <div class="info_user">
+                        <h3>{{ $getUser['login'] }}</h3>
+                        <p>{{ $getUser['name'] }}</p>
+                        <div class="change_info">
+                            <p class="aboutField">{{ $getUser['about'] }}</p>
                         </div>
-                        <form id="formComplaint">
-                            <div class="modal-body">
-                                <textarea class="form-control" maxlength="200" id="body_complaint" name="body_complaint" rows="1" placeholder="Что случилось?"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary send_complaint">Отправить</button>
-                                <button type="button" class="btn btn-secondary closed_complaint" data-dismiss="modal">Отмена</button>
-                            </div>
-                        </form>
+                    </div>
+                    <div class="btnChange">
+                        <button id="btn-auth" type="submit" class="btn hoverBtn btn-danger complaint_profile_btn"><span>Пожаловаться</span></button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bg_shapka2_lk"></div>
-        <div>
-            <h1 style="margin-top: 30px">Публичные посты</h1>
-            <hr>
-            <div class="posts"></div>
-            <div class="msg"></div>
 
-            <x-post-loader/>
+        <div class="row">
+            <h1 class="text-center titleMyPosts">Публичные посты</h1>
+            <div class="col-lg-12">
+                <div class="posts"></div>
+                <div class="msg"></div>
 
+                <x-post-loader/>
+            </div>
         </div>
     </div>
+
+    <div class="modal modal_complaint" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Жалоба на пользователя</h5>
+                </div>
+                <form id="formComplaint">
+                    <div class="modal-body">
+                        <textarea class="form-control" maxlength="200" id="body_complaint" name="body_complaint" rows="1" placeholder="Что случилось?"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary send_complaint">Отправить</button>
+                        <button type="button" class="btn btn-secondary closed_complaint" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection

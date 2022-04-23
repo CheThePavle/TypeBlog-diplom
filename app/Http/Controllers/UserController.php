@@ -225,6 +225,8 @@ class UserController extends Controller
     public function logout(Request $request) {
         if (Auth::check()) {
             Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
         return to_route('login');
     }
@@ -413,7 +415,7 @@ class UserController extends Controller
 
         if ($login && $password) {
             $res = DB::select("SELECT u.id_user, u.login, u.password, ur.code, ur.name, u.blocked FROM user as u JOIN user_role as ur ON ur.id_role = u.id_role WHERE u.login = ?;", [$login]);
-            if (password_verify($password, $res[0]['password'])) {
+            if (password_verify($password, isset($res[0]['password']) ? $res[0]['password'] : null)) {
                 if ($res[0]['blocked'] == '1') {
                     return result(409, "Ваш аккаунт был заблокирован :(");
                 }
@@ -427,6 +429,7 @@ class UserController extends Controller
 //                }
 
                 Auth::login(User::where('id_user', $res[0]['id_user'])->first());
+                $request->session()->regenerate();
 
                 return result(200, "Успешная авторизация!");
             } else {

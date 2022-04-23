@@ -9,23 +9,26 @@
 @endsection
 
 @section('content')
-    <div class="tabbable">
 
-        <x-panel-lk />
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center title">Список постов</h1>
 
-        <div class="tab-content">
-            <div class="tab-pane active table-responsive">
+            <x-panel-lk />
+
+            <div class="table-responsive">
                 <table class="table table-striped body_posts">
                     <thead>
-                        <tr>
-                            <th scope="col">Id поста</th>
-                            <th scope="col">Заголовок</th>
-                            <th scope="col">Создатель</th>
-                            <th scope="col">Статус</th>
-                            <th scope="col">Дата и время создания</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Id поста</th>
+                        <th scope="col">Заголовок</th>
+                        <th scope="col">Создатель</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col">Дата и время создания</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
                     @foreach($getList as $list)
@@ -36,12 +39,12 @@
                             <td>{{ $list['name'] }}</td>
                             <td>{{ $list['created_at'] }}</td>
                             @if($list['code'] == 'published')
-                                <td class='rejectedTd'><button type='button' class='btn btn-warning rejected'>Отклонить</button></td>
+                                <td class='rejectedTd'><button type='button' class='btn hoverBtn btn-warning rejected'><span>Отклонить</span></button></td>
                             @else
-                                <td class='publishedTd'><button type='button' class='btn btn-success published'>Опубликовать</button></td>
+                                <td class='publishedTd'><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
                             @endif
-                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn btn-primary changed'>Изменить</button></a></td>
-                            <td><button type='button' class='btn btn-danger deleted'>Удалить</button></td>
+                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></a></td>
+                            <td><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -49,4 +52,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection
