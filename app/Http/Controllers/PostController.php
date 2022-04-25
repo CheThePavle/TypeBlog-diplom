@@ -500,7 +500,7 @@ class PostController extends Controller
             $res[0]['views'] = $get[0]['number'];
             $get = DB::select("SELECT COUNT(v.id_view) as `number` FROM view as v JOIN post as p ON p.id_post = v.id_post WHERE v.id_post = ? AND v.created_at >= NOW() - INTERVAL 1 DAY;", [$id]);
             $res[0]['views_day'] = $get[0]['number'];
-            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comments WHERE id_post = ?;", [$id]);
+            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comment WHERE id_post = ?;", [$id]);
             $res[0]['comments_count'] = $get[0]['comments'];
             if (Auth::check()) {
                 $get = DB::select("SELECT mark FROM post_like WHERE id_author = ? AND id_post = ?;", [Auth::user()->id_user ,$id]);
@@ -685,6 +685,8 @@ class PostController extends Controller
             $imgUrl = route('/') . '/storage/data/posts/' . $getMainFolder . '/main_img.' . $getMainUmgType;
 
 
+            //TODO fixme учитывать ли просмотры с разных аккаунтов с одного ip ???
+
             $ip = $_SERVER['REMOTE_ADDR'];
 //  возможно можно оптимизировать + добавить доп. проверки + попробовать без id_view сравнивать ip - адреса
             if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -705,7 +707,7 @@ class PostController extends Controller
                             $ip,
                             $getIdPost
                         ]);
-                        if (!isset($checkView[0]['id_looked'])) {
+                        if (count($checkView) > 0) {
                             DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
                         }
                     } else {
@@ -740,7 +742,7 @@ class PostController extends Controller
                             $ip,
                             $getIdPost
                         ]);
-                        if (!isset($checkView[0]['id_looked'])) {
+                        if (count($checkView) > 0) {
                             DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
                         }
                     } else {
@@ -758,16 +760,40 @@ class PostController extends Controller
                 }
             }
 
-            $getCategory = DB::select("SELECT name_category FROM category WHERE id_category = ?", [$getInfoPost['id_category']]);
-            $getCategory = $getCategory[0]['name_category'];
+            $category = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [$getInfoPost['id_category']]);
+            $idCategory = $category[0]['id_category'];
+            $category = $category[0]['name_category'];
+
+            $getCategorys = DB::select("SELECT COUNT(c.id_category) as count, c.id_category, c.name_category FROM category as c JOIN post as p ON p.id_category = c.id_category WHERE p.id_status = ? GROUP BY c.id_category;", [2]);
+
+            $getCountDefaultCategory = DB::select("SELECT COUNT(id_post) as count FROM `post` WHERE id_status = ?", [2]);
+            $getCountDefaultCategory = $getCountDefaultCategory[0]['count'];
+
+            $getDefaultCategory = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [1]);
+            array_unshift($getCategorys, $getDefaultCategory[0]);
+
+            $getTag = DB::select("SELECT * FROM `tag`WHERE public_tag = ?;", [1]);
+
+            $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
+
+            foreach ($getLastComments as &$comment) {
+                $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])
+                    ? route('/') . '/storage/data/users/' . $comment['folder'] . '/' . 'avatar.' . $comment['img_type']
+                    : route('/') . '/public/imgs/profile.png';
+            }
 
             return view('post', [
                 'getTagsStr' => $getTagsStr,
                 'getUrl' => $getUrl,
                 'getHeading' => $getHeading,
                 'getDescription' => $getDescription,
-                'getCategory' => $getCategory,
+                'category' => $category,
+                'idCategory' => $idCategory,
                 'imgUrl' => $imgUrl,
+                'getCategorys' => $getCategorys,
+                'getTag' => $getTag,
+                'getCountDefaultCategory' => $getCountDefaultCategory,
+                'getLastComments' => $getLastComments,
             ]);
         } else {
             return to_route('error', ['number' => 404]);
@@ -859,7 +885,7 @@ class PostController extends Controller
             $get = DB::select("SELECT COUNT(v.id_view) as `number` FROM view as v JOIN post as p ON p.id_post = v.id_post WHERE v.id_post = ? AND v.created_at >= NOW() - INTERVAL 1 DAY;", [$el['id_post']]);
             array_push($getViewsDay, $get[0]['number']);
 
-            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comments WHERE id_post = ?;", [$el['id_post']]);
+            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comment WHERE id_post = ?;", [$el['id_post']]);
             array_push($getCommentsCount, $get[0]['comments']);
 
             if (Auth::check()) {
@@ -932,7 +958,7 @@ class PostController extends Controller
             $get = DB::select("SELECT COUNT(v.id_view) as `number` FROM view as v JOIN post as p ON p.id_post = v.id_post WHERE v.id_post = ? AND v.created_at >= NOW() - INTERVAL 1 DAY;", [$el['id_post']]);
             array_push($getViewsDay, $get[0]['number']);
 
-            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comments WHERE id_post = ?;", [$el['id_post']]);
+            $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comment WHERE id_post = ?;", [$el['id_post']]);
             array_push($getCommentsCount, $get[0]['comments']);
 
             if (Auth::check()) {
@@ -1003,7 +1029,7 @@ class PostController extends Controller
                     $get = DB::select("SELECT COUNT(v.id_view) as `number` FROM view as v JOIN post as p ON p.id_post = v.id_post WHERE v.id_post = ? AND v.created_at >= NOW() - INTERVAL 1 DAY;", [$el['id_post']]);
                     array_push($getViewsDay, $get[0]['number']);
 
-                    $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comments WHERE id_post = ?;", [$el['id_post']]);
+                    $get = DB::select("SELECT COUNT(id_comment) as 'comments' FROM comment WHERE id_post = ?;", [$el['id_post']]);
                     array_push($getCommentsCount, $get[0]['comments']);
 
                     if (Auth::check()) {

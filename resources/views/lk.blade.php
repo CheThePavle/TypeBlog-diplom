@@ -44,14 +44,10 @@
             </div>
         </div>
 
-        <div class="row">
-            <h1 class="text-center titleMyPosts">Мои посты</h1>
-            <div class="col-lg-12">
-                <div class="posts"></div>
-                <div class="msg"></div>
+        <h1 class="text-center titleMyPosts">Мои посты</h1>
+        <div class="row posts"></div>
+        <div class="msg"></div>
 
-                <x-post-loader/>
-            </div>
-        </div>
+        <x-post-loader/>
     </div>
 @endsection

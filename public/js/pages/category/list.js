@@ -49,6 +49,7 @@ $(function() {
                     getHTML.find(".val_category").text(val[0]['value']);
                     getHTML.find(".body_change_category").html("");
                     notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
+                    window.location.reload();
                     timerId = setTimeout(function () {
                         notify.html(``);
                     }, 4000);

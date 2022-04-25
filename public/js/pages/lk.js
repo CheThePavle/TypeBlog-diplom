@@ -20,10 +20,18 @@ $(function() {
             let change_info = $(".change_info");
             change_info.html(`
                 <form id="formChangeProfile">
-                    <input maxlength="100" class="form-control" name="changeEmail" type="text" value="${valEmail}">
-                    <textarea maxlength="1000" class="form-control" name="changeAbout">${valAbout}</textarea>
-                    <input type="button" class="btn btn-danger closed_save_profile" value="Отмена">
-                    <input type="submit" class="btn btn-success" id="saveProfile" value="Сохранить">
+                    <div>
+                        <input maxlength="100" name="changeEmail" type="text" value="${valEmail}">
+                    </div>
+                    <div>
+                        <textarea maxlength="1000" name="changeAbout">${valAbout}</textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn hoverBtn" id="saveProfile"><span>Сохранить</span></button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn hoverBtn closed_save_profile"><span>Отмена</span></button>
+                    </div>
                 </form>
             `);
 

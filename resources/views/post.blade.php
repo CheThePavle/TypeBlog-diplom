@@ -45,7 +45,7 @@
 
     <div class="container">
         <div class="row">
-            <h1 class="text-center title">{{ $getCategory }}</h1>
+            <h1 class="text-center title">{{ $category }}</h1>
             <div class="col-lg-8 post">
                 <div class="msg"></div>
 
@@ -62,12 +62,83 @@
                 </div>
                 <div id="qrcode"></div>
 
-                <div class="row_comments">
-                    <x-comments />
-                </div>
+                <x-comments />
             </div>
 
-{{--            sidebar???--}}
+            <div class="col-lg-4">
+                <div class="sidebarItem">
+                    <form>
+                        <div id="block_search">
+                            <input type="search" placeholder="Найти" id="searchPostAndUser" maxlength="50">
+                            <ul class="resultSearch"></ul>
+                        </div>
+                    </form>
+                </div>
+                <form action="/" class="sidebarItem filterSidebar">
+                    <div>
+                        <h5>Сортировка</h5>
+                        <select class="select" name="order">
+                            <option disabled>Выбрать</option>
+                            <option value="1">Сначала старые</option>
+                            <option value="0" selected>Сначала новые</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h5>Категория</h5>
+                        <div class="category">
+                            @if(count($getCategorys) > 0)
+                                @foreach($getCategorys as $cat)
+                                    @php
+                                        $id = $cat['id_category'];
+                                    @endphp
+                                    <div>
+                                        <input type="radio" class="btn-check" name="category" id='id{{ $id }}' value='{{ $id }}' {{ $id == $idCategory ? 'checked' : '' }}>
+                                        <label class="btn btn-secondary labelCategory" for="id{{ $id }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Теги</h5>
+                        <div class="tags">
+                            <ul class="listTags">
+                                @if(count($getTag) > 0)
+                                    @php
+                                        foreach ($getTag as $el) {
+                                            $checked = isset($el['checked']) ? 'checked' : '';
+                                            $idTag = $el['id_tag'];
+                                            $nameTag = $el['name_tag'];
+                                            echo "<li><input name='tag[]' type='checkbox' id='idT$idTag' $checked value='$idTag'><label class='labelTag' for='idT$idTag'> $nameTag</label></li>";
+                                        }
+                                    @endphp
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn hoverBtn btn_search">Применить</button>
+                    </div>
+                    <div>
+                        <input type="button" class="btn bg-gray hoverBtn reset_btn" value="Сбросить">
+                    </div>
+                </form>
+                <div class="sidebarItem">
+                    <h5>Последние комментарии</h5>
+                    <div>
+                        @foreach($getLastComments as $comment)
+                            <div class="commentItem">
+                                <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
+                                <div class="bodyCommentItem">
+                                    <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
+                                    <div>{{ $comment['created_at'] }}</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

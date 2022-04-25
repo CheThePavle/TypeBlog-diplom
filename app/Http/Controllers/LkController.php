@@ -13,7 +13,8 @@ class LkController extends Controller
 
         $getInfoUser = DB::select("SELECT about, folder, img_type, email FROM user WHERE id_user = ?;", [Auth::user()->id_user]);
 
-        $getInfoUser[0]['img_url'] = $getInfoUser[0]['folder'] && $getInfoUser[0]['img_type']
+        //fixme
+        $getInfoUser[0]['img_url'] = isset($getInfoUser[0]['folder']) && isset($getInfoUser[0]['img_type'])
             ? route('/') . '/storage/data/users/' . $getInfoUser[0]['folder'] . '/' . 'avatar.' . $getInfoUser[0]['img_type']
             : route('/') . '/public/imgs/profile.png';
 

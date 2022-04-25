@@ -1,35 +1,31 @@
 #editorjs{
-    max-width: 1000px;
-    margin: 0 auto
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--textTitle);
 }
 /*prev img post*/
 .show_img_prev_post{
     display: none;
+    margin-top: 25px;
 }
 #show_img_prev{
     width: 100%;
-}
-
-select{
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 /*Стилизация загрузки превью картинки*/
 .download_img_prev{
     position: relative;
     overflow: hidden;
-    font-size: 1em;        /* example */
-    line-height: 2em       /* the same as height */
+    line-height: 2em;       /* the same as height */
+    background-color: var(--hoverBgBtn);
+    font-size: 14px;
+    border-radius: 0;
+    border: none;
 }
 .download_img_prev > button{
     float: right;
     width: 8em;            /* example */
-    height: 100%
-}
-.download_img_prev > div{
-    padding-left: 1em      /* example */
+    height: 51px
 }
 @media only screen and ( max-width: 500px ){  /* example */
     .download_img_prev > div{
@@ -51,25 +47,38 @@ select{
     opacity: 0;
     cursor: pointer
 }
-/* Making it beautiful */
-.download_img_prev{
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-.download_img_prev > button{
-    background: #5cb85c;
-    transition: background 0.2s;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-    border-radius: 2px;
-    color: #fff;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis
-}
-.download_img_prev:hover > button{
-    background: #479747;
-}
 h2{
     margin-top: 20px;
+}
+
+#forCreatePost{
+    margin-top: 80px;
+    background-color: var(--bgMenu);
+    padding: 0 25px;
+}
+#forCreatePost > div {
+    margin-bottom: 25px;
+}
+#forCreatePost label{
+    color: var(--textTitle);
+}
+#img_uploaded{
+    padding: 11px 25px;
+}
+
+.tagging{
+    border: none;
+    padding: 0;
+}
+
+.tag, .tag span{
+    background-color: var(--bgBlock);
+    color: var(--colorBtn);
+}
+.tag .tag-i{
+    color: var(--colorBtn);
+}
+
+.btnCreatePost{
+    max-width: 150px;
 }

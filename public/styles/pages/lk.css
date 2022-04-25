@@ -60,3 +60,10 @@
 .titleMyPosts{
     margin: 80px 0;
 }
+#formChangeProfile{
+    max-width: 500px;
+    margin: 0 auto;
+}
+#formChangeProfile > div{
+    margin-bottom: 25px;
+}
