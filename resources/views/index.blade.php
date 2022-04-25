@@ -98,71 +98,59 @@
                         <input type="button" class="btn bg-gray hoverBtn reset_btn" value="Сбросить">
                     </div>
                 </form>
-                <div class="sidebarItem">
-                    <h5>Популярные посты</h5>
-                    <div>
-                        <div class="newItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="newBody">
-                                <div class="date">April 1, 2019</div>
-                                <h6>10 Amazing new games</h6>
-                                <div class="meta">
-                                    <div>By Admin</div>
-                                    <div>in <a href="#">Games</a></div>
-                                    <div>3 Comments</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="newItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="newBody">
-                                <div class="date">April 1, 2019</div>
-                                <h6>10 Amazing new games</h6>
-                                <div class="meta">
-                                    <div>By Admin</div>
-                                    <div>in <a href="#">Games</a></div>
-                                    <div>3 Comments</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="newItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="newBody">
-                                <div class="date">April 1, 2019</div>
-                                <h6>10 Amazing new games</h6>
-                                <div class="meta">
-                                    <div>By Admin</div>
-                                    <div>in <a href="#">Games</a></div>
-                                    <div>3 Comments</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="sidebarItem">--}}
+{{--                    <h5>Популярные посты</h5>--}}
+{{--                    <div>--}}
+{{--                        <div class="newItem">--}}
+{{--                            <img src="assets/imgs/1.jpg" alt="">--}}
+{{--                            <div class="newBody">--}}
+{{--                                <div class="date">April 1, 2019</div>--}}
+{{--                                <h6>10 Amazing new games</h6>--}}
+{{--                                <div class="meta">--}}
+{{--                                    <div>By Admin</div>--}}
+{{--                                    <div>in <a href="#">Games</a></div>--}}
+{{--                                    <div>3 Comments</div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="newItem">--}}
+{{--                            <img src="assets/imgs/1.jpg" alt="">--}}
+{{--                            <div class="newBody">--}}
+{{--                                <div class="date">April 1, 2019</div>--}}
+{{--                                <h6>10 Amazing new games</h6>--}}
+{{--                                <div class="meta">--}}
+{{--                                    <div>By Admin</div>--}}
+{{--                                    <div>in <a href="#">Games</a></div>--}}
+{{--                                    <div>3 Comments</div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="newItem">--}}
+{{--                            <img src="assets/imgs/1.jpg" alt="">--}}
+{{--                            <div class="newBody">--}}
+{{--                                <div class="date">April 1, 2019</div>--}}
+{{--                                <h6>10 Amazing new games</h6>--}}
+{{--                                <div class="meta">--}}
+{{--                                    <div>By Admin</div>--}}
+{{--                                    <div>in <a href="#">Games</a></div>--}}
+{{--                                    <div>3 Comments</div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div class="sidebarItem">
                     <h5>Последние комментарии</h5>
                     <div>
-                        <div class="commentItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="bodyCommentItem">
-                                <h6>Jane Smith<span> In </span><a href="">The best 2019 Games</a></h6>
-                                <div>April 1,2019</div>
+                        @foreach($getLastComments as $comment)
+                            <div class="commentItem">
+                                <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
+                                <div class="bodyCommentItem">
+                                    <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
+                                    <div>{{ $comment['created_at'] }}</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="commentItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="bodyCommentItem">
-                                <h6>Jane Smith<span> In </span><a href="">The best 2019 Games</a></h6>
-                                <div>April 1,2019</div>
-                            </div>
-                        </div>
-                        <div class="commentItem">
-                            <img src="assets/imgs/1.jpg" alt="">
-                            <div class="bodyCommentItem">
-                                <h6>Jane Smith<span> In </span><a href="">The best 2019 Games</a></h6>
-                                <div>April 1,2019</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

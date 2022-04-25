@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="btnChange">
-                        <button id="btn-auth" type="submit" class="btn hoverBtn btn-danger complaint_profile_btn"><span>Пожаловаться</span></button>
+                        <button id="btn-auth" type="submit" class="btn hoverBtn complaint_profile_btn"><span>Пожаловаться</span></button>
                     </div>
                 </div>
             </div>
@@ -56,8 +56,8 @@
                         <textarea class="form-control" maxlength="200" id="body_complaint" name="body_complaint" rows="1" placeholder="Что случилось?"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary send_complaint">Отправить</button>
-                        <button type="button" class="btn btn-secondary closed_complaint" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn hoverBtn send_complaint"><span>Отправить</span></button>
+                        <button type="button" class="btn hoverBtn closed_complaint" data-dismiss="modal"><span>Отмена</span></button>
                     </div>
                 </form>
             </div>

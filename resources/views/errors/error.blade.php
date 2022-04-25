@@ -10,6 +10,6 @@
     <div class="col-md-12 text-center">
         <h1 class="display-1 d-block">{{ $number ?? 500 }} ошибка</h1>
         <div class="mb-4 lead">что-то пошло не так :(</div>
-        <a href="{{ url()->previous() }}" class="btn btn-link">Вернуться назад</a>
+        <a href="{{ url()->previous() }}" class="btn hoverBtn">Вернуться назад</a>
     </div>
 @endsection

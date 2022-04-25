@@ -39,17 +39,20 @@
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_witness']]) }}' target='_blank'>{{ $branch[0]['witness'] }}</a></td>
                                 <td>{{ $branch[0]['created_at'] }}</td>
                                 <td><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>
-                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить></span></button></td>
+                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить</span></button></td>
                             </tr>
                         @else
                             <tr class='more id_complaint' data-id='{{ $branch[0]['id_complaint'] }}'>
-                                <td><i class='glyphicon glyphicon-plus glyphicon{{ $branch[0]['id_complaint'] }}'></i></td>
+                                <td>
+{{--                                    TODO fixme--}}
+                                    <i class="fa-solid fa-plus"></i>
+                                </td>
                                 <td></td>
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_accused']]) }}' target='_blank'>{{ $branch[0]['accused'] }}</td>
                                 <td></td>
                                 <td></td>
-                                <td><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать></span></button></td>
-                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить></span></button></td>
+                                <td><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>
+                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить</span></button></td>
                             </tr>
                             @foreach($branch as $item)
                                 <tr class='collapse row{{ $branch[0]['id_complaint'] }}'>

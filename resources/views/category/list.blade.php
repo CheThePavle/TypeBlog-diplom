@@ -18,18 +18,20 @@
 
             <div class="table-responsive">
                 <form id="formCreateCategory">
-                    <br>
-                    <div class="form-group col-md-3">
-                        <input class="form-control" type="text" name="name_category" maxlength="30">
+                    <div>
+                        <label for="category">Название категории</label>
+                        <input type="text" name="name_category" maxlength="30" id="category">
                     </div>
-                    <button type='submit' class='btn btn-success add'>Добавить</button>
-                    <br>
+                    <div>
+                        <button type='submit' class='btn hoverBtn add'><span>Добавить</span></button>
+                    </div>
                 </form>
                 <table class="table table-striped body_category">
                     <thead>
                     <tr>
                         <th scope="col">Id категории</th>
                         <th scope="col">Название</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>

@@ -10,3 +10,9 @@ tr{
 .clearfix{
     margin-top: 10px;
 }
+#formCreateCategory{
+    max-width: 300px;
+}
+#formCreateCategory > div{
+    margin-bottom: 25px;
+}

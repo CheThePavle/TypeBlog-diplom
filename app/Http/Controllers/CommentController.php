@@ -30,7 +30,7 @@ class CommentController extends Controller
             return result(409, "Ответный комментарий не может быть больше 1000 символов!");
         }
 
-        DB::insert("INSERT INTO `comments` (`id_post`, `id_author`, `body_comment`, `id_parent_comment`, `updated_at`) VALUES (?, ?, ?, ?, ?);", [
+        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `id_parent_comment`, `updated_at`) VALUES (?, ?, ?, ?, ?);", [
             $idPost,
             $id_author,
             $parent_comment,
@@ -60,7 +60,7 @@ class CommentController extends Controller
             return result(409, "Измененный комментарий не может быть больше 1000 символов!");
         }
 
-        $res = DB::update("UPDATE `comments` SET `id_author` = ?, `body_comment` = ? WHERE `comments`.`id_comment` = ?;", [
+        $res = DB::update("UPDATE `comment` SET `id_author` = ?, `body_comment` = ? WHERE `comment`.`id_comment` = ?;", [
             $id_author,
             $change_comment,
             $idComment
@@ -91,7 +91,7 @@ class CommentController extends Controller
             return result(409, "Комментарий не может быть больше 1000 символов!");
         }
 
-        DB::insert("INSERT INTO `comments` (`id_post`, `id_author`, `body_comment`, `updated_at`) VALUES (?, ?, ?, ?);", [
+        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `updated_at`) VALUES (?, ?, ?, ?);", [
             $idPost,
             $id_author,
             $comment,
@@ -106,7 +106,7 @@ class CommentController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->isModerOrAdmin()) {
-                $res = DB::delete("DELETE FROM `comments` WHERE `comments`.`id_comment` = ?;", [$getIdComment]);
+                $res = DB::delete("DELETE FROM `comment` WHERE `comment`.`id_comment` = ?;", [$getIdComment]);
                 if (!$res) {
                     return result(409, "Комментарий не удален");
                 } else {
@@ -114,12 +114,12 @@ class CommentController extends Controller
                 }
             } else {
                 // для пользователя, который хочет удалить свой комментарий
-                $check = DB::select("SELECT id_comment FROM comments WHERE id_author = ? AND id_comment = ?;", [$_SESSION['id'], $getIdComment]);
+                $check = DB::select("SELECT id_comment FROM comment WHERE id_author = ? AND id_comment = ?;", [$_SESSION['id'], $getIdComment]);
                 if (!$check) {
                     return result(409, "Комментарий не найден или у вас нет доступа к удалению этого комментария");
                 }
 
-                $res = DB::delete("DELETE FROM `comments` WHERE `comments`.`id_comment` = ?;", [$getIdComment]);
+                $res = DB::delete("DELETE FROM `comment` WHERE `comment`.`id_comment` = ?;", [$getIdComment]);
                 if (!$res) {
                     return result(409, "Комментарий не удалось удалить");
                 }
@@ -275,7 +275,7 @@ class CommentController extends Controller
         }
 
         $res = DB::select("SELECT c.id_comment, c.id_author, c.body_comment, c.id_parent_comment, c.created_at, c.updated_at, u.folder, u.img_type, u.login, u.id_role
-                            FROM comments as c JOIN post as p ON c.id_post = p.id_post JOIN user as u ON c.id_author = u.id_user
+                            FROM comment as c JOIN post as p ON c.id_post = p.id_post JOIN user as u ON c.id_author = u.id_user
                             WHERE c.id_post = ? ORDER BY c.created_at DESC",[
             $idPost
         ]);
@@ -302,7 +302,7 @@ class CommentController extends Controller
                     array_push($getYourLike, NULL);
                 }
 
-                $get = DB::select("SELECT id_comment FROM comments WHERE id_comment = ? AND id_author = ?;", [$el['id_comment'], Auth::user()->id_user]);
+                $get = DB::select("SELECT id_comment FROM comment WHERE id_comment = ? AND id_author = ?;", [$el['id_comment'], Auth::user()->id_user]);
                 if ($get) {
                     array_push($getYourComment, true);
                 } else {

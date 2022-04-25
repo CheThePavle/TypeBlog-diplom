@@ -16,7 +16,9 @@ class ProfileController extends Controller
         }
 
         //fixme
-        $getUser['img_url'] = $getUser['folder'] && $getUser['img_type'] ? route('/') . '/storage/data/users/' . $getUser['folder'] . '/' . 'avatar.' . $getUser['img_type'] : '/public/imgs/profile.png';
+        $getUser['img_url'] = isset($getUser['folder']) && isset($getUser['img_type'])
+            ? route('/') . '/storage/data/users/' . $getUser['folder'] . '/' . 'avatar.' . $getUser['img_type']
+            : '/public/imgs/profile.png';
 
         return view('profile', ['getUser' => $getUser]);
     }

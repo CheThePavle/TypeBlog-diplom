@@ -15,6 +15,21 @@
     font-weight: bold;
 }
 
+.comments{
+    margin-top: 25px;
+}
+.comments img{
+    margin-right: 15px;
+    border-radius: 50%;
+}
+.btnChangeComment, .btnReplyComment{
+    max-width: 150px;
+    margin-bottom: 25px;
+}
+.btnChangeComment > button, .btnReplyComment > button{
+    margin-top: 15px;
+}
+
 /* вывод до 5 уровней на страницу */
 .comments > ul > li > ul,
 .comments > ul > li > ul > li > ul,
@@ -30,6 +45,10 @@
 
 .activeDislike, .negativeRating{
     color: red;
+}
+
+.like{
+    margin-right: 5px;
 }
 
 .neutralRating{

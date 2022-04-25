@@ -354,12 +354,12 @@ $(function() { // normalizeSpace()
                     <textarea name="change_comment" maxlength="1000" id="text_change_comment" class="form-control" rows="2" placeholder="Ваш комментарий">${getVal}</textarea>
                     <div class="errorCommentChange"></div>
                     <div class="msgCommentChange"></div>
-                    <div class="mar-top clearfix">
-                        <button id="btn_send_comment_change" class="btn btn-sm btn-primary pull-right" type="submit">
-                            <i class="fa fa-pencil fa-fw"></i> Изменить
+                    <div class="btnChangeComment">
+                        <button id="btn_send_comment_change" class="btn hoverBtn btn-sm" type="submit">
+                            <i class="fa fa-pencil fa-fw"></i> <span>Изменить</span>
                         </button>
-                        <button id="btn_send_comment_change_closed" class="btn btn-sm btn-danger pull-right" type="submit">
-                            <i class="fa fa-pencil fa-fw"></i> Отмена
+                        <button id="btn_send_comment_change_closed" class="btn hoverBtn btn-sm" type="submit">
+                            <span>Отмена</span>
                         </button>
                     </div>
                 </form>
@@ -451,12 +451,12 @@ $(function() { // normalizeSpace()
                     <textarea name="parent_comment" maxlength="1000" id="text_parent_comment" class="form-control" rows="2" placeholder="Напишите Ваш ответный комментарий">${getVal}, </textarea>
                     <div class="errorCommentReply"></div>
                     <div class="msgCommentReply"></div>
-                    <div class="mar-top clearfix">
-                        <button id="btn_send_comment_reply" class="btn btn-sm btn-primary pull-right" type="submit">
-                            <i class="fa fa-pencil fa-fw"></i> Ответить
+                    <div class="btnReplyComment">
+                        <button id="btn_send_comment_reply" class="btn hoverBtn btn-sm" type="submit">
+                            <i class="fa fa-pencil fa-fw"></i> <span>Ответить</span>
                         </button>
-                        <button id="btn_send_comment_reply_closed" class="btn btn-sm btn-danger pull-right" type="submit">
-                            <i class="fa fa-pencil fa-fw"></i> Отмена
+                        <button id="btn_send_comment_reply_closed" class="btn hoverBtn btn-sm" type="submit">
+                            <span>Отмена</span>
                         </button>
                     </div>
                 </form>
@@ -660,18 +660,18 @@ $(function() { // normalizeSpace()
                                                     <p class="val_comment">${li_obj.value?.body_comment}</p>
                                                     <div class="pad-ver">
                                                         <div class="btn-group">
-                                                            <span class="btn btn-sm btn-default btn-hover-success like ${li_obj.value?.myLike == true ? 'activeLike' : ''}" >
+                                                            <span class="btn hoverBtn btn-sm like ${li_obj.value?.myLike == true ? 'activeLike' : ''}" >
                                                                 <i class="fa fa-thumbs-up"></i>
                                                             </span>
-                                                            <span class="btn btn-sm btn-default btn-hover-danger dislike ${li_obj.value?.myLike == false ? 'activeDislike' : ''}">
+                                                            <span class="btn hoverBtn btn-sm dislike ${li_obj.value?.myLike == false ? 'activeDislike' : ''}">
                                                                 <i class="fa fa-thumbs-down"></i>
                                                             </span>
                                                         </div>
                                                         ${li_obj.value?.myComment
-                                                            ? `<span class="btn btn-sm btn-default btn-hover-primary change">Изменить</span>`
-                                                            : `<span class="btn btn-sm btn-default btn-hover-primary reply">Ответить</span>`}
+                                                            ? `<span class="btn hoverBtn btn-sm change">Изменить</span>`
+                                                            : `<span class="btn hoverBtn btn-sm reply">Ответить</span>`}
                                                         ${li_obj.value?.deleteComment || li_obj.value?.myComment
-                                                            ? `<span class='btn btn-sm btn-default btn-hover-primary delete'>Удалить</span>`
+                                                            ? `<span class='btn hoverBtn btn-sm delete'>Удалить</span>`
                                                             : ``}
                                                     </div>
                                                     <br>
