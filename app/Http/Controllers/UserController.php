@@ -142,7 +142,7 @@ class UserController extends Controller
     public function showList() {
         if (!Auth::check() || !Auth::user()->isAdmin()) return to_route('login');
 
-        $getList = DB::select("SELECT u.id_user, u.email, u.login, u.blocked, u.created_at, ur.id_role
+        $getList = DB::select("SELECT u.id_user, u.email, u.login, u.blocked, u.created_at, ur.id_role, ur.name
                                 FROM user as u JOIN user_role as ur ON ur.id_role = u.id_role ORDER BY u.id_user DESC;");
 
         $getRole = DB::select("SELECT * FROM user_role;");

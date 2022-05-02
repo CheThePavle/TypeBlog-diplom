@@ -29,6 +29,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     @php
                         $roleHTML = '';
                         foreach ($getList as $el) {

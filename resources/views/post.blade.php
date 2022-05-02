@@ -118,10 +118,10 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="btn hoverBtn btn_search">Применить</button>
+                        <button type="submit" class="btn hoverBtn btn_search"><span>Применить</span></button>
                     </div>
                     <div>
-                        <input type="button" class="btn bg-gray hoverBtn reset_btn" value="Сбросить">
+                        <button type="button" class="btn bg-gray hoverBtn reset_btn"><span>Сбросить</span></button>
                     </div>
                 </form>
                 <div class="sidebarItem">

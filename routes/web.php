@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'show'])->name('/');
+Route::post('/changeTheme', [IndexController::class, 'changeTheme']);
 
 Route::get('/error/{number}', [ErrorController::class, 'show'])->name('error');
 

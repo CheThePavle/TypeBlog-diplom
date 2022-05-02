@@ -42,7 +42,7 @@
                     <div>
                         <h5>Сортировка</h5>
                         <select class="select" name="order">
-                            <option disabled>Выбрать</option>
+                            <option disabled>{{ $order == 1 ? 'Сначала старые' : 'Сначала новые' }}</option>
                             <option value="1" {{ $order == 1 ? 'selected' : '' }}>Сначала старые</option>
                             <option value="0" {{ $order == 0 ? 'selected' : '' }}>Сначала новые</option>
                         </select>
@@ -92,10 +92,10 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="btn hoverBtn btn_search">Применить</button>
+                        <button type="submit" class="btn hoverBtn btn_search"><span>Применить</span></button>
                     </div>
                     <div>
-                        <input type="button" class="btn bg-gray hoverBtn reset_btn" value="Сбросить">
+                        <button type="button" class="btn bg-gray hoverBtn reset_btn"><span>Сбросить</span></button>
                     </div>
                 </form>
 {{--                <div class="sidebarItem">--}}

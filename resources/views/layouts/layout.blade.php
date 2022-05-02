@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('libs/FontAwesome6/css/all.min.css') }}">
+    @if(session('dark'))
+        <link rel="stylesheet" href="{{ asset('styles/root.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('styles/rootWhite.css') }}">
+    @endif
+
     <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
     <link rel="shortcut icon" href="{{ asset('imgs/favicon.png') }}" type="image/x-icon">
     <script src="{{ asset('libs/jQuery/jquery.min.js') }}"></script>
@@ -29,7 +35,7 @@
 
     <header>
         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-expand-lg {{ session('dark') ? 'navbar-dark' : 'navbar-light' }}">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ route('/') }}">TypeBlog</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +53,12 @@
                                 <li><a class="nav-link {{ Route::is('login') ? 'active' : ''}}" href="{{ route('login') }}">Вход</a></li>
                                 <li><a class="nav-link {{ Route::is('register') ? 'active' : ''}}" href="{{ route('register') }}">Регистрация</a></li>
                             @endguest
+                            <li>
+                                <div class="toggle toggle--daynight">
+                                    <input type="checkbox" id="toggle--daynight" class="toggle--checkbox" {{ session('dark') ? '' : 'checked' }}>
+                                    <label id="change_theme" class="toggle--btn {{ session('dark') ? 'dark' : '' }}" for="toggle--daynight"><span class="toggle--feature"></span></label>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
