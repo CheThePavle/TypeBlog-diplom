@@ -185,9 +185,18 @@ $(function() {
                             }
                             postsHTML.append(`
                                 <div class="post">
-                                    <img src="${el?.img_url}" alt="${el?.heading}">
+                                    ${el?.read_post ? `
+                                        <div class="imgBlock">
+                                            <div class="viewPost"><i class="fas fa-eye"></i></div>
+                                            <img class="imgViewPost" src="${el?.img_url}" alt="${el?.heading}">
+                                        </div>
+                                    ` : `
+                                        <div class="imgBlock">
+                                            <img src="${el?.img_url}" alt="${el?.heading}">
+                                        </div>
+                                    `}
                                     <div class="date">${el?.created_at}</div>
-                                    <h3>${el?.heading} ${el?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h3>
+                                    <h3>${el?.heading}</h3>
                                     <p>Статус: ${el?.name}</p>
                                     <div class="meta">
                                         <div><i class="fa-solid fa-user"></i> <a href="/profile/${el?.id_creator}">${el?.user_login}</a></div>

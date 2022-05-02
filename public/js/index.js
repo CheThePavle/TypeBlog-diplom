@@ -1,5 +1,77 @@
 $(function() {
     if (window?.XMLHttpRequest) {
+        $('#change_theme').on('click', function(){
+            let th = $(this);
+            th.toggleClass('dark');
+
+            let root = $(':root');
+            if (th.hasClass('dark')) {
+                root.css('--bgMenu', '#353535');
+                root.css('--textMenu', '#fff');
+                root.css('--hoverItemMenu', '#10ddb4');
+                root.css('--oneLineMenu', '#10ddb4');
+                root.css('--twoLineMenu', '#fff');
+                root.css('--bgMain', '#1c1c1c');
+                root.css('--bgFooter', '#000000');
+                root.css('--textDate', '#242529');
+                root.css('--name', '#242529');
+                root.css('--bgBlock', '#10ddb4');
+                root.css('--textTitle', '#fff');
+                root.css('--textSelect', '#747474');
+                root.css('--text', '#8c8c8c');
+                root.css('--textLink', '#10ddb4');
+                root.css('--bButtom', '#10ddb4');
+                root.css('--hoverBgBtn', '#fff');
+                root.css('--hoverBorderBtn', '#000');
+                root.css('--activeBgBtn', '#979797');
+                root.css('--activeBgBtnLk', '#fff');
+                root.css('--textColor', '#000000');
+                root.css('--colorBtn', '#000');
+                root.css('--colorSpan', '#000');
+                root.css('--colorTag', '#fff');
+
+                $.ajax({
+                    url: '/changeTheme',
+                    method: 'POST',
+                    data: {
+                        dark: true
+                    }
+                })
+            } else {
+                root.css('--bgMenu', '#f8f8f8');
+                root.css('--textMenu', '#000000');
+                root.css('--hoverItemMenu', '#0d9277');
+                root.css('--oneLineMenu', '#0d9277');
+                root.css('--twoLineMenu', '#000000');
+                root.css('--bgMain', '#ffffff');
+                root.css('--bgFooter', '#d6d6d6');
+                root.css('--textDate', '#eeeeee');
+                root.css('--name', '#eeeeee');
+                root.css('--bgBlock', '#0d9277');
+                root.css('--textTitle', '#000000');
+                root.css('--textSelect', '#000000');
+                root.css('--text', '#000000');
+                root.css('--textLink', '#0d9277');
+                root.css('--bButtom', '#0d9277');
+                root.css('--hoverBgBtn', '#eeeeee');
+                root.css('--hoverBorderBtn', '#ffffff');
+                root.css('--activeBgBtn', '#939aa1');
+                root.css('--activeBgBtnLk', '#000000');
+                root.css('--textColor', '#000000');
+                root.css('--colorBtn', '#ffffff');
+                root.css('--colorSpan', '#000000');
+                root.css('--colorTag', '#fff');
+
+                $.ajax({
+                    url: '/changeTheme',
+                    method: 'POST',
+                    data: {
+                        dark: false
+                    }
+                })
+            }
+        });
+
         $('.select').each(function() {
             const _this = $(this),
                 selectOption = _this.find('option'),

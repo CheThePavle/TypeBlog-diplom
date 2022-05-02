@@ -69,7 +69,7 @@
                     <label>Выберите категорию <span class="required">*</span></label>
                     @if($getCategory)
                         <select class="select" name='category'>
-                            <option disabled>Изменить категорию на</option>
+                            <option disabled>{{ $getPostInfo['name_category'] }}</option>
                             @foreach($getCategory as $cat)
                                 @if($cat['id_category'] == $getPostInfo['id_category'])
                                     <option selected value='{{ $cat['id_category'] }}'>{{ $cat['name_category'] }}</option>

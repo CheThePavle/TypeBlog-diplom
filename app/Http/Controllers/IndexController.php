@@ -41,4 +41,14 @@ class IndexController extends Controller
             'getLastComments' => $getLastComments,
         ]);
     }
+
+    public function changeTheme(Request $request) {
+        $dark = correct($request->dark);
+
+        if ($dark == 'true') {
+            session(['dark' => true]);
+        } else {
+            session(['dark' => false]);
+        }
+    }
 }

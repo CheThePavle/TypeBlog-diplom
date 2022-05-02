@@ -317,8 +317,8 @@ class CommentController extends Controller
         }
 
         for ($i = 0; $i <  count($res); $i++) {
-            $res[$i]['like'] = $getLikes[$i] ?? false;
-            $res[$i]['myLike'] = $getYourLike[$i] ?? false;
+            $res[$i]['like'] = $getLikes[$i] ?? 0;
+            $res[$i]['myLike'] = $getYourLike[$i] ?? null;
             $res[$i]['myComment'] = $getYourComment[$i] ?? false;
             $res[$i]['deleteComment'] = $getDeleteComment[$i] ?? false;
 

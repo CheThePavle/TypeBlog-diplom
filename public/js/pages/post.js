@@ -637,6 +637,7 @@ $(function() { // normalizeSpace()
                     let $list = $('<ul></ul>');
 
                     array.forEach(function(li_obj) {
+                        console.log(li_obj)
                         let $li = $(`
                                         <li>
                                             <div class="media-block id_comment" data-id="${li_obj.value?.id_comment}">
