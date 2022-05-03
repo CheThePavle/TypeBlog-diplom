@@ -87,7 +87,16 @@ $(function() { // normalizeSpace()
                 headingPost.html(`<h1 id="heading">${d?.heading}</h1>`);
                 $(".prevPost").html(`
                     <div class="post">
-                        <img src="${d?.img_main_url}" alt="${d?.heading}">
+                    ${d?.read_post ? `
+                        <div class="imgBlock">
+                            <div class="viewPost"><i class="fas fa-eye"></i></div>
+                            <img class="imgViewPost" src="${d?.img_main_url}" alt="${d?.heading}">
+                        </div>
+                        ` : `
+                        <div class="imgBlock">
+                            <img src="${d?.img_main_url}" alt="${d?.heading}">
+                        </div>
+                        `}
                         <div class="date">${d?.created_at}</div>
                         <h3>${d?.heading} ${d?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h3>
                         <div class="meta">
@@ -323,6 +332,7 @@ $(function() { // normalizeSpace()
                     getComments(1);
                 },
                 error: function (d) {
+                    console.log(d)
                     clearTimeout(timerId);
                     notify.html(`<div class="alert alert-danger">${d?.responseJSON?.result?.msg}</div>`);
                     timerId = setTimeout(function () {

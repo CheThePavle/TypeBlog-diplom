@@ -149,7 +149,7 @@ $(function() {
             window_scrolled = ($(document).height()/100)*90;
             if($(window).scrollTop() + $(window).height() >= window_scrolled) {
                 if (loadPost) {
-                    start += 3; //fixme
+                    start += 4; //fixme
                     loadPost = false;
                     getPosts(start);
                 }
@@ -157,7 +157,7 @@ $(function() {
         });
 
         nextHTML.click(function (e) {
-            start += 3; //fixme
+            start += 4; //fixme
             getPosts(start);
         });
 
@@ -171,7 +171,7 @@ $(function() {
                     if (d?.length === 0) {
                         nextHTML.remove();
                         showmoreHTML.remove();
-                        msg.html('<div class="alert alert-danger">Постов больше нет</div>');
+                        msg.html('<div class="alert alert-success">Постов больше нет</div>');
                         loadPost = false;
                     } else {
                         loadPost = true;
@@ -184,30 +184,32 @@ $(function() {
                                 strTags = strTags?.slice(0, strTags?.length - 6) + '</a>';
                             }
                             postsHTML.append(`
-                                <div class="post">
-                                    ${el?.read_post ? `
-                                        <div class="imgBlock">
-                                            <div class="viewPost"><i class="fas fa-eye"></i></div>
-                                            <img class="imgViewPost" src="${el?.img_url}" alt="${el?.heading}">
-                                        </div>
-                                    ` : `
-                                        <div class="imgBlock">
-                                            <img src="${el?.img_url}" alt="${el?.heading}">
-                                        </div>
-                                    `}
-                                    <div class="date">${el?.created_at}</div>
-                                    <h3>${el?.heading}</h3>
-                                    <p>Статус: ${el?.name}</p>
-                                    <div class="meta">
-                                        <div><i class="fa-solid fa-user"></i> <a href="/profile/${el?.id_creator}">${el?.user_login}</a></div>
-                                        <div><a href="/?category=${el?.id_category}">${el?.name_category}</a></div>
-                                        <div><i class="fas fa-heart"></i> ${el?.likes > 0 ? '+' + el?.likes : el?.likes}</div>
-                                        <div><i class="fas fa-eye"></i> ${el?.views} ${+el?.views_day == '0' || !el?.views_day ? '' : '(+' + el?.views_day + ')'}</div>
-                                        <div><i class="fa fa-comments" aria-hidden="true"></i> ${el?.comments_count}</div>
+                                <div class="post col-md-12 col-lg-6">
+                                    <div>
+                                        ${el?.read_post ? `
+                                            <div class="imgBlock">
+                                                <div class="viewPost"><i class="fas fa-eye"></i></div>
+                                                <img class="imgViewPost" src="${el?.img_url}" alt="${el?.heading}">
+                                            </div>
+                                        ` : `
+                                            <div class="imgBlock">
+                                                <img src="${el?.img_url}" alt="${el?.heading}">
+                                            </div>
+                                        `}
+                                        <div class="date">${el?.created_at}</div>
+                                        <h3 class="titlePost">${el?.heading}</h3>
                                     </div>
-                                    <p>${el?.description}</p>
-                                    ${strTags && `<p>Теги: ${strTags}</p>`}
-                                    <a href="/post/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Читать дальше</span></a>
+                                    <div>
+                                        <p>Статус: ${el?.name}</p>
+                                        <div class="meta">
+                                            <div><a href="/?category=${el?.id_category}">${el?.name_category}</a></div>
+                                            <div><i class="fas fa-heart"></i> ${el?.likes > 0 ? '+' + el?.likes : el?.likes}</div>
+                                            <div><i class="fas fa-eye"></i> ${el?.views} ${+el?.views_day == '0' || !el?.views_day ? '' : '(+' + el?.views_day + ')'}</div>
+                                            <div><i class="fa fa-comments" aria-hidden="true"></i> ${el?.comments_count}</div>
+                                        </div>
+                                        ${strTags && `<p class="tagsPost">Теги: ${strTags}</p>`}
+                                        <a href="/post/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Посмотреть</span></a>
+                                    </div>
                                 </div>
                             `);
                         });

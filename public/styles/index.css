@@ -571,12 +571,18 @@ footer{
     z-index: 999;
     font-size: 20px;
 }
+.arrowUp{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+    font-size: 30px;
+}
 
-.alert{
+.alert, .post{
     border-radius: 0;
     animation: showAlert 1s;
 }
-
 @keyframes showAlert {
     0%{
         transform: translateY(50px);

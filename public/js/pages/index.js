@@ -40,7 +40,7 @@ $(function() {
                     if (d?.length === 0) {
                         nextHTML.remove();
                         showmoreHTML.remove();
-                        msg.html('<div class="alert alert-danger">Постов больше нет</div>');
+                        msg.html('<div class="alert alert-success">Постов больше нет</div>');
                         loadPost = false;
                     } else {
                         loadPost = true;

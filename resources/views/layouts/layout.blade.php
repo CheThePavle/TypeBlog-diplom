@@ -33,6 +33,8 @@
 
     <div class="notify"></div>
 
+    <a href="#" class="arrowUp"><i class="fa-solid fa-arrow-up"></i></a>
+
     <header>
         <div class="container">
             <nav class="navbar navbar-expand-lg {{ session('dark') ? 'navbar-dark' : 'navbar-light' }}">

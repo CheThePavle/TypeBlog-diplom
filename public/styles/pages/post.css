@@ -40,11 +40,10 @@
 
 /* для лайков и ответов */
 .activeLike, .positiveRating{
-    color: green;
+    color: var(--colorLike);
 }
-
-.activeDislike, .negativeRating{
-    color: red;
+.activeDislike, .negativeRating {
+    color: var(--colorDislike);
 }
 
 .like{
@@ -91,4 +90,19 @@ textarea{
 
 .repost{
     margin-top: 25px;
+}
+.loader_comment{
+    max-width: 10%;
+}
+
+.id_comment{
+    animation: showComments .5s;
+}
+@keyframes showComments {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
