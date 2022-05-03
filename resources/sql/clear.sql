@@ -32,15 +32,6 @@ CREATE TABLE `category` (
   `name_category` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Дамп данных таблицы `category`
---
-
-INSERT INTO `category` (`id_category`, `name_category`) VALUES
-(1, 'Все категории'),
-(2, 'Программирование'),
-(3, 'Игры'),
-(4, 'Программное обеспечение');
 
 -- --------------------------------------------------------
 
@@ -125,7 +116,8 @@ CREATE TABLE `post_status` (
 INSERT INTO `post_status` (`id_status`, `code`, `name`) VALUES
 (1, 'sent', 'Отправлен'),
 (2, 'published', 'Опубликован'),
-(3, 'rejected', 'Отклонен');
+(3, 'rejected', 'Отклонен'),
+(4, 'draft', 'Черновик');
 
 -- --------------------------------------------------------
 

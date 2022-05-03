@@ -50,6 +50,8 @@
                 </table>
             </div>
         </div>
+
+        {{ $getList->links('components.paginate') }}
     </div>
 
 @endsection

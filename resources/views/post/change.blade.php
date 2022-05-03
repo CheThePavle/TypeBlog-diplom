@@ -92,8 +92,13 @@
                     <div id="editorjs"></div>
                 </div>
 
-                <div class="btnChangePost">
-                    <button type="submit" class="btn hoverBtn btn-success btn-send"><span>Изменить</span></button>
+                <div class="btnPost">
+                    @if($getPostInfo['id_status'] == 4)
+                        <button type="submit" class="btn hoverBtn btnSend"><span>Отправить</span></button>
+                        <button type="submit" class="btn hoverBtn btnDraftOrChange"><span>Сохранить</span></button>
+                    @else
+                        <button type="submit" class="btn hoverBtn btnDraftOrChange"><span>Изменить</span></button>
+                    @endif
                 </div>
                 <div class="msg"></div>
             </form>

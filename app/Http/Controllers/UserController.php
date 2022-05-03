@@ -139,13 +139,15 @@ class UserController extends Controller
         }
     }
 
-    public function showList() {
+    public function showList(Request $request) {
         if (!Auth::check() || !Auth::user()->isAdmin()) return to_route('login');
 
         $getList = DB::select("SELECT u.id_user, u.email, u.login, u.blocked, u.created_at, ur.id_role, ur.name
                                 FROM user as u JOIN user_role as ur ON ur.id_role = u.id_role ORDER BY u.id_user DESC;");
 
         $getRole = DB::select("SELECT * FROM user_role;");
+
+        $getList = arrayPaginate($getList, $request);
 
         return view('user.list', ['getList' => $getList, 'getRole' => $getRole]);
     }
@@ -203,7 +205,7 @@ class UserController extends Controller
         return result(409, "Что-то пошло не так, не удалось заблокировать пользователя!");
     }
 
-    public function showComplaint() {
+    public function showComplaint(Request $request) {
         if (!Auth::check() || !Auth::user()->isModerOrAdmin()) return to_route('login');
 
         $getComplaint = DB::select("SELECT uc.id_complaint, u1.id_user as 'id_witness', u1.login as 'witness', u2.id_user as 'id_accused', u2.login as 'accused', uc.body_complaint, uc.created_at
@@ -218,6 +220,8 @@ class UserController extends Controller
         foreach($getComplaint as $k => $v) {
             $treeComplaint[$v['accused']][]=$v;
         }
+
+        $treeComplaint = arrayPaginate($treeComplaint, $request);
 
         return view('user.complaint', ['treeComplaint' => $treeComplaint]);
     }
@@ -381,6 +385,60 @@ class UserController extends Controller
         return view('login');
     }
 
+    public function genCaptcha() {
+        $width = 120;
+        $height = 60;
+        $font_size = 17.5;
+        $let_amount = 5;
+        $fon_let_amount = 30;
+        $path_fonts = public_path('styles/fonts/');
+
+        $letters = array('a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z','2','3','4','5','6','7','9');
+        $colors = array('10','30','50','70','90','110','130','150','170','190','210');
+
+        $src = imagecreatetruecolor($width,$height);
+        $fon = imagecolorallocate($src,255,255,255);
+        imagefill($src,0,0,$fon);
+
+        $fonts = array();
+        $dir=opendir($path_fonts);
+        while($fontName = readdir($dir))
+        {
+            if($fontName != "." && $fontName != "..")
+            {
+                $fonts[] = $fontName;
+            }
+        }
+        closedir($dir);
+
+        for($i=0;$i<$fon_let_amount;$i++)
+        {
+            $color = imagecolorallocatealpha($src,rand(0,255),rand(0,255),rand(0,255),100);
+            $font = $path_fonts.$fonts[rand(0,sizeof($fonts)-1)];
+            $letter = $letters[rand(0,sizeof($letters)-1)];
+            $size = rand($font_size-2,$font_size+2);
+            imagettftext($src,$size,rand(0,45),rand($width*0.1,$width-$width*0.1),rand($height*0.2,$height),$color,$font,$letter);
+        }
+
+        for($i=0;$i<$let_amount;$i++)
+        {
+            $color = imagecolorallocatealpha($src,$colors[rand(0,sizeof($colors)-1)],$colors[rand(0,sizeof($colors)-1)],$colors[rand(0,sizeof($colors)-1)],rand(20,40));
+            $font = $path_fonts.$fonts[rand(0,sizeof($fonts)-1)];
+            $letter = $letters[rand(0,sizeof($letters)-1)];
+            $size = rand($font_size*2.1-2,$font_size*2.1+2);
+            $x = ($i+1)*$font_size + rand(4,7);
+            $y = (($height*2)/3) + rand(0,5);
+            $cod[] = $letter;
+            imagettftext($src,$size,rand(0,15),$x,$y,$color,$font,$letter);
+        }
+
+        session(['captcha' => implode('',$cod)]);
+
+        header ("Content-type: image/png");
+        imagepng($src);
+        imagedestroy($src);
+    }
+
     public function showRegister() {
         if (Auth::check()) return to_route('lk');
         return view('register');
@@ -420,16 +478,18 @@ class UserController extends Controller
                     return result(409, "Ваш аккаунт был заблокирован :(");
                 }
 
-                //TODO fixme задать время жизни
+                //TODO fixme задать время жизни?
 //                if ($checkbox) {
 //                    session_destroy();
 //                    ini_set('session.gc_maxlifetime', 2678400);
 //                    ini_set('session.cookie_lifetime', 2678400);
 //                    session_start();
 //                }
+//                config(['session.lifetime' => 1]);
 
                 Auth::login(User::where('id_user', $res[0]['id_user'])->first());
                 $request->session()->regenerate();
+
 
                 return result(200, "Успешная авторизация!");
             } else {
@@ -441,6 +501,12 @@ class UserController extends Controller
     }
 
     public function create(Request $request) {
+        $code = correct($request->code);
+
+        if ($code != session('captcha')) {
+            return result(409, "Капча не верная");
+        }
+
         $login = correct($request->login);
         $email = correct($request->email);
         $password = correct($request->password);
@@ -484,50 +550,19 @@ class UserController extends Controller
             return result(409, "Вы не согласились с пользовательским соглашением!");
         }
 
-        if (!session('verifyCode')) {
-            $mailer = new MailerController();
-            return $mailer->verifyEmail($email, $login);
+        $res = DB::insert("INSERT INTO `user` (`email`, `login`, `password`, `about`, `updated_at`) VALUES (?, ?, ?, ?, ?);",
+            [
+                $email,
+                $login,
+                $password,
+                $about,
+                NULL
+            ]);
+
+        if (!$res) {
+            return result(409, "Что-то пошло не так, невозможно зарегистрироваться!");
         }
 
-
-        //TODO может лучше добавить капчу? вместо подтверждения почты - fixme
-        $code = correct($request->code);
-        if ($code) {
-            if ($code == session('verifyCode')) {
-                $res = DB::insert("INSERT INTO `user` (`email`, `login`, `password`, `about`, `updated_at`) VALUES (?, ?, ?, ?, ?);",
-                    [
-                        $email,
-                        $login,
-                        $password,
-                        $about,
-                        NULL
-                    ]);
-
-                if (!$res) {
-                    return result(409, "Что-то пошло не так, невозможно зарегистрироваться!");
-                }
-
-                session(['verifyCode' => false]);
-                session(['attempts' => false]);
-                return result(200, "Успешная регистрация!", ["redirect"=>true]);
-            }
-            if ($code !== session('verifyCode')) {
-                session(['attempts' => session('attempts') - 1]);
-                if (session('attempts') === 0) {
-                    session(['verifyCode' => false]);
-                    session(['attempts' => false]);
-                    return result(409, "Не удалось подтвердить почту", ["redirect"=>true]);
-                }
-                if (session('attempts') === 1) {
-                    return result(409, "Код неверный, у вас осталась 1 попытка!");
-                }
-                if (session('attempts') === 2) {
-                    return result(409, "Код неверный, у вас осталась 2 попытки!");
-                }
-                if (session('attempts') === 3) {
-                    return result(409, "Код неверный, у вас осталась 3 попытки!");
-                }
-            }
-        }
+        return result(200, "Успешная регистрация!");
     }
 }

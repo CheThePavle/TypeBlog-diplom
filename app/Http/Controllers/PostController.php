@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class PostController extends Controller
 {
@@ -25,33 +27,34 @@ class PostController extends Controller
     }
 
     public function showChange($id) {
-        if (!Auth::check() || !Auth::user()->isModerOrAdmin()) return to_route('login');
-
-        $getCategory = DB::select("SELECT * FROM `category`;");
+        if (!Auth::check()) return to_route('login');
 
         $getId = correct($id);
-        $getPostInfo = DB::select("SELECT p.heading, p.main_folder, p.main_img_type, p.description, c.id_category, c.name_category
+        $getPostInfo = DB::select("SELECT p.heading, p.main_folder, p.main_img_type, p.description, p.id_creator, p.id_status, c.id_category, c.name_category
                                     FROM post as p JOIN category as c ON c.id_category = p.id_category WHERE id_post = ?;", [$getId]);
-
         $getPostInfo = $getPostInfo[0];
-        $getPostInfo['imgUrl'] = route('/') . '/storage/data/posts/' . $getPostInfo['main_folder'] . '/main_img.' . $getPostInfo['main_img_type'];
 
-        return view('post.change', [
-            'getCategory' => $getCategory,
-            'getPostInfo' => $getPostInfo
-        ]);
+        if (($getPostInfo['id_creator'] == Auth::user()->id_user && $getPostInfo['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+            $getCategory = DB::select("SELECT * FROM `category`;");
+
+            $getPostInfo['imgUrl'] = route('/') . '/storage/data/posts/' . $getPostInfo['main_folder'] . '/main_img.' . $getPostInfo['main_img_type'];
+
+            return view('post.change', [
+                'getCategory' => $getCategory,
+                'getPostInfo' => $getPostInfo
+            ]);
+        } else {
+            return to_route('login');
+        }
     }
 
     public function findBodyById(Request $request) {
+        if (!Auth::check()) return result(409, "Нет доступа!");
+
         $idPost = correct($request->id);
+        $res = DB::select("SELECT body, id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
 
-        if (Auth::check() && Auth::user()->isModerOrAdmin()) {
-            if (!$idPost) {
-                return result(409, "Пост не передан!");
-            }
-
-            $res = DB::select("SELECT body FROM post WHERE id_post = ?;", [$idPost]);
-
+        if ((Auth::user()->id_user == $res[0]['id_creator'] && $res[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
             $res[0]['body'] = json_decode($res[0]['body'], true);
             foreach ($res[0]['body']['blocks'] as &$el) {
                 if ($el['type'] == 'image') {
@@ -73,18 +76,24 @@ class PostController extends Controller
     }
 
     public function change(Request $request) {
-        $idPost = correct($request->idPost);
-        $heading = correct($request->heading);
-        $description = correct($request->description);
-        $category = correct($request->category);
-        $body = json_decode($request->body, true);
-        $img_main = $request->file('image');
-        $tags = explode(",", $request->tags);
+        if (!Auth::check()) return result(409, "Нет доступа!");
 
-        if (Auth::check() && Auth::user()->isModerOrAdmin()) {
-            if (!$idPost) {
-                return result(409, "Пост не передан!");
-            }
+        $idPost = correct($request->idPost);
+        if (!$idPost) {
+            return result(409, "Пост не передан!");
+        }
+        $infoPost = DB::select("SELECT id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
+
+        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && $infoPost[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+            $heading = correct($request->heading);
+            $description = correct($request->description);
+            $category = correct($request->category);
+            $body = json_decode($request->body, true);
+            $img_main = $request->file('image');
+            $tags = explode(",", $request->tags);
+
+            $send = isset($request->send) ? $request->send : false;
+
             if (!$heading) {
                 return result(409, "Заголовок обязательное поле!");
             }
@@ -175,10 +184,13 @@ class PostController extends Controller
                 }
             }
 
-            $change = DB::update("UPDATE `post` SET `id_category` = ?, `heading` = ?, `description` = ?, `main_folder` = ?, `main_img_type` = ?, `body` = ?
+            $infoStatus = DB::select("SELECT id_status FROM post WHERE id_post = ?;", [$idPost]);
+
+            $change = DB::update("UPDATE `post` SET `id_category` = ?, `id_status` = ?, `heading` = ?, `description` = ?, `main_folder` = ?, `main_img_type` = ?, `body` = ?
                                     WHERE `post`.`id_post` = ?;",
                 [
                     $category,
+                    $send ? 1 : $infoStatus[0]['id_status'],
                     $heading,
                     $description,
                     $uniqUrl,
@@ -211,7 +223,7 @@ class PostController extends Controller
             $oldDir = 'public/data/posts/'.$res[0]['main_folder'];
             Storage::deleteDirectory($oldDir);
 
-            return result(200, "Пост был успешно изменен");
+            return result(200, $send ? "Пост был успешно отправлен на проверку" : "Пост был успешно изменен");
         } else {
             return result(409, "Нет доступа!");
         }
@@ -225,6 +237,8 @@ class PostController extends Controller
         $body = json_decode($request->body, true);
         $img_main = $request->file('image');
         $tags = explode(",", $request->tags);
+
+        $draft = isset($request->draft) ? $request->draft : false;
 
         if (!$id_creator) {
             return result(409, "Вы должны быть авторизованы, чтобы создать пост!");
@@ -311,6 +325,12 @@ class PostController extends Controller
             }
         }
 
+        if ($draft) {
+            $idStatus = 4;
+        } else {
+            $idStatus = Auth::user()->isModerOrAdmin() ? 2 : 1;
+        }
+
         $res = DB::insert("INSERT INTO `post` (`id_category`, `id_creator`, `heading`, `description`, `main_folder`, `main_img_type`, `body`, `id_status`, `updated_at`)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
             [
@@ -321,7 +341,7 @@ class PostController extends Controller
                 $uniqUrl,
                 $typeMainImg,
                 json_encode($body),
-                Auth::user()->isModerOrAdmin() ? 2 : 1,
+                $idStatus,
                 NULL
             ]);
         if (!$res) {
@@ -341,12 +361,12 @@ class PostController extends Controller
                 $resTag = DB::select("SELECT `id_tag`, `name_tag`, `public_tag` FROM `tag` WHERE `name_tag` = ?;", [$el]);
                 if (isset($resTag[0]['public_tag']) && $resTag[0]['public_tag'] == '0') {
                     if (Auth::user()->isModerOrAdmin()) {
-                        DB::update("UPDATE `tag` SET `public_tag` = ? WHERE `id_tag`.`id_user` = ?;", [1, $resTag[0]['id_tag']]);
+                        DB::update("UPDATE `tag` SET `public_tag` = ? WHERE `id_tag`.`id_user` = ?;", [$draft ? 0 : 1, $resTag[0]['id_tag']]);
                     }
                 }
                 if (!$resTag) {
                     if (Auth::user()->isModerOrAdmin()) {
-                        DB::insert("INSERT INTO `tag` (`name_tag`, `public_tag`) VALUES (?, ?);", [$el, 1]);
+                        DB::insert("INSERT INTO `tag` (`name_tag`, `public_tag`) VALUES (?, ?);", [$el, $draft ? 0 : 1]);
                     } else {
                         DB::insert("INSERT INTO `tag` (`name_tag`) VALUES (?);", [$el]);
                     }
@@ -357,9 +377,9 @@ class PostController extends Controller
         }
 
         if (Auth::user()->isModerOrAdmin()) {
-            return result(200, "Пост был успешно опубликован");
+            return result(200, $draft ? "Пост был успешно сохранен" : "Пост был успешно опубликован");
         }
-        return result(200, "Пост был отправлен на проверку");
+        return result(200, $draft ? "Пост был успешно сохранен" : "Пост был отправлен на проверку");
     }
 
     public function showCreate() {
@@ -430,21 +450,25 @@ class PostController extends Controller
         }
     }
 
-    public function showList() {
+    public function showList(Request $request) {
         if (!Auth::check() || !Auth::user()->isModerOrAdmin()) return to_route('login');
 
         $getList = DB::select("SELECT p.id_post, p.id_creator, p.heading, p.created_at, u.id_user, u.login FROM post as p
                                 JOIN user as u ON p.id_creator = u.id_user WHERE p.id_status = ? ORDER BY p.id_post DESC;", [1]);
 
+        $getList = arrayPaginate($getList, $request);
+
         return view('post.list', ['getList' => $getList]);
     }
 
-    public function showListAll() {
+    public function showListAll(Request $request) {
         if (!Auth::check() || !Auth::user()->isAdmin()) return to_route('login');
 
         $getList = DB::select("SELECT p.id_post, p.id_creator, p.heading, p.created_at, u.id_user, u.login, ps.name, ps.code
                                 FROM post as p JOIN post_status as ps ON ps.id_status = p.id_status
                                 JOIN user as u ON p.id_creator = u.id_user ORDER BY p.id_post DESC;");
+
+        $getList = arrayPaginate($getList, $request);
 
         return view('post.list.all', ['getList' => $getList]);
     }
@@ -665,139 +689,149 @@ class PostController extends Controller
     public function show($id) {
         $idPost = correct($id);
 
-        $getInfoPost = Auth::check() && Auth::user()->isModerOrAdmin()
-            ? DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ?;", [$idPost])
-            : DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ? AND id_status = ?;", [$idPost, 2]);
-        if ($getInfoPost) {
-            $getTags = DB::select("SELECT t.name_tag FROM post_tag as pt JOIN tag as t ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$idPost]);
-            $getInfoPost = $getInfoPost[0];
-            $getTagsArry = [];
-            foreach ($getTags as $el) {
-                array_push($getTagsArry, $el['name_tag']);
-            }
-
-            $getTagsStr = implode(', ', $getTagsArry);
-            $getUrl = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            $getHeading = $getInfoPost['heading'];
-            $getDescription = $getInfoPost['description'];
-            $getMainFolder = $getInfoPost['main_folder'];
-            $getMainUmgType = $getInfoPost['main_img_type'];
-            $imgUrl = route('/') . '/storage/data/posts/' . $getMainFolder . '/main_img.' . $getMainUmgType;
-
-
-            //TODO fixme учитывать ли просмотры с разных аккаунтов с одного ip ???
-
-            $ip = $_SERVER['REMOTE_ADDR'];
-//  возможно можно оптимизировать + добавить доп. проверки + попробовать без id_view сравнивать ip - адреса
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                $getIdPost = correct($id);
-                $idLooked = Auth::check() ? Auth::user()->id_user : NULL;
-                $created_at = date("Y-m-d H:i:s");
-                $checkView = true;
-
-                // учет просмотров только для публичных постов
-                $checkPublic = DB::select("SELECT id_post FROM post WHERE id_post = ? AND id_status = ?;", [$getIdPost, 2]);
-                if ($checkPublic) {
-                    if ($idLooked) {
-                        // запрос нужен для учета просмотра - когда кто-то авторизован и постоянно меняет ip-просмотры или меняет аккаунта с одного ip не будут учитываться
-                        $checkView = DB::select("SELECT `id_view`, `id_looked`, `id_post` FROM `view` WHERE id_view =
-                                            (SELECT max(id_view) FROM `view` WHERE (id_looked = ? AND id_post = ?) OR (ip_address = INET_ATON(?) AND id_post = ?));",[
-                            $idLooked,
-                            $getIdPost,
-                            $ip,
-                            $getIdPost
-                        ]);
-                        if (count($checkView) > 0) {
-                            DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
-                        }
-                    } else {
-                        $checkView = DB::select("SELECT `id_post`, `ip_address` FROM `view` WHERE ip_address = INET_ATON(?) AND id_post = ?;",[$ip, $getIdPost]);
-                    }
-
-                    if (!$checkView) {
-                        DB::insert("INSERT INTO `view` (`id_post`, `ip_address`, `id_looked`, `created_at`) VALUES (?, INET_ATON(?), ?, ?);", [
-                            $getIdPost,
-                            $ip,
-                            $idLooked,
-                            $created_at
-                        ]);
-                    }
-                }
-            }
-
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-                $getIdPost = correct($id);
-                $idLooked = Auth::check() ? Auth::user()->id_user : NULL;
-                $created_at = date("Y-m-d H:i:s");
-                $checkView = true;
-
-                // учет просмотров только для публичных постов
-                $checkPublic = DB::select("SELECT id_post FROM post WHERE id_post = ? AND id_status = ?;", [$getIdPost, 2]);
-                if ($checkPublic) {
-                    if ($idLooked) {
-                        $checkView = DB::select("SELECT `id_view`, `id_looked`, `id_post` FROM `view` WHERE id_view =
-                                            (SELECT max(id_view) FROM `view` WHERE (id_looked = ? AND id_post = ?) OR (ip_address = INET6_ATON(?) AND id_post = ?));",[
-                            $idLooked,
-                            $getIdPost,
-                            $ip,
-                            $getIdPost
-                        ]);
-                        if (count($checkView) > 0) {
-                            DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
-                        }
-                    } else {
-                        $checkView = DB::select("SELECT `id_post`, `ip_address` FROM `view` WHERE ip_address = INET6_ATON(?) AND id_post = ?;",[$ip, $getIdPost]);
-                    }
-
-                    if (!$checkView) {
-                        DB::insert("INSERT INTO `view` (`id_post`, `ip_address`, `id_looked`, `created_at`) VALUES (?, INET6_ATON(?), ?, ?);", [
-                            $getIdPost,
-                            $ip,
-                            $idLooked,
-                            $created_at
-                        ]);
-                    }
-                }
-            }
-
-            $category = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [$getInfoPost['id_category']]);
-            $idCategory = $category[0]['id_category'];
-            $category = $category[0]['name_category'];
-
-            $getCategorys = DB::select("SELECT COUNT(c.id_category) as count, c.id_category, c.name_category FROM category as c JOIN post as p ON p.id_category = c.id_category WHERE p.id_status = ? GROUP BY c.id_category;", [2]);
-
-            $getCountDefaultCategory = DB::select("SELECT COUNT(id_post) as count FROM `post` WHERE id_status = ?", [2]);
-            $getCountDefaultCategory = $getCountDefaultCategory[0]['count'];
-
-            $getDefaultCategory = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [1]);
-            array_unshift($getCategorys, $getDefaultCategory[0]);
-
-            $getTag = DB::select("SELECT * FROM `tag`WHERE public_tag = ?;", [1]);
-
-            $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
-
-            foreach ($getLastComments as &$comment) {
-                $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])
-                    ? route('/') . '/storage/data/users/' . $comment['folder'] . '/' . 'avatar.' . $comment['img_type']
-                    : route('/') . '/public/imgs/profile.png';
-            }
-
-            return view('post', [
-                'getTagsStr' => $getTagsStr,
-                'getUrl' => $getUrl,
-                'getHeading' => $getHeading,
-                'getDescription' => $getDescription,
-                'category' => $category,
-                'idCategory' => $idCategory,
-                'imgUrl' => $imgUrl,
-                'getCategorys' => $getCategorys,
-                'getTag' => $getTag,
-                'getCountDefaultCategory' => $getCountDefaultCategory,
-                'getLastComments' => $getLastComments,
-            ]);
-        } else {
+        $infoPost = DB::select("SELECT id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
+        if (count($infoPost) < 1) {
             return to_route('error', ['number' => 404]);
         }
+
+        if (!Auth::check()) {
+            $infoPost = DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ? AND id_status = ?;", [$idPost, 2]);
+        } elseif ((Auth::user()->id_user == $infoPost[0]['id_creator'] && ($infoPost[0]['id_status'] == 1 || $infoPost[0]['id_status'] == 3 || $infoPost[0]['id_status'] == 4)) ||  Auth::user()->isModerOrAdmin()) {
+            $infoPost = DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ?;", [$idPost]);
+        }
+
+        if (count($infoPost) < 1) {
+            return to_route('error', ['number' => 404]);
+        }
+
+        $getTags = DB::select("SELECT t.name_tag FROM post_tag as pt JOIN tag as t ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$idPost]);
+
+        $infoPost = $infoPost[0];
+
+        $getTagsArry = [];
+        foreach ($getTags as $el) {
+            array_push($getTagsArry, $el['name_tag']);
+        }
+
+        $getTagsStr = implode(', ', $getTagsArry);
+        $getUrl = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $getHeading = $infoPost['heading'];
+        $getDescription = $infoPost['description'];
+        $getMainFolder = $infoPost['main_folder'];
+        $getMainUmgType = $infoPost['main_img_type'];
+        $imgUrl = route('/') . '/storage/data/posts/' . $getMainFolder . '/main_img.' . $getMainUmgType;
+
+
+        //TODO fixme учитывать ли просмотры с разных аккаунтов с одного ip ???
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+//  возможно можно оптимизировать + добавить доп. проверки + попробовать без id_view сравнивать ip - адреса
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            $getIdPost = correct($id);
+            $idLooked = Auth::check() ? Auth::user()->id_user : NULL;
+            $created_at = date("Y-m-d H:i:s");
+            $checkView = true;
+
+            // учет просмотров только для публичных постов
+            $checkPublic = DB::select("SELECT id_post FROM post WHERE id_post = ? AND id_status = ?;", [$getIdPost, 2]);
+            if ($checkPublic) {
+                if ($idLooked) {
+                    // запрос нужен для учета просмотра - когда кто-то авторизован и постоянно меняет ip-просмотры или меняет аккаунта с одного ip не будут учитываться
+                    $checkView = DB::select("SELECT `id_view`, `id_looked`, `id_post` FROM `view` WHERE id_view =
+                                            (SELECT max(id_view) FROM `view` WHERE (id_looked = ? AND id_post = ?) OR (ip_address = INET_ATON(?) AND id_post = ?));",[
+                        $idLooked,
+                        $getIdPost,
+                        $ip,
+                        $getIdPost
+                    ]);
+                    if (count($checkView) > 0) {
+                        DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
+                    }
+                } else {
+                    $checkView = DB::select("SELECT `id_post`, `ip_address` FROM `view` WHERE ip_address = INET_ATON(?) AND id_post = ?;",[$ip, $getIdPost]);
+                }
+
+                if (!$checkView) {
+                    DB::insert("INSERT INTO `view` (`id_post`, `ip_address`, `id_looked`, `created_at`) VALUES (?, INET_ATON(?), ?, ?);", [
+                        $getIdPost,
+                        $ip,
+                        $idLooked,
+                        $created_at
+                    ]);
+                }
+            }
+        }
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $getIdPost = correct($id);
+            $idLooked = Auth::check() ? Auth::user()->id_user : NULL;
+            $created_at = date("Y-m-d H:i:s");
+            $checkView = true;
+
+            // учет просмотров только для публичных постов
+            $checkPublic = DB::select("SELECT id_post FROM post WHERE id_post = ? AND id_status = ?;", [$getIdPost, 2]);
+            if ($checkPublic) {
+                if ($idLooked) {
+                    $checkView = DB::select("SELECT `id_view`, `id_looked`, `id_post` FROM `view` WHERE id_view =
+                                            (SELECT max(id_view) FROM `view` WHERE (id_looked = ? AND id_post = ?) OR (ip_address = INET6_ATON(?) AND id_post = ?));",[
+                        $idLooked,
+                        $getIdPost,
+                        $ip,
+                        $getIdPost
+                    ]);
+                    if (count($checkView) > 0) {
+                        DB::update("UPDATE `view` SET `id_looked` = ? WHERE `view`.`id_view` = ?;",[$idLooked, $checkView[0]['id_view'] ?? NULL]);
+                    }
+                } else {
+                    $checkView = DB::select("SELECT `id_post`, `ip_address` FROM `view` WHERE ip_address = INET6_ATON(?) AND id_post = ?;",[$ip, $getIdPost]);
+                }
+
+                if (!$checkView) {
+                    DB::insert("INSERT INTO `view` (`id_post`, `ip_address`, `id_looked`, `created_at`) VALUES (?, INET6_ATON(?), ?, ?);", [
+                        $getIdPost,
+                        $ip,
+                        $idLooked,
+                        $created_at
+                    ]);
+                }
+            }
+        }
+
+        $category = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [$infoPost['id_category']]);
+        $idCategory = $category[0]['id_category'];
+        $category = $category[0]['name_category'];
+
+        $getCategorys = DB::select("SELECT COUNT(c.id_category) as count, c.id_category, c.name_category FROM category as c JOIN post as p ON p.id_category = c.id_category WHERE p.id_status = ? GROUP BY c.id_category;", [2]);
+
+        $getCountDefaultCategory = DB::select("SELECT COUNT(id_post) as count FROM `post` WHERE id_status = ?", [2]);
+        $getCountDefaultCategory = $getCountDefaultCategory[0]['count'];
+
+        $getDefaultCategory = DB::select("SELECT id_category, name_category FROM category WHERE id_category = ?", [1]);
+        array_unshift($getCategorys, $getDefaultCategory[0]);
+
+        $getTag = DB::select("SELECT * FROM `tag`WHERE public_tag = ?;", [1]);
+
+        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
+
+        foreach ($getLastComments as &$comment) {
+            $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])
+                ? route('/') . '/storage/data/users/' . $comment['folder'] . '/' . 'avatar.' . $comment['img_type']
+                : route('/') . '/public/imgs/profile.png';
+        }
+
+        return view('post', [
+            'getTagsStr' => $getTagsStr,
+            'getUrl' => $getUrl,
+            'getHeading' => $getHeading,
+            'getDescription' => $getDescription,
+            'category' => $category,
+            'idCategory' => $idCategory,
+            'imgUrl' => $imgUrl,
+            'getCategorys' => $getCategorys,
+            'getTag' => $getTag,
+            'getCountDefaultCategory' => $getCountDefaultCategory,
+            'getLastComments' => $getLastComments,
+        ]);
     }
 
     public function search(Request $request) {

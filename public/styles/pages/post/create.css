@@ -79,6 +79,15 @@ h2{
     color: var(--colorBtn);
 }
 
-.btnCreatePost{
+.btnPost{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 465px;
+    justify-content: space-between;
+}
+.btnCreate{
     max-width: 150px;
+}
+.btnDraft{
+    max-width: 300px;
 }

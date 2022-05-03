@@ -120,7 +120,7 @@ $(function() {
                 processData: false,
                 data: formData,
                 success: function (d) {
-                    console.log(d)
+                    // console.log(d)
                     clearTimeout(timerId);
                     ava_img.addClass('ava_img');
                     ava_img.removeClass('loader');
@@ -167,6 +167,7 @@ $(function() {
                 url: '/post/searchLk',
                 data: getUrlParams  + start + '&lk=true',
                 success: function (d) {
+                    // console.log(d)
                     d = d?.result?.data;
                     if (d?.length === 0) {
                         nextHTML.remove();
@@ -208,7 +209,8 @@ $(function() {
                                             <div><i class="fa fa-comments" aria-hidden="true"></i> ${el?.comments_count}</div>
                                         </div>
                                         ${strTags && `<p class="tagsPost">Теги: ${strTags}</p>`}
-                                        <a href="/post/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Посмотреть</span></a>
+                                        <a href="/post/${el?.id_post}" class="btn hoverBtn readPost" target="_blank"><span>Посмотреть</span></a>
+                                        ${el?.id_status == 4 ? `<a href="/post/change/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Изменить</span></a>` : ''}
                                     </div>
                                 </div>
                             `);
@@ -216,7 +218,7 @@ $(function() {
                     }
                 },
                 error: function (d) {
-                    console.log(d)
+                    // console.log(d)
                     msg.html('<div class="alert alert-danger">Что-то пошло не так!</div>')
                 }
             })
