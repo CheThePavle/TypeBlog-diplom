@@ -173,7 +173,8 @@ CREATE TABLE `post_status` (
 INSERT INTO `post_status` (`id_status`, `code`, `name`) VALUES
 (1, 'sent', 'Отправлен'),
 (2, 'published', 'Опубликован'),
-(3, 'rejected', 'Отклонен');
+(3, 'rejected', 'Отклонен'),
+(4, 'draft', 'Черновик');
 
 -- --------------------------------------------------------
 

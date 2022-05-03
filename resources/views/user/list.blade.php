@@ -52,7 +52,7 @@
                             echo "<th scope='row'><a href='/profile/$idUser' target='_blank'>$idUser</a></th>";
                             echo "<td>$emailUser</td>";
                             echo "<td><a href='/profile/$idUser' target='_blank'>$loginUser</a></td>";
-                            echo "<td><select class='change_role' name='role'>". $roleHTML ."</select></td>";
+                            echo "<td><select class='change_role defaultSelect' name='role'>". $roleHTML ."</select></td>";
                             echo "<td>$createdAtUser</td>";
                             echo $blockedUser == '1'
                                 ? "<td class='unblockedTd'><button type='button' class='btn hoverBtn btn-success unblocked'><span>Разблокировать</span></button></td>"
@@ -66,6 +66,8 @@
                 </table>
             </div>
         </div>
+
+        {{ $getList->links('components.paginate') }}
     </div>
 
 @endsection

@@ -32,7 +32,7 @@
 
     <div class="container">
         <div class="row">
-            <h1 class="text-center title">Список отправленных постов</h1>
+            <h1 class="text-center title">Создать пост</h1>
 
             <x-panel-lk />
 
@@ -85,9 +85,11 @@
                     <div id="editorjs"></div>
                 </div>
 
-                <div class="btnCreatePost">
-                    <button type="submit" class="btn hoverBtn btn-success btn-send"><span>Создать</span></button>
+                <div class="btnPost">
+                    <button type="submit" class="btn hoverBtn btnCreate"><span>Создать</span></button>
+                    <button type="submit" class="btn hoverBtn btnDraft"><span>Сохранить как черновик</span></button>
                 </div>
+
                 <div class="msg"></div>
             </form>
         </div>

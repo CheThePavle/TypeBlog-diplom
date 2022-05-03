@@ -69,6 +69,8 @@
                 </table>
             </div>
         </div>
+
+        {{ $treeComplaint->links('components.paginate') }}
     </div>
 
 @endsection

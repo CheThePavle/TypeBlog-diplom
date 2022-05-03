@@ -26,6 +26,7 @@
                         <th scope="col">Дата и время создания</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,8 @@
                 </table>
             </div>
         </div>
+
+        {{ $getList->links('components.paginate') }}
     </div>
 
 @endsection

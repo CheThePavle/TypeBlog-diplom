@@ -11,6 +11,29 @@
     color: var(--textTitle);
 }
 
+.accept > input{
+    border: none !important;
+    padding: 9px;
+    background-color: var(--hoverBgBtn);
+}
+.form-check-input:checked{
+    background-color: var(--bgBlock);
+}
+.accept > input, .accept > label{
+    cursor: pointer;
+}
+
+.captchaBlock{
+    text-align: center;
+}
+.captcha{
+    max-width: 150px;
+}
+.captchaRefresh{
+    font-size: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+}
 
 /*html {*/
 /*    height: 100%;*/

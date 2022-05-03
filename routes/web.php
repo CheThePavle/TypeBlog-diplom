@@ -30,6 +30,7 @@ Route::get('/error/{number}', [ErrorController::class, 'show'])->name('error');
 Route::get('/login', [UserController::class, 'showLogin'])->name('login');
 Route::get('/register', [UserController::class, 'showRegister'])->name('register');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/captcha', [UserController::class, 'genCaptcha'])->name('captcha');
 
 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile');
 

@@ -5,7 +5,6 @@
 }
 /*prev img post*/
 .show_img_prev_post{
-    display: none;
     margin-top: 25px;
 }
 #show_img_prev{
@@ -79,6 +78,15 @@ h2{
     color: var(--colorBtn);
 }
 
-.btnChangePost{
+.btnPost{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 325px;
+    justify-content: space-between;
+}
+.btnSend{
     max-width: 150px;
+}
+.btnDraftOrChange{
+    max-width: 160px;
 }

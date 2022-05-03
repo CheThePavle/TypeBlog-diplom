@@ -3,7 +3,7 @@ $(function() {
         let timerId = 0;
 
         const activeBtn = (disabled) => {
-            $('.btn-send').prop('disabled', disabled);
+            $('.btnReg').prop('disabled', disabled);
         }
 
         $("#login").keyup(function() {
@@ -116,10 +116,18 @@ $(function() {
             }
         })
 
-        // fixme изменить потом
+        // fixme
         document.querySelector('textarea').addEventListener('input', function (e) {
             e.target.style.height = 'auto'
             e.target.style.height = e.target.scrollHeight + 2 + "px"
+        })
+
+        const changeCaptcha = () => {
+            $('.captcha').attr('src', `/captcha?r=${Math.random()}`);
+        }
+
+        $('.captchaRefresh').click(() => {
+            changeCaptcha();
         })
 
         $('#formReg').submit(function (e) {
@@ -134,50 +142,23 @@ $(function() {
                 method: 'POST',
                 data: th.serialize(),
                 success: function (d) {
-                    console.log(d)
+                    // console.log(d)
+                    activeBtn(true);
                     msg.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
-                    if (d?.result?.data?.redirect) {
-                        setTimeout(function(){
-                            window.location.href = '/login';
-                        }, 2000);
-                    }
-
-                    activeBtn(false);
-                    $(".stage1").hide();
-                    $(".stage2").val('Подтвердить');
-                    $('.verifyEmail').html(`
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="code">Код подтверждения из письма <span class="required">*</span></label>
-                                <input maxlength="5" id="code" type="text" name="code" class="form-control" placeholder="Введите код *" required="required">
-                            </div>
-                        </div>
-                    `);
-                    clearTimeout(timerId);
                     setTimeout(function(){
-                        msg.html('');
-                    }, 4000);
+                        window.location.href = '/login';
+                    }, 2000);
                 },
                 error: function (d) {
-                    console.log(d)
+                    // console.log(d)
+                    changeCaptcha();
                     activeBtn(true);
                     msg.html(`<div class="alert alert-danger">${d?.responseJSON?.result?.msg}</div>`);
-                    setTimeout(function(){
-                        activeBtn(false);
-                    }, 500);
                     clearTimeout(timerId);
                     timerId = setTimeout(function(){
                         msg.html('');
+                        activeBtn(false);
                     }, 3000);
-                    if (d?.responseJSON?.result?.data?.redirect) {
-                        setTimeout(function(){
-                            activeBtn(true);
-                        }, 501);
-                        clearTimeout(timerId);
-                        timerId = setTimeout(function(){
-                            window.location.href = '/register';
-                        }, 4000);
-                    }
                 }
             })
         });

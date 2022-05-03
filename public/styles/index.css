@@ -56,7 +56,7 @@ table button{
     width: 190px;
 }
 .table-striped>tbody>tr:nth-of-type(odd){
-    --bs-table-accent-bg: var(--hoverBgBtn) !important;
+    --bs-table-accent-bg: var(--colorOdd) !important;
 }
 .table-responsive{
     margin-top: 80px;
@@ -274,6 +274,21 @@ input[type="checkbox"]{
 .filterSidebar > div{
     margin-bottom: 20px;
 }
+
+.defaultSelect{
+    position: relative;
+    padding: 15px 25px;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--hoverBgBtn);
+    font-size: 14px;
+    border: none;
+    border-bottom: 3px solid var(--bButtom);
+}
+.defaultSelect:focus-visible{
+    outline: none;
+}
+
 .select {
     display: block;
     width: 100%;
@@ -568,7 +583,7 @@ footer{
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 999;
+    z-index: 9999;
     font-size: 20px;
 }
 .arrowUp{
@@ -691,4 +706,10 @@ footer{
     color: var(--bgBlock);
     font-size: 40px;
     margin: 10px;
+}
+
+/* для пагинации */
+.paginateBlock{
+   display: flex;
+    justify-content: center;
 }

@@ -232,7 +232,13 @@ $(function() {
             }
         });
 
-        $('#forCreatePost').submit(function (e) {
+        let forCreatePost = $('#forCreatePost');
+
+        $('.btnDraft').click(() => {
+            forCreatePost.append("<input type='hidden' name='draft' value='true'>");
+        });
+
+        forCreatePost.submit(function (e) {
             e.preventDefault();
 
             let formData = new FormData(this);
@@ -250,7 +256,6 @@ $(function() {
                     processData: false,
                     data: formData,
                     success: function (d) {
-                        console.log(d)
                         clearTimeout(timerId);
                         activeBtn(true);
                         msg.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
@@ -259,7 +264,6 @@ $(function() {
                         }, 2000);
                     },
                     error: function (d) {
-                        console.log(d)
                         clearTimeout(timerId);
                         activeBtn(true);
                         msg.html(`<div class="alert alert-danger">${d?.responseJSON?.result?.msg || 'Что-то пошло не так!'}</div>`);

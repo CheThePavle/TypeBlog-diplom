@@ -8,22 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
-    public function show() {
+    public function show(Request $request) {
         if (!Auth::check() || !Auth::user()->isAdmin()) return to_route('login');
 
         $getList = DB::select("SELECT * FROM tag ORDER BY id_tag DESC;");
+
+        $getList = arrayPaginate($getList, $request);
 
         return view('tag.list', ['getList' => $getList]);
     }
 
     public function findByPostId(Request $request) {
+        if (!Auth::check()) return result(409, "Нет доступа!");
+
         $idPost = correct($request->id);
+        $infoPost = DB::select("SELECT id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
 
-        if (Auth::check() && Auth::user()->isModerOrAdmin()) {
-            if (!$idPost) {
-                return result(409, "Пост не передан!");
-            }
-
+        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && $infoPost[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
             $res = DB::select("SELECT t.name_tag FROM post_tag as pt JOIN tag as t ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$idPost]);
 
             return result(200, "", $res);

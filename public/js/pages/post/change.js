@@ -263,7 +263,13 @@ $(function() {
                     data: body
                 });
 
-                $('#formChangePost').submit(function (e) {
+                let formChangePost = $('#formChangePost');
+
+                $('.btnSend').click(() => {
+                    formChangePost.append("<input type='hidden' name='send' value='true'>");
+                });
+
+                formChangePost.submit(function (e) {
                     e.preventDefault();
 
                     let formData = new FormData(this);

@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    public function show() {
+    public function show(Request $request) {
         if (!Auth::check() || !Auth::user()->isAdmin()) return to_route('login');
 
         $getList = DB::select("SELECT * FROM category ORDER BY id_category DESC;");
+
+        $getList = arrayPaginate($getList, $request);
 
         return view('category.list', ['getList' => $getList]);
     }

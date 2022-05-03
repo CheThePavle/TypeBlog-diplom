@@ -31,6 +31,7 @@ $(function() {
                 root.css('--colorTag', '#fff');
                 root.css('--colorLike', '#00a300');
                 root.css('--colorDislike', '#ff5959');
+                root.css('--colorOdd', '#474747');
 
                 $.ajax({
                     url: '/changeTheme',
@@ -65,6 +66,7 @@ $(function() {
                 root.css('--colorTag', '#fff');
                 root.css('--colorLike', '#79db79');
                 root.css('--colorDislike', '#ff8e8e');
+                root.css('--colorOdd', '#eeeeee');
 
                 $.ajax({
                     url: '/changeTheme',
