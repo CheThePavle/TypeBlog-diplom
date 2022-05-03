@@ -114,7 +114,7 @@ class CommentController extends Controller
                 }
             } else {
                 // для пользователя, который хочет удалить свой комментарий
-                $check = DB::select("SELECT id_comment FROM comment WHERE id_author = ? AND id_comment = ?;", [$_SESSION['id'], $getIdComment]);
+                $check = DB::select("SELECT id_comment FROM comment WHERE id_author = ? AND id_comment = ?;", [Auth::user()->id_user, $getIdComment]);
                 if (!$check) {
                     return result(409, "Комментарий не найден или у вас нет доступа к удалению этого комментария");
                 }

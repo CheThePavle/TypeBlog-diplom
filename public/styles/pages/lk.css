@@ -67,3 +67,19 @@
 #formChangeProfile > div{
     margin-bottom: 25px;
 }
+.imgBlock > img{
+    height: 300px;
+    margin-bottom: 25px;
+}
+
+.post{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.titlePost{
+    margin-top: 25px;
+}
+.tagsPost{
+    margin-top: 15px;
+}

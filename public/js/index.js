@@ -29,6 +29,8 @@ $(function() {
                 root.css('--colorBtn', '#000');
                 root.css('--colorSpan', '#000');
                 root.css('--colorTag', '#fff');
+                root.css('--colorLike', '#00a300');
+                root.css('--colorDislike', '#ff5959');
 
                 $.ajax({
                     url: '/changeTheme',
@@ -61,6 +63,8 @@ $(function() {
                 root.css('--colorBtn', '#ffffff');
                 root.css('--colorSpan', '#000000');
                 root.css('--colorTag', '#fff');
+                root.css('--colorLike', '#79db79');
+                root.css('--colorDislike', '#ff8e8e');
 
                 $.ajax({
                     url: '/changeTheme',

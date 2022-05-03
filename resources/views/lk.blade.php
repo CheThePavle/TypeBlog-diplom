@@ -45,7 +45,7 @@
         </div>
 
         <h1 class="text-center titleMyPosts">Мои посты</h1>
-        <div class="row posts"></div>
+        <div class="row posts justify-content-center"></div>
         <div class="msg"></div>
 
         <x-post-loader/>

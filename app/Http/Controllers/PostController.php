@@ -997,7 +997,7 @@ class PostController extends Controller
         if ($lk) {
             $getIdUser = Auth::user()->id_user;
             if ($getIdUser) {
-                $count = 3; //fixme
+                $count = 4; //fixme
 
                 $res = DB::select("SELECT * FROM `post` as p JOIN category as c ON p.id_category = c.id_category
                                     JOIN post_status as ps ON ps.id_status = p.id_status
