@@ -44,6 +44,8 @@ $(function() {
                         dark: true
                     }
                 })
+
+                $('.logoMenu').toggleClass('logoMenuDark logoMenu');
             } else {
                 root.css('--bgMenu', '#f8f8f8');
                 root.css('--textMenu', '#000000');
@@ -82,6 +84,8 @@ $(function() {
                         dark: false
                     }
                 })
+
+                $('.logoMenuDark').toggleClass('logoMenu logoMenuDark');
             }
         });
 

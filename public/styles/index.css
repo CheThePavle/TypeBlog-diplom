@@ -49,6 +49,18 @@ h1:after{
     left: calc(50% - 35px);
     background: var(--bgBlock);
 }
+.logoMenu{
+    background: url("/imgs/logo.png") no-repeat;
+    background-size: cover;
+    height: 56px;
+    width: 254px;
+}
+.logoMenuDark{
+    background: url("/imgs/logoDark.png") no-repeat;
+    background-size: cover;
+    height: 56px;
+    width: 254px;
+}
 th, td{
     color: var(--textTitle);
 }
