@@ -5,7 +5,6 @@
     <meta name='description' content='Все посты сайта - {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='главная, посты, фильтры' />
     <link rel='stylesheet' href='{{ asset('styles/pages/index.css') }}'>
-    <script src='{{ asset('js/pages/index.js') }}'></script>
     <link rel='stylesheet' href='{{ asset('styles/components/postLoader.css') }}'>
 @endsection
 

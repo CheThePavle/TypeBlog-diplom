@@ -201,7 +201,7 @@ class PostController extends Controller
                     $description,
                     $uniqUrl,
                     $typeMainImg ? $typeMainImg : $res[0]['main_img_type'],
-                    json_encode($body),
+                    json_encode($body, JSON_UNESCAPED_UNICODE),
                     $idPost
                 ]);
             if (!$change) {
@@ -351,7 +351,7 @@ class PostController extends Controller
                 $description,
                 $uniqUrl,
                 $typeMainImg,
-                json_encode($body),
+                json_encode($body, JSON_UNESCAPED_UNICODE),
                 $idStatus,
                 NULL
             ]);
@@ -488,7 +488,7 @@ class PostController extends Controller
         $get = correct($request->searchPostAndUser);
         $get = '%' . $get . '%';
 
-        $res = DB::select("SELECT `id_post`, `heading` FROM `post` WHERE heading LIKE ? ORDER BY heading;", [$get]);
+        $res = DB::select("SELECT `id_post`, `heading` FROM `post` WHERE heading LIKE ? AND id_status = ? ORDER BY heading;", [$get, 2]);
 
         if (!$res) {
             $res = DB::select("SELECT `id_user`, `login` FROM `user` WHERE login LIKE ? ORDER BY login;", [$get]);
