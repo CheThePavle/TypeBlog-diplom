@@ -83,7 +83,13 @@ $(function() {
             }
         })
 
-        $(".type-zone").keyup(function () {
+        $(".type-zone").keyup(function (e) {
+            if (e.key === 'б' && this.value.length === 0) {
+                this.value = 'б'
+            } else if (e.key === 'Б' && this.value.length === 0) {
+                this.value = 'Б'
+            }
+
             let getLengthTags = $('#tagBox .tag').length;
             if (getLengthTags > 10) {
                 clearTimeout(timerId);
@@ -257,7 +263,11 @@ $(function() {
                         },
                         header: {
                             class: Header,
-                            shortcut: 'SHIFT+H'
+                            shortcut: 'SHIFT+H',
+                            config: {
+                                levels: [2, 3, 4, 5, 6],
+                                defaultLevel: 2
+                            }
                         }
                     },
                     data: body

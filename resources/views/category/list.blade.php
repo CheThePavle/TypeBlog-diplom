@@ -5,6 +5,9 @@
     <meta name='description' content='Категории на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='категория, категории, изменение, удаление, добавление' />
     <link rel='stylesheet' href='{{ asset('styles/pages/category/list.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/category/list.js') }}'></script>
 @endsection
 
@@ -40,8 +43,7 @@
                     @foreach($getList as $list)
                         <tr class='id_category' data-id='{{ $list['id_category'] }}'>
                             <th scope='row'>{{ $list['id_category'] }}</th>
-                            <td class='val_category'>{{ $list['name_category'] }}</td>
-                            <td class='body_change_category'></td>
+                            <td class='val_category'>{{ $list['name_category'] }}<div class='body_change_category'></div></td>
                             <td class='changedTd'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></td>
                             <td class='deletedTd'><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
                         </tr>

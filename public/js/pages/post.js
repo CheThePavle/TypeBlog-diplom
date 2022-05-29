@@ -424,6 +424,11 @@ $(function() { // normalizeSpace()
                     timerId = setTimeout(function () {
                         msgCommentChange.html(``);
                     }, 3000);
+
+                    notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
+                    timerId = setTimeout(function () {
+                        notify.html(``);
+                    }, 3000)
                     getComments(1);
                 },
                 error: function (d) {

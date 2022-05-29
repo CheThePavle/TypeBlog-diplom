@@ -9,19 +9,23 @@
     <link rel='stylesheet' href='{{ asset('styles/components/postLoader.css') }}'>
 @endsection
 
+@section('scripts')
+    <script src='{{ asset('js/pages/index.js') }}'></script>
+@endsection
+
 @section('content')
 
     <div class="container">
-        <div class="row">
-            <h1 class="text-center title">
-                @switch($order)
-                    @case(1)
-                    Старые посты
-                    @break
-                    @default
-                    Последние посты
-                @endswitch
-            </h1>
+        <h1 class="text-center title">
+            @switch($order)
+                @case(1)
+                Старые посты
+                @break
+                @default
+                Последние посты
+            @endswitch
+        </h1>
+        <div class="row content">
             <div class="col-lg-8">
                 <div class="posts"></div>
                 <div class="msg"></div>
@@ -52,14 +56,17 @@
                         <div class="category">
                             @if(count($getCategory) > 0)
                                 @foreach($getCategory as $cat)
-                                    @php
-                                        $idCategory = $cat['id_category'];
-                                        $checked = ($category == $idCategory ? 'checked' : $idCategory == 1) ? 'checked' : '';
-                                    @endphp
-                                    <div>
-                                        <input type="radio" class="btn-check" name="category" id='id{{ $idCategory }}' value='{{ $idCategory }}' {{ $checked }}>
-                                        <label class="btn btn-secondary labelCategory" for="id{{ $idCategory }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
-                                    </div>
+                                    @if ($loop->iteration === 2 && $cat['id_category'] === 1)
+                                    @else
+                                        @php
+                                            $idCategory = $cat['id_category'];
+                                            $checked = ($category == $idCategory ? 'checked' : $idCategory == 1) ? 'checked' : '';
+                                        @endphp
+                                        <div>
+                                            <input type="radio" class="btn-check" name="category" id='id{{ $idCategory }}' value='{{ $idCategory }}' {{ $checked }}>
+                                            <label class="btn btn-secondary labelCategory" for="id{{ $idCategory }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
+                                        </div>
+                                    @endif
                                 @endforeach
                             @endif
                         </div>
@@ -147,7 +154,8 @@
                                 <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
                                 <div class="bodyCommentItem">
                                     <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
-                                    <div>{{ $comment['created_at'] }}</div>
+                                    <div>{{ $comment['body_comment'] }}</div>
+                                    <div class="commentDate">{{ $comment['created_at'] }}</div>
                                 </div>
                             </div>
                         @endforeach

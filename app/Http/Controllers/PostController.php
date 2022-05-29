@@ -186,11 +186,17 @@ class PostController extends Controller
 
             $infoStatus = DB::select("SELECT id_status FROM post WHERE id_post = ?;", [$idPost]);
 
+            if ($send) {
+                $idStatus = Auth::user()->isModerOrAdmin() ? 2 : 1;
+            } else {
+                $idStatus = $infoStatus[0]['id_status'];
+            }
+
             $change = DB::update("UPDATE `post` SET `id_category` = ?, `id_status` = ?, `heading` = ?, `description` = ?, `main_folder` = ?, `main_img_type` = ?, `body` = ?
                                     WHERE `post`.`id_post` = ?;",
                 [
                     $category,
-                    $send ? 1 : $infoStatus[0]['id_status'],
+                    $idStatus,
                     $heading,
                     $description,
                     $uniqUrl,
@@ -223,7 +229,12 @@ class PostController extends Controller
             $oldDir = 'public/data/posts/'.$res[0]['main_folder'];
             Storage::deleteDirectory($oldDir);
 
-            return result(200, $send ? "Пост был успешно отправлен на проверку" : "Пост был успешно изменен");
+            if ($send) {
+                $msg = Auth::user()->isModerOrAdmin() ? "Пост был успешно опубликован" : "Пост был успешно отправлен на проверку";
+            } else {
+                $msg = "Пост был успешно изменен";
+            }
+            return result(200, $msg);
         } else {
             return result(409, "Нет доступа!");
         }
@@ -811,7 +822,7 @@ class PostController extends Controller
 
         $getTag = DB::select("SELECT * FROM `tag`WHERE public_tag = ?;", [1]);
 
-        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
+        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.body_comment, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
 
         foreach ($getLastComments as &$comment) {
             $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])

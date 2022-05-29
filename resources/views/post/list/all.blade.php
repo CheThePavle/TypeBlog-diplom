@@ -5,6 +5,9 @@
     <meta name='description' content='Список постов на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пост, посты, редактирование, изменение, список' />
     <link rel='stylesheet' href='{{ asset('styles/pages/post/list/all.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/post/list/all.js') }}'></script>
 @endsection
 
@@ -54,6 +57,5 @@
 
         {{ $getList->links('components.paginate') }}
     </div>
-
 
 @endsection

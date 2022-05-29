@@ -1,5 +1,3 @@
-{{--TODO fixme--}}
-
 <div class="paginateBlock">
     @if ($paginator->hasPages())
         <ul class="pagination">

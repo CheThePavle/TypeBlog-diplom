@@ -14,23 +14,11 @@
 
     <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
     <link rel="shortcut icon" href="{{ asset('imgs/favicon.png') }}" type="image/x-icon">
-    <script src="{{ asset('libs/jQuery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/loader.js') }}"></script>
-    <script src="{{ asset('js/functions/normalizeSpace.js') }}"></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.js') }}"></script>
-    <script src="{{ asset('public/js/index.js') }}"></script>
 
     @yield('head')
 
 </head>
 <body>
-    <div class="preloader">
-        <div class="preloader__row">
-            <div class="preloader__item"></div>
-            <div class="preloader__item"></div>
-        </div>
-    </div>
-
     <div class="notify"></div>
 
     <a href="#" class="arrowUp"><i class="fa-solid fa-arrow-up"></i></a>
@@ -79,5 +67,20 @@
             Copyright ©2022 All rights reserved | Сайт разработал Чикуров Павел, гр. ИС-18
         </div>
     </footer>
+
+    <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+        </div>
+    </div>
+
+    <script src="{{ asset('libs/jQuery/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/loader.js') }}"></script>
+    <script src="{{ asset('js/functions/normalizeSpace.js') }}"></script>
+    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('public/js/index.js') }}"></script>
+
+    @yield('scripts')
 </body>
 </html>

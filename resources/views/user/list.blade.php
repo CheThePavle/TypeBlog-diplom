@@ -5,6 +5,9 @@
     <meta name='description' content='Список пользователей на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пользователь, пользователи, изменение, список, блокировка' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/list.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/list.js')}}'></script>
 @endsection
 

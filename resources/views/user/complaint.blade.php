@@ -5,6 +5,9 @@
     <meta name='description' content='Жалобы пользователей на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пользователь, пользователи, изменение, список, блокировка, жалоба, жалобы' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/complaint.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/complaint.js') }}'></script>
 @endsection
 
@@ -44,8 +47,7 @@
                         @else
                             <tr class='more id_complaint' data-id='{{ $branch[0]['id_complaint'] }}'>
                                 <td>
-{{--                                    TODO fixme--}}
-                                    <i class="fa-solid fa-plus"></i>
+                                    <i class="fa-solid iconMore fa-plus"></i>
                                 </td>
                                 <td></td>
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_accused']]) }}' target='_blank'>{{ $branch[0]['accused'] }}</td>

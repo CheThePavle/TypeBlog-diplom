@@ -5,6 +5,9 @@
     <meta name='description' content='Список постов на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пост, посты, редактирование, изменение, удаление' />
     <link rel='stylesheet' href='{{ asset('styles/pages/post/list.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/post/list.js') }}'></script>
 @endsection
 

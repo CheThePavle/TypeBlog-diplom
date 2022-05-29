@@ -451,6 +451,9 @@ ul.listTags li input[type="checkbox"] {
     font-weight: 700;
     font-size: 12px;
 }
+.commentDate{
+    margin-top: 8px;
+}
 
 /* footer */
 footer{
@@ -461,6 +464,18 @@ footer{
 /* Стили для EditorJS */
 .ce-block__content, .ce-toolbar__content {
     max-width: 1170px;
+}
+.ce-inline-toolbar__dropdown{
+    color: black !important;
+}
+.cdx-marker{
+    background: var(--bgBlock) !important;
+}
+.ce-toolbar__actions{
+    padding-right: 10px
+}
+.ce-toolbar__plus{
+    padding-left: 5px;
 }
 
 .required {
@@ -710,6 +725,6 @@ footer{
 
 /* для пагинации */
 .paginateBlock{
-   display: flex;
+    display: flex;
     justify-content: center;
 }

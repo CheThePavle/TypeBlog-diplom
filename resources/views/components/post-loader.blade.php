@@ -3,6 +3,6 @@
         <img class="loader" src="{{ asset('imgs/loader.gif') }}" alt="loaderPosts">
     </div>
     <br>
-    <button type="button" class="btn btn-primary btn-lg btn-block" id="nextPosts">Загрузить еще</button>
+    <button type="button" class="btn hoverBtn" id="nextPosts"><span>Загрузить еще</span></button>
     <br><br>
 </div>

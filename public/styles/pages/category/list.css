@@ -16,3 +16,12 @@ tr{
 #formCreateCategory > div{
     margin-bottom: 25px;
 }
+.val_category{
+    position: relative;
+}
+.body_change_category{
+    position: absolute;
+    z-index: 9999;
+    background-color: white;
+    top: 10px;
+}

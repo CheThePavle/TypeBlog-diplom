@@ -67,7 +67,7 @@ class CommentController extends Controller
         ]);
 
         if ($res) {
-            return result(200, "Ответный комментарий добавлен!");
+            return result(200, "Комментарий изменен!");
         } else {
             return result(409, "Что-то пошло не так, невозможно изменить комментарий!");
         }

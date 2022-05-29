@@ -5,8 +5,11 @@
     <meta name='description' content='Профиль пользователя на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='профиль, пользователь, жалоба, посты' />
     <link rel='stylesheet' href='{{ asset('styles/pages/profile.css') }}'>
-    <script src='{{ asset('js/pages/profile.js') }}'></script>
     <link rel='stylesheet' href='{{ asset('styles/components/postLoader.css') }}'>
+@endsection
+
+@section('scripts')
+    <script src='{{ asset('js/pages/profile.js') }}'></script>
 @endsection
 
 @section('content')

@@ -5,6 +5,9 @@
     <meta name='description' content='Теги на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='тег, теги, изменение, удаление' />
     <link rel='stylesheet' href='{{ asset('styles/pages/tag/list.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/tag/list.js') }}'></script>
 @endsection
 
@@ -39,8 +42,8 @@
                                 <td class='publishedTd'><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
                             @endif
                             <td class='body_change_tag'></td>
-                            <td class='deletedTd'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></td>
-                            <td class='deletedTd'><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
+                            <td class='deletedTd'><button type='button' class='btn hoverBtn changed'><span>Изменить</span></button></td>
+                            <td class='deletedTd'><button type='button' class='btn hoverBtn deleted'><span>Удалить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>

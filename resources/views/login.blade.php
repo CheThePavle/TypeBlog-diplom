@@ -5,6 +5,9 @@
     <meta name='description' content='Авторизация на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='авторизация, вход' />
     <link rel='stylesheet' href='{{ asset('styles/pages/login.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/login.js') }}'></script>
 @endsection
 

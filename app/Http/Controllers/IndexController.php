@@ -23,7 +23,7 @@ class IndexController extends Controller
         // request()->get('tag')
         // json_decode(json_encode($getCategory), true)
 
-        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
+        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.body_comment, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
 
         foreach ($getLastComments as &$comment) {
             $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])

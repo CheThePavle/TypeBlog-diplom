@@ -5,9 +5,10 @@ $(function() {
         let timerId = 0;
 
         complaintsHTML.on( "click", ".more", function() {
+            console.log('dad')
             let getId = $(this).data('id');
             $('.row' + getId).toggleClass('collapse');
-            $('.glyphicon' + getId).toggleClass('glyphicon-plus glyphicon-minus');
+            $(this).find('.iconMore').toggleClass('fa-plus fa-minus');
         });
 
         complaintsHTML.on( "click", ".blocked", function() {

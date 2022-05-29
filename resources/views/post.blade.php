@@ -15,10 +15,14 @@
     <meta name='twitter:title' content='{{ $getHeading }}' />
     <meta name='twitter:description' content='{{ $getDescription }}' />
 
-    <script src='{{ asset('libs/EditorJS/editorjs.js') }}'></script>
-
-    <script src='{{ asset('libs/EditorJS/blocks/simple-image.js') }}'></script>
     <link rel='stylesheet' href='{{ asset('libs/EditorJS/blocks/simple-image.css') }}'>
+    <link rel='stylesheet' href='{{ asset('styles/pages/post.css') }}'>
+    <link rel='stylesheet' href='{{ asset('styles/components/comments.css') }}'>
+@endsection
+
+@section('scripts')
+    <script src='{{ asset('libs/EditorJS/editorjs.js') }}'></script>
+    <script src='{{ asset('libs/EditorJS/blocks/simple-image.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/header.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/warning.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/marker.js') }}'></script>
@@ -35,10 +39,7 @@
     <script src='https://yastatic.net/share2/share.js'></script>
     <script src='{{ asset('libs/qrcode/qrcode.min.js') }}'></script>
 
-    <link rel='stylesheet' href='{{ asset('styles/pages/post.css') }}'>
     <script src='{{ asset('js/pages/post.js') }}'></script>
-
-    <link rel='stylesheet' href='{{ asset('styles/components/comments.css') }}'>
 @endsection
 
 @section('content')
@@ -88,13 +89,16 @@
                         <div class="category">
                             @if(count($getCategorys) > 0)
                                 @foreach($getCategorys as $cat)
-                                    @php
-                                        $id = $cat['id_category'];
-                                    @endphp
-                                    <div>
-                                        <input type="radio" class="btn-check" name="category" id='id{{ $id }}' value='{{ $id }}' {{ $id == $idCategory ? 'checked' : '' }}>
-                                        <label class="btn btn-secondary labelCategory" for="id{{ $id }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
-                                    </div>
+                                    @if ($loop->iteration === 2 && $cat['id_category'] === 1)
+                                    @else
+                                        @php
+                                            $id = $cat['id_category'];
+                                        @endphp
+                                        <div>
+                                            <input type="radio" class="btn-check" name="category" id='id{{ $id }}' value='{{ $id }}' {{ $id == $idCategory ? 'checked' : '' }}>
+                                            <label class="btn btn-secondary labelCategory" for="id{{ $id }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
+                                        </div>
+                                    @endif
                                 @endforeach
                             @endif
                         </div>
@@ -132,7 +136,8 @@
                                 <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
                                 <div class="bodyCommentItem">
                                     <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
-                                    <div>{{ $comment['created_at'] }}</div>
+                                    <div>{{ $comment['body_comment'] }}</div>
+                                    <div class="commentDate">{{ $comment['created_at'] }}</div>
                                 </div>
                             </div>
                         @endforeach

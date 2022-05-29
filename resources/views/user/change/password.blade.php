@@ -5,6 +5,9 @@
     <meta name='description' content='Изменение пароля на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пароль, изменение, редактирование, смена' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/change/password.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/change/password.js') }}'></script>
 @endsection
 

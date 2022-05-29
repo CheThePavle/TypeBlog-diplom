@@ -4,6 +4,7 @@ $(function() {
             let th = $(this);
             th.toggleClass('dark');
 
+            let burger = $('.navbar');
             let root = $(':root');
             if (th.hasClass('dark')) {
                 root.css('--bgMenu', '#353535');
@@ -32,6 +33,9 @@ $(function() {
                 root.css('--colorLike', '#00a300');
                 root.css('--colorDislike', '#ff5959');
                 root.css('--colorOdd', '#474747');
+
+                burger.removeClass('navbar-light');
+                burger.addClass('navbar-dark');
 
                 $.ajax({
                     url: '/changeTheme',
@@ -67,6 +71,9 @@ $(function() {
                 root.css('--colorLike', '#79db79');
                 root.css('--colorDislike', '#ff8e8e');
                 root.css('--colorOdd', '#eeeeee');
+
+                burger.removeClass('navbar-dark');
+                burger.addClass('navbar-light');
 
                 $.ajax({
                     url: '/changeTheme',
