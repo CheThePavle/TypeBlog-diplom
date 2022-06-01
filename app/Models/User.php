@@ -68,4 +68,11 @@ class User extends Authenticatable
         $name = UserRole::where('id_role', $idRole)->first();
         return isset($name['name']) ? $name['name'] : 'Неизвестно';
     }
+
+    public function changePassword($password) {
+        User::where('id_user', $this->id_user)
+            ->update([
+                'password' => password_hash($password, PASSWORD_DEFAULT)
+            ]);
+    }
 }

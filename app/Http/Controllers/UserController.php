@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function showResetPassword(Request $request) {
+        return view('user.reset.password');
+    }
+
+    public function resetPassword(Request $request) {
+        $email = correct($request->email);
+
+        $user = User::where('email', $email)
+            ->first();
+        if ($user) {
+            $mailer = new MailerController();
+
+            return redirect(url()->previous())
+                ->with(['msg' => $mailer->resetPasswordEmail($user)]);
+        } else {
+            return redirect(url()->previous())
+                ->with(['error' => 'Ваша почта не найдена']);
+        }
+    }
+
     public function setAvatar(Request $request) {
         if (Auth::check()) {
             $img = $request->file('image');

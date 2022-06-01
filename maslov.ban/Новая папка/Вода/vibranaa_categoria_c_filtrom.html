@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/vibranaa_categoria_c_filtrom.css">
+    <title>Бесплатные объявления</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <!-- Шапка сайта -->
+
+
+<header>
+    <div class="mysor_dla_mob_menu">   
+        <div class="toge_mysor_dla_mob_menu">
+            <div class="mob_menu_c_podcategoriami_dla_small_ekranov">
+            <input class="switcher" id="menu" type="checkbox"/>
+            <label class="open" for="menu">
+                <i class="fa fa-bars"></i>
+            </label>
+                <nav class="mob_menu">
+                    <a href="#" class="vxod_u_registracia">Вход и регистрация</a>
+                    <a href="#" class="razmectit_obiavlenie">Разместить объявление</a> 
+                    <a href="#" class="razmectit_obiavlenie_mob_menu">Разместить объявление</a>
+                <ul>
+                    <li><div data-text="volvo"><p class="prosto">BMW</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Kia</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Toyota</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Hyundai</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Volkswagen</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Mitsubishi</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">Honda</p></div>
+                    </li>
+
+                    <li><div data-text="saab"><p class="prosto">AUDI</p></div>
+
+                    </li>
+                </ul>
+            <label class="close" for="menu">
+            <i class="fa fa-times"></i>
+            </label>
+                </nav>
+            </div>
+            <div class="logotip_saita" onclick="location.href='index.html';">
+                <img src="img/AUTO - копия (2).png" class="logotip_caita"></a></div>
+            <div class="lichniu_kabinet">
+                <a href="registracia.html"><img src=img/profile_121261.png></a>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+    
+<div>
+<div class="mob_menu_c_podcategoriami_dla_big_ekranov">
+<input class="switcher" id="menu" type="checkbox"/>
+  <label class="open" for="menu">
+    <i class="fa fa-bars"></i>
+  </label>
+  <nav class="mob_menu">
+
+    <a href="registracia.html" class="vxod_u_registracia">Вход и регистрация</a>
+    <a href="#" class="razmectit_obiavlenie">Разместить объявление</a> 
+    <label class="close" for="menu">
+      <i class="fa fa-times"></i>
+    </label>
+  </nav>
+  </div>
+  </div> 
+  </div>
+</header>
+
+
+
+
+
+    <div class="content_caita">
+       <div class="poisk">
+            <div>
+                <select>
+                <option class="lybai_categoria">Марка автомобиля</option>
+
+                <option class="glavnaa_categoria" id="BMW">BMW</option>
+
+                <option class="glavnaa_categoria" id="AUDI">AUDI</option>
+
+                <option class="glavnaa_categoria" id="Honda">Honda</option>
+
+                <option class="glavnaa_categoria" id="Toyota">Toyota</option>
+
+                <option class="glavnaa_categoria" id="Hyundai">Hyundai</option>
+
+                <option class="glavnaa_categoria" id="Kia">Kia</option>
+                
+                <option class="glavnaa_categoria" id="Mitsubishi">Mitsubishi</option>
+                
+                <option class="glavnaa_categoria" id="Volkswagen">Volkswwagen</option>
+
+                    </select>
+                </div>
+                <div>
+
+                    <input type="text" name="poisk" placeholder="Поиск по объявлениям">
+                </div>
+                <div>
+                    <input type="submit" value="Найти" class="button_naiti">
+                </div>
+        </div> 
+
+        <div>
+            <h1>Категория которая выбрана на главном сайте</h1>
+        </div>
+
+        <div class="tovari_opredelenoi_categorii">
+        
+            <div class="filtr">
+                <div>
+                        <div class="forma_filtr_cena">
+                        <label>Цена</label>
+                        <br>
+                            <div>
+                            <input type="text" placeholder="Цена от" class="forma_cena_ot" data-max="7">
+                            <input type="text" placeholder="до, руб." class="forma_cena_do" data-max="7">
+                            </div>
+                        </div>
+
+                        <div class="forma_filtr_cena">
+                        <label>Пробег, км</label>
+                        <br>
+                            <div>
+                            <input type="text" placeholder="от 1000" class="forma_probeg_ot" data-max="6">
+                            <input type="text" placeholder="до" class="forma_probeg_do" data-max="6">
+                            </div>
+                        </div>
+                        <label>Год выпуска</label>
+                        <div class="forma_got_vipyska">
+                        <div class="got_vipyska">
+                        <input name="god" class="vibor_goda" onKeyPress=SupressInput(event) list="cities" placeholder="от 1990" id="input"  />
+                            <datalist id="cities">
+                               <option value="1990" />
+                               <option value="1991" />
+                               <option value="1992" />
+                               <option value="1993" />
+                               <option value="1994" />
+                               <option value="1995" />
+                               <option value="1996" />
+                               <option value="1997" />
+                               <option value="1998" />
+                               <option value="1999" />
+                               <option value="2000" />
+                               <option value="2001" />
+                               <option value="2002" />
+                               <option value="2003" />
+                               <option value="2004" />
+                               <option value="2005" />
+                               <option value="2006" />
+                               <option value="2007" />
+                               <option value="2008" />
+                               <option value="2009" />
+                               <option value="2010" />
+                               <option value="2011" />
+                               <option value="2012" />
+                               <option value="2013" />
+                               <option value="2014" />
+                               <option value="2015" />
+                               <option value="2016" />
+                               <option value="2017" />
+                               <option value="2018" />
+                               <option value="2019" />
+                               <option value="2020" />
+                               <option value="2021" />
+                            </datalist>
+                        </div>
+                        <div class="got_vipyska_do">
+                        <input name="god" onKeyPress=SupressInput(event) list="cities" placeholder="до 2021" />
+                            <datalist id="cities">
+                               <option value="1990" />
+                               <option value="1991" />
+                               <option value="1992" />
+                               <option value="1993" />
+                               <option value="1994" />
+                               <option value="1995" />
+                               <option value="1996" />
+                               <option value="1997" />
+                               <option value="1998" />
+                               <option value="1999" />
+                               <option value="2000" />
+                               <option value="2001" />
+                               <option value="2002" />
+                               <option value="2003" />
+                               <option value="2004" />
+                               <option value="2005" />
+                               <option value="2006" />
+                               <option value="2007" />
+                               <option value="2008" />
+                               <option value="2009" />
+                               <option value="2010" />
+                               <option value="2011" />
+                               <option value="2012" />
+                               <option value="2013" />
+                               <option value="2014" />
+                               <option value="2015" />
+                               <option value="2016" />
+                               <option value="2017" />
+                               <option value="2018" />
+                               <option value="2019" />
+                               <option value="2020" />
+                               <option value="2021" />
+                            </datalist>
+                        </div>
+                        </div>
+                        <div>
+                            <input type="button" name="premenit" value="Применить" id="premenit">
+
+                        </div>
+                </div> 
+            </div>
+
+
+
+                <div class="block_vibar">
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 1                   
+                        <br>
+                        Цена</p>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 2<br>
+                        Цена</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 3<br>
+                        Цена</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 4<br>
+                        Цена</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 5<br>
+                        Цена</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 6<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 7<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 8<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 9<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 10<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 11<br>
+                        Цена</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+                    </div>
+                    <div>
+                        <p>Название товара 12<br>
+                        Цена</p>
+                    </div>
+                </div>
+
+
+
+
+
+                </div>
+
+            
+            
+            
+
+        </div>
+
+      <!-- <h1>Все объявления</h1> -->
+<!--       <div class="recomendacii">
+            <div class="filtr">
+                <div class="block_contenta">
+                
+                </div>
+            </div>
+        <div class="recomendaciii">
+
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+
+
+          </div>
+
+        <div class="recomendaciii">
+
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+          <div>
+              <div>
+                  <img src="img/Просто картинка.jpg" alt="kartinka_tovara" class="kartinka_tovara">
+              </div>
+              <div>
+                  <p>Название товара <br>
+                  Цена</p>
+              </div>
+          </div>
+
+
+          </div>
+
+      </div> -->
+
+    </div>
+
+
+    <script type="text/javascript" src="JS/jquery.min.js"></script>
+    <script type="text/javascript" src="JS/main.js"></script>
+
+
+    <!-- Дно сайта -->
+    <footer>
+        <div>
+        <div class="categorii_footer">
+            <div class="block1_footer">
+                <div>
+                    <div>
+                        <div><p>Транспорт</p></div>
+                    </div>
+                    <div>
+                        <div><p>Недвижимость</p></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div><p>Личные вещи</p></div>
+                    </div>
+                    <div>
+                        <div><p>Для дома и дачи</p></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div><p>Электроника</p></div>
+                    </div>
+                    <div>
+                        <div><p>Хобби и отдых</p></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div><p>Электроника</p></div>
+                    </div>
+                    <div>
+                        <div><p>Хобби и отдых</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <nav class="footer_mob_menu">
+                <a href="#">Вход и регистрация</a>
+                <br>    
+                <a href="#">Разместить объявление</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

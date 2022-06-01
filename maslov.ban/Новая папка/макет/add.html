@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="assets/css/index.css">
+    <script async src="assets/js/jquery.min.js"></script>
+    <script async src="assets/js/add.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/img/logo.png" alt="logo" class="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html">Вход</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.html">Регистрация</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn" href="add.html">Разместить объявление</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container py-5 px-4">
+            <h2 class="text-center mb-4">Создание объявления</h2>
+            <div>
+                <ul class="progressbar">
+                    <li class="active step">Шаг 1 «Основное»</li>
+                    <li class="step">Шаг 2 «Цена и пр.»</li>
+                    <li class="step">Шаг 3 «Красивые фотографии автомобиля»</li>
+                </ul>
+            </div>
+            <br><br><br>
+            <form id="adAddForm" class="mx-auto" action="#">
+                <div class="tab">
+                    <h3>Шаг 1 «Основное»</h3>
+                    <p><input class="required" placeholder="обязательное поле" oninput="this.className = ''"></p>
+                    <div class="row">
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="form-floating mt-4">
+                                <select class="form-select" id="test1" name="test1">
+                                    <option value="0" selected>Новые</option>
+                                    <option value="1">Старые</option>
+                                </select>
+                                <label for="test1">Сначала</label>
+                            </div>
+                            <div class="form-floating m-1">
+                                <input type="email" class="form-control" id="test3" placeholder="1">
+                                <label for="test3">До</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="form-floating mt-4">
+                                <select class="form-select" id="test2" name="test2">
+                                    <option value="0" selected>Новые</option>
+                                    <option value="1">Старые</option>
+                                </select>
+                                <label for="test2">Сначала</label>
+                            </div>
+                            <div class="form-floating m-1">
+                                <input type="email" class="form-control" id="test4" placeholder="1">
+                                <label for="test4">До</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab">
+                    <h3>Шаг 2 «Цена и пр.»</h3>
+                    <p>Какие-то поля</p>
+                </div>
+
+                <div class="tab">
+                    <h3>Шаг 3 «Красивые фотографии автомобиля»</h3>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Default file input example</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>
+                </div>
+
+                <div style="overflow:auto;">
+                    <div style="float:right;">
+                        <button type="button" class="btn" id="prevBtn" onclick="nextPrev(-1)">Назад</button>
+                        <button type="button" class="btn" id="nextBtn" onclick="nextPrev(1)">Вперед</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container text-center py-4">
+            <div class="row">
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+                <div class="col-sm-6 col-xl-3 mb-3">
+                    <a href="#">BMW</a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <a href="#">Вход</a>
+                    <a href="#">Регистрация</a>
+                </div>
+                <div>
+                    <a href="#">Разместить объявление</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

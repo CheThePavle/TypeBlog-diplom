@@ -1,0 +1,595 @@
+@font-face {
+    font-family: 'helvetica';
+    src: url("../fonts/helvetica_cyr_boldoblique.ttf");
+}
+
+/*Обнуление стилей*/
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/*Шапка сайта*/
+
+
+header{
+    box-shadow: 1px 1px 10px;
+}
+
+.mysor_dla_mob_menu{
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;;
+}
+
+
+
+.vxod_u_registracia{
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    
+}
+
+.razmectit_obiavlenie{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 15px;
+    background-color: rgb(126,218,87);
+    border-radius: 5px;
+
+}
+
+.razmectit_obiavlenie:hover{
+    background-color: rgb(154, 190, 0);
+    
+}
+
+
+.logotip_saita{
+    cursor: pointer;
+}
+
+/*Мобильное меню*/
+
+.switcher{
+  position: absolute;
+  visibility: hidden;
+  left: -9999px;
+}
+
+.open, .close{
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+.mob_menu > ul {
+  list-style-type: none;
+  display: flex;
+
+}
+
+.mob_menu > ul > li > a{
+  display: block;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 15px;
+  transition: .4s;
+}
+
+.categoria1{
+    text-decoration: none;
+}
+
+
+
+.mob_menu > ul > li > a:hover{
+    color: #3498db;
+}
+
+@media screen and (max-width:480px){
+    .open,.close{
+        display: block;
+        max-width:480px;
+    }
+
+    .close{
+        position: absolute;
+        top: 40px;
+        right: 40px;
+    }
+
+    .switcher:checked ~ nav{
+        left: 0;
+    }
+
+    .mob_menu{
+        position: fixed;
+        width: 50%;
+        height: 100vh;
+        background: linear-gradient(180deg, #00537e, #3aa17e);
+        top: 0;
+        right: -100%;
+        text-align: center;
+        padding: 100px 0;
+        transition: .7s
+    }
+
+    .mob_menu > ul{
+        margin-top: 10px;
+        flex-direction: column;
+
+    } 
+
+    .mob_menu > ul > li > a{
+        padding: 15px 0px 10px 10px;
+        font-size: 18px;
+        color: white;
+    }     
+
+    .mob_menu > ul > li > a:hover{
+        background-color: rgba(255,255,255,.03);
+    }
+
+    header > div > {
+        min-height: 100px;
+        background: linear-gradient(-45deg, #063f5d, #197330);
+        padding: 0 18px;
+
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 3px 8px 0px rgba(169, 169, 169, 0.99);
+        border-bottom: 3px solid;
+        border-color: #e8e8e8;    
+    }
+
+    header > div > div{
+
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+   
+    }
+}
+
+/*Было здесь*/
+
+/*Контент сайта*/
+
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content_caita{
+    flex-grow: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*Форма поиска*/
+.poisk{
+    margin-left: 200px;
+    max-width: 600px;
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(126, 218, 87);
+    height: 50px;
+    border-radius: 7px;
+    
+}
+
+
+.poisk > div > select,input[type="text"],input[type="submit"]{
+    margin-top: 5px;
+    display: block;
+    min-width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border-left: 3px solid rgb(126, 218, 87); 
+    outline: none;
+}
+
+.poisk > div > input[type="text"]{
+    min-width: 470px;
+    padding: 10.5px;
+}
+
+.button_naiti{
+    background-color: rgb(126, 218, 87);
+    min-width: 50px;
+    color: white;
+    cursor: pointer;
+}
+
+.lybai_categoria{
+    color: gray;
+}
+
+.glavnaa_categoria{
+    background-color: #8cba2d;
+    
+}
+
+.categorii{
+  margin-top: 15px;
+  margin: 5px;
+  margin-bottom: 20px;
+}
+
+.block1{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  height: 180px  
+
+}
+
+.block1 > div{
+  /*width: 47%;*/
+  padding: 10px;
+  max-width: 300px;
+  height: 100px;
+}
+
+.block1 > div > div {
+  padding: 10px;
+  font-size: 18px;
+}
+
+.block1 > div > div > div{
+    display: flex;
+}
+
+.block1 > div > div > div > p{
+    margin: 25px 0 0 10px;
+}
+
+.vibor_categorii{
+    border-radius: 5px;
+
+}
+
+.vibor_categorii > div > img{
+    
+    
+}
+
+.vibor_categorii:hover{
+ cursor: pointer;
+ background-color: rgb(126, 218, 87);
+ transition: 0.9s all;
+
+
+}
+
+/*Рекомендуемые объявления*/
+.recomendacii > div{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.recomendacii > div > div{
+    max-width: 240px;
+    border: 1px solid silver;
+    margin-right: 10px;
+    margin-bottom: 25px;
+}
+
+.recomendacii > div > div > div > div > p{
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.infa_tovara{
+    display: flex;
+}
+
+.kartinka_tovara{
+    width: 100%;
+    height: 200px;
+}
+
+.fa-heart-o{
+    margin-left: 75px;
+    color: blue;
+    cursor: pointer;
+
+}
+
+
+ul{
+    position: relative;
+    list-style-type: none;
+    
+    width: 200px;
+    padding:0;
+    line-height: 1.5;
+    margin-left: 20px;
+}
+
+
+ul ul{
+  width: 200px;
+  position: absolute;
+  left: 185px;
+  background-color: green;
+  margin-top: -6px;
+  display: none;
+}
+
+ul > li:hover  ul {
+  display: block;
+  background-color: grey;
+  
+}
+
+ul > li:hover > div{
+  background-color: orange;
+}
+
+ul > li:hover  ul > li:hover{
+  background-color: orange;
+  -webkit-transition: background-color 0.5s linear;
+}
+
+ul li{
+  cursor:pointer;
+}
+
+.podcategoria > li:hover{
+    background-color: silver;
+}
+
+.tovar:hover{
+    box-shadow: 0px 0px 10px 1px #000000;
+    cursor: pointer;
+    transition: 0.9s;
+}
+
+/*Адаптация под ПК*/
+
+@media screen and (max-width:4600px){
+    .lichniu_kabinet{
+        display: none;
+    }
+
+    .mob_menu > ul > li {
+        display: none;
+    }
+
+
+    .razmectit_obiavlenie_mob_menu{
+        display: none;
+    }
+
+    .mob_menu_c_podcategoriami_dla_small_ekranov{
+        display: none;
+    }
+}
+
+/*Адаптация под телефон*/
+
+@media screen and (max-width:480px){
+
+    .content_caita{
+        background-color: rgb(248, 248, 248);
+        max-width: 480px;
+    }
+
+    body{
+        display: flex;
+    }
+
+    footer{
+        max-width: 480px;
+    }
+
+    .vxod_u_registracia{
+        display: none;
+    }    
+    .razmectit_obiavlenie{
+        display: none;
+    } 
+    .poisk > div > select{
+        display: none;
+      
+    }
+    .vibor_goroda{
+        display: none;
+     
+    }
+
+    .recomendacii{
+        max-width: 840px;
+
+    }
+
+    .razmectit_obiavlenie_mob_menu{  
+        display: flex;
+        text-decoration: none;
+        max-width: 190px;
+        margin-left: 10px;
+        color: white;
+        font-size: 18px;
+        padding: 10px 15px;
+        background-color: rgb(154, 205, 0);
+        border-radius: 5px;
+    }
+
+    .razmectit_obiavlenie_mob_menu:hover{
+        background-color: rgb(154, 190, 0);
+    }
+
+    .recomendacii > div > div{
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 230px;
+        margin-left: 7px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 1px 1px 5px silver;
+        margin-right: 0;
+        
+    }
+
+    .kartinka_tovara{
+        width: 100%;
+        height: 200px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .categorii{
+        display: none;
+    }
+
+    .categorii_footer{
+        display: none;
+    }
+
+    .footer_mob_menu{
+        display: block;
+    }
+
+    .poisk{
+        justify-content: flex-start;
+        margin: 0px 5px 0px 5px;
+    }
+
+    .poisk > div > input[type="text"]{
+        background-image: url(img/icons8-search-32.png);
+        background-repeat: no-repeat;
+        background-position: left;
+        min-width: 420px;
+        padding-left: 33px;
+    }
+
+    .poisk > div > input[type="submit"]{
+        display: none;
+    }
+
+    .logotip_caita{
+        text-align: center;
+        margin: 0px 70px 0px 51px;
+    }
+
+    .lichniu_kabinet{
+        display: block;
+    }
+
+    .mob_menu > ul > li {
+        margin-top: 10px;
+        display: flex;
+        padding: 5px 10px;
+        border: 1px solid white;
+        border-radius: 5px;
+        background-color: #003366;
+        color: white;
+        font-size: 18px;
+    }
+
+    .prosto{
+        background-color: #003366;
+    }
+
+
+    .kartinka_categorii_mob_menu{
+        margin-left: 10px;
+    }
+
+    .mob_menu_c_podcategoriami_dla_big_ekranov{
+        display: none;
+    }
+
+    .mob_menu_c_podcategoriami_dla_small_ekranov{
+        display: block;
+    }
+
+    .izbranoe{
+        width: 25px;
+        height: 20px;
+        padding: 0;
+        background: url(https://img.icons8.com/material-outlined/24/26e07f/like--v1.png);
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+}
+
+/*Страница с выбраным товаром*/
+
+/*Дно сайта*/
+
+footer{
+    background-color: #954286;
+    color: #fbe786;
+    
+}
+
+footer > div{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+footer > div > nav{
+    display: block;
+    text-align: center;
+}
+
+footer > div > nav > a{
+    text-decoration: none;
+    color: #fbe786;
+    font-size: 18px;
+    margin: 20px;
+}
+
+.categorii_footer{
+  margin-top: 15px;
+  margin: 5px;
+  margin-bottom: 20px;
+}
+
+.block1_footer{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  
+
+}
+
+.block1_footer > div{
+  /*width: 47%;*/
+  padding: 10px;
+}
+
+.block1_footer > div > div {
+  padding: 10px;
+  font-size: 18px;
+}
+
+.block1_footer > div > div > div{
+    display: flex;
+}
+
+.block1_footer > div > div > div > p{
+    margin: 15px 0 0 10px;
+}
+
+.block1_footer > div > div > div > p:hover{
+    cursor: pointer;
+}

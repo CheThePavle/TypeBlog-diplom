@@ -12,9 +12,6 @@
 @endsection
 
 @section('content')
-{{--    <div id='stars'></div>--}}
-{{--    <div id='stars2'></div>--}}
-{{--    <div id='stars3'></div>--}}
 
     <form id="formReg">
         <h1 class="text-center">Регистрация</h1>
