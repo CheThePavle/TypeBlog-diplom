@@ -64,19 +64,19 @@
 
     <footer>
         <div class="container text-center">
-            Copyright ©2022 All rights reserved | Сайт разработал Чикуров Павел, гр. ИС-18
+            Copyright ©2022 All rights reserved | Email: typeblog@yandex.ru | Сайт разработал Чикуров Павел, гр. ИС-18
         </div>
     </footer>
 
-    <div class="preloader">
-        <div class="preloader__row">
-            <div class="preloader__item"></div>
-            <div class="preloader__item"></div>
-        </div>
-    </div>
+{{--    <div class="preloader">--}}
+{{--        <div class="preloader__row">--}}
+{{--            <div class="preloader__item"></div>--}}
+{{--            <div class="preloader__item"></div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <script src="{{ asset('libs/jQuery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/loader.js') }}"></script>
+{{--    <script src="{{ asset('js/loader.js') }}"></script>--}}
     <script src="{{ asset('js/functions/normalizeSpace.js') }}"></script>
     <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.js') }}"></script>
     <script src="{{ asset('public/js/index.js') }}"></script>

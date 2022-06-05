@@ -67,6 +67,8 @@
                                         </div>
                                     @endif
                                 @endforeach
+                            @else
+                                <div>Категорий пока нету</div>
                             @endif
                         </div>
                     </div>
@@ -92,6 +94,8 @@
                                             echo "<li><input name='tag[]' type='checkbox' id='idT$idTag' $checked value='$idTag'><label class='labelTag' for='idT$idTag'> $nameTag</label></li>";
                                         }
                                     @endphp
+                                @else
+                                    <div>Тегов пока нету</div>
                                 @endif
                             </ul>
                         </div>
@@ -148,16 +152,20 @@
                 <div class="sidebarItem">
                     <h5>Последние комментарии</h5>
                     <div>
-                        @foreach($getLastComments as $comment)
-                            <div class="commentItem">
-                                <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
-                                <div class="bodyCommentItem">
-                                    <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
-                                    <div>{{ $comment['body_comment'] }}</div>
-                                    <div class="commentDate">{{ $comment['created_at'] }}</div>
+                        @if (count($getLastComments) > 0)
+                            @foreach($getLastComments as $comment)
+                                <div class="commentItem">
+                                    <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
+                                    <div class="bodyCommentItem">
+                                        <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
+                                        <div>{{ $comment['body_comment'] }}</div>
+                                        <div class="commentDate created_at">{{ $comment['created_at'] }}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            <div>Комментариев пока нету</div>
+                        @endif
                     </div>
                 </div>
             </div>

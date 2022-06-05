@@ -16,7 +16,7 @@ $(function() {
             activeBtn(false);
 
             if (val?.length  < 6) {
-                errorHeading.html('<div class="alert alert-warning">Название не может быть меньше 6 символов!</div>')
+                errorHeading.html('<div class="alert alert-warning noAnime">Название не может быть меньше 6 символов!</div>')
                 activeBtn(true);
             }
         })
@@ -30,7 +30,7 @@ $(function() {
             activeBtn(false);
 
             if (val?.length  < 20) {
-                errorDescription.html('<div class="alert alert-warning">Описание не может быть меньше 20 символов!</div>')
+                errorDescription.html('<div class="alert alert-warning noAnime">Описание не может быть меньше 20 символов!</div>')
                 activeBtn(true);
             }
         })

@@ -137,7 +137,7 @@
                                 <div class="bodyCommentItem">
                                     <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
                                     <div>{{ $comment['body_comment'] }}</div>
-                                    <div class="commentDate">{{ $comment['created_at'] }}</div>
+                                    <div class="commentDate created_at">{{ $comment['created_at'] }}</div>
                                 </div>
                             </div>
                         @endforeach

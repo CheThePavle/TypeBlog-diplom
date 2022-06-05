@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="btnPost">
-                    @if($getPostInfo['id_status'] == 4)
+                    @if($getPostInfo['id_status'] == 3 || $getPostInfo['id_status'] == 4)
                         <button type="submit" class="btn hoverBtn btnSend"><span>Отправить</span></button>
                         <button type="submit" class="btn hoverBtn btnDraftOrChange"><span>Сохранить</span></button>
                     @else

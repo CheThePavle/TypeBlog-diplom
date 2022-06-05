@@ -20,7 +20,7 @@
             <x-panel-lk />
 
             <div class="table-responsive">
-                <table class="table table-striped body_posts">
+                <table class="table table-striped body_posts minWTable">
                     <thead>
                     <tr>
                         <th scope="col">Id поста</th>
@@ -38,14 +38,17 @@
                             <th scope='row'><a href='{{ route('post', ['id' => $list['id_post']]) }}' target='_blank'>{{ $list['id_post'] }}</a></th>
                             <td>{{ $list['heading'] }}</td>
                             <td><a href='{{ route('profile', ['id' => $list['id_user']]) }}' target='_blank'>{{ $list['login'] }}</a></td>
-                            <td>{{ $list['created_at'] }}</td>
-                            <td><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
-                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></a></td>
-                            <td><button type='button' class='btn hoverBtn btn-warning rejected'><span>Отклонить</span></button></td>
+                            <td class="created_at">{{ $list['created_at'] }}</td>
+                            <td><button type='button' class='btn hoverBtn published'><span>Опубликовать</span></button></td>
+                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn changed'><span>Изменить</span></button></a></td>
+                            <td><button type='button' class='btn hoverBtn rejected'><span>Отклонить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                @if (count($getList) < 1)
+                    <div class="text-center">Посты не найдены</div>
+                @endif
             </div>
         </div>
 

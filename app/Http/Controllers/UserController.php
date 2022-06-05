@@ -74,7 +74,7 @@ class UserController extends Controller
 
             $id = Auth::user()->id_user;
 
-            DB::update("UPDATE `user` SET `folder` = ?, `img_type` = ? WHERE `user`.`id_user` = ?;", [$uniqUrl, $typeImg, $id]);
+            DB::update("UPDATE `user` SET `folder` = ?, `img_type` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [$uniqUrl, $typeImg, date("Y-m-d H:i:s"), $id]);
 
             return result(200, "Аватар успешно изменен");
         } else {
@@ -95,7 +95,7 @@ class UserController extends Controller
                 return result(409, "Что-то пошло не так, пользователь не найден!");
             }
 
-            $res = DB::update("UPDATE `user` SET `blocked` = ? WHERE `user`.`id_user` = ?;", [1, $idUser]);
+            $res = DB::update("UPDATE `user` SET `blocked` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [1, date("Y-m-d H:i:s"), $idUser]);
             if ($res) {
                 return result(200, "Пользователь заблокирован!");
             }
@@ -118,7 +118,7 @@ class UserController extends Controller
                 return result(409, "Что-то пошло не так, пользователь не найден!");
             }
 
-            $res = DB::update("UPDATE `user` SET `blocked` = ? WHERE `user`.`id_user` = ?;", [0, $idUser]);
+            $res = DB::update("UPDATE `user` SET `blocked` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [0, date("Y-m-d H:i:s"), $idUser]);
             if ($res) {
                 return result(200, "Пользователь разблокирован!");
             }
@@ -145,8 +145,9 @@ class UserController extends Controller
                 return result(409, "Пользователь не найден!");
             }
 
-            $change = DB::update("UPDATE `user` SET `id_role` = ? WHERE `user`.`id_user` = ?", [
+            $change = DB::update("UPDATE `user` SET `id_role` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?", [
                 $idRole,
+                date("Y-m-d H:i:s"),
                 $idUser
             ]);
             if (!$change) {
@@ -217,7 +218,7 @@ class UserController extends Controller
             DB::delete("DELETE FROM `user_complaint` WHERE `user_complaint`.`id_complaint` = ?;", [$el['id_complaint']]);
         }
 
-        $block = DB::update("UPDATE `user` SET `blocked` = ? WHERE `user`.`id_user` = ?;", [1 ,$check[0]['id_accused']]);
+        $block = DB::update("UPDATE `user` SET `blocked` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [1 ,date("Y-m-d H:i:s"), $check[0]['id_accused']]);
         if ($block) {
             return result(200, "Пользователь заблокирован!");
         }
@@ -289,7 +290,7 @@ class UserController extends Controller
 
         if (password_verify($oldPassword, $check[0]['password'])) {
             $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-            $change = DB::update("UPDATE `user` SET `password` = ? WHERE `user`.`id_user` = ?;", [$newPassword ,$idUser]);
+            $change = DB::update("UPDATE `user` SET `password` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [$newPassword, date("Y-m-d H:i:s"), $idUser]);
             if (!$change) {
                 return result(409, "Что-то пошло не так, пароль не изменен");
             }
@@ -324,8 +325,9 @@ class UserController extends Controller
         }
 
         if ($check[0]['email'] == $changeEmail) {
-            $res = DB::update("UPDATE `user` SET `about` = ? WHERE `user`.`id_user` = ?;", [
+            $res = DB::update("UPDATE `user` SET `about` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [
                 $changeAbout,
+                date("Y-m-d H:i:s"),
                 $idUser
             ]);
             if (!$res) {
@@ -338,9 +340,10 @@ class UserController extends Controller
             ]);
 
             if (!$checkEmail) {
-                $res = DB::update("UPDATE `user` SET `email` = ?, `about` = ? WHERE `user`.`id_user` = ?;", [
+                $res = DB::update("UPDATE `user` SET `email` = ?, `about` = ?, `updated_at` = ? WHERE `user`.`id_user` = ?;", [
                     $changeEmail,
                     $changeAbout,
+                    date("Y-m-d H:i:s"),
                     $idUser
                 ]);
                 if (!$res) {
@@ -374,8 +377,8 @@ class UserController extends Controller
         if (!$idUserAccused) {
             return result(409, "Что-то пошло не так, обвиняемый пользователь не найден!");
         }
-        if ($idUserAccused === $idUserWitness) {
-            return result(409, "Жаловаться на себя же нельзя :)");
+        if ($idUserAccused == $idUserWitness) {
+            return result(409, "Жаловаться на самого себя нельзя :)");
         }
 
         $check = DB::select("SELECT id_complaint FROM user_complaint WHERE id_accused = ? AND id_witness = ?;", [
@@ -387,10 +390,11 @@ class UserController extends Controller
             return result(409, "Жалобу можно отправлять один раз на одного пользователя");
         }
 
-        $res = DB::insert("INSERT INTO `user_complaint` (`id_accused`, `id_witness`, `body_complaint`) VALUES (?, ?, ?);", [
+        $res = DB::insert("INSERT INTO `user_complaint` (`id_accused`, `id_witness`, `body_complaint`, `created_at`) VALUES (?, ?, ?, ?);", [
             $idUserAccused,
             $idUserWitness,
-            $body_complaint
+            $body_complaint,
+            date("Y-m-d H:i:s")
         ]);
 
         if ($res) {
@@ -498,15 +502,6 @@ class UserController extends Controller
                     return result(409, "Ваш аккаунт был заблокирован :(");
                 }
 
-                //TODO fixme задать время жизни?
-//                if ($checkbox) {
-//                    session_destroy();
-//                    ini_set('session.gc_maxlifetime', 2678400);
-//                    ini_set('session.cookie_lifetime', 2678400);
-//                    session_start();
-//                }
-//                config(['session.lifetime' => 1]);
-
                 Auth::login(User::where('id_user', $res[0]['id_user'])->first());
                 $request->session()->regenerate();
 
@@ -570,12 +565,13 @@ class UserController extends Controller
             return result(409, "Вы не согласились с пользовательским соглашением!");
         }
 
-        $res = DB::insert("INSERT INTO `user` (`email`, `login`, `password`, `about`, `updated_at`) VALUES (?, ?, ?, ?, ?);",
+        $res = DB::insert("INSERT INTO `user` (`email`, `login`, `password`, `about`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?);",
             [
                 $email,
                 $login,
                 $password,
                 $about,
+                date("Y-m-d H:i:s"),
                 NULL
             ]);
 

@@ -15,7 +15,6 @@ class ProfileController extends Controller
             return to_route('error', ['number' => 404]);
         }
 
-        //fixme
         $getUser['img_url'] = isset($getUser['folder']) && isset($getUser['img_type'])
             ? route('/') . '/storage/data/users/' . $getUser['folder'] . '/' . 'avatar.' . $getUser['img_type']
             : '/public/imgs/profile.png';

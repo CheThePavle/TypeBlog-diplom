@@ -29,7 +29,7 @@
         </div>
 
         <div>
-            <button id="btn-auth" class="btn hoverBtn">Восстановить пароль</button>
+            <button type="submit" class="btn hoverBtn">Восстановить пароль</button>
         </div>
 
         <div class="text-center">

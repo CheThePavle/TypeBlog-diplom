@@ -1,12 +1,16 @@
 tr{
     word-break: break-word;
 }
+.body_val_tag{
+    position: relative;
+}
 .body_change_tag {
-    max-width: 161px
+    position: absolute;
+    z-index: 9999;
+    max-width: 161px;
+    top: 10px;
 }
-#btn_send_tag_change_closed{
-    margin-right: 10px;
-}
-.clearfix{
-    margin-top: 10px;
+.body_change_tag button{
+    width: 100%;
+    margin-top: 5px;
 }

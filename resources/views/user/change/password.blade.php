@@ -47,11 +47,11 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn hoverBtn btn-success btn_change_password"><span>Изменить</span></button>
+                    <button type="submit" class="btn hoverBtn btn_change_password"><span>Изменить</span></button>
                 </div>
+
+                <div class="msg"></div>
             </form>
-            <br>
-            <div class="msg"></div>
         </div>
     </div>
 

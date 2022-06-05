@@ -9,18 +9,18 @@ $(function() {
         $("#newPassword").keyup(function () {
             let oldVal = $("#oldPassword").val();
             let val = $(this).val();
-            $(this).val(normalizeSpace(val));
+            $(this).val(val.replace(/\s/g, ''));
             let errorNewPassword = $(".errorNewPassword");
 
             errorNewPassword.html('');
             activeBtn(false);
 
             if (oldVal === val) {
-                errorNewPassword.html('<div class="alert alert-warning">Новый пароль не может совпадать со старым паролем!</div>')
+                errorNewPassword.html('<div class="alert alert-warning noAnime">Новый пароль не может совпадать со старым паролем!</div>')
                 activeBtn(true);
             }
             if (val?.length  < 6) {
-                errorNewPassword.html('<div class="alert alert-warning">Новый пароль не может быть меньше 6 символов!</div>')
+                errorNewPassword.html('<div class="alert alert-warning noAnime">Новый пароль не может быть меньше 6 символов!</div>')
                 activeBtn(true);
             }
         })
@@ -28,14 +28,14 @@ $(function() {
         $("#newPassword2").keyup(function () {
             let val = $("#newPassword").val();
             let val2 = $(this).val();
-            $(this).val(normalizeSpace(val2));
+            $(this).val(val2.replace(/\s/g, ''));
             let errorNewPassword2 = $(".errorNewPassword2");
 
             errorNewPassword2.html('');
             activeBtn(false);
 
             if (val !== val2) {
-                errorNewPassword2.html('<div class="alert alert-warning">Повторный новый пароль не совпадает с новым паролем!</div>')
+                errorNewPassword2.html('<div class="alert alert-warning noAnime">Повторный новый пароль не совпадает с новым паролем!</div>')
                 activeBtn(true);
             }
         })

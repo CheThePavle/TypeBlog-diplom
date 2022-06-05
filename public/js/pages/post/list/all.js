@@ -4,6 +4,11 @@ $(function() {
         let notify = $(".notify");
         let timerId = 0;
 
+        let created_at = document.querySelectorAll('.created_at');
+        created_at.forEach((el) => {
+            el.innerHTML = new Date(el.innerHTML + ' UTC').toLocaleString();
+        })
+
         postsHTML.on( "click", ".published", function() {
             let getHTML = $(this).closest('.id_post');
             let id = getHTML.data('id');
@@ -17,7 +22,7 @@ $(function() {
                 success: function (d) {
                     clearTimeout(timerId);
                     let btnChange = getHTML.find(".publishedTd");
-                    btnChange.html("<button type='button' class='btn btn-warning rejected'>Отклонить</button>");
+                    btnChange.html("<button type='button' class='btn hoverBtn rejected'><span>Отклонить</span></button>");
                     btnChange.toggleClass("publishedTd rejectedTd");
                     notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
                     timerId = setTimeout(function () {
@@ -46,7 +51,7 @@ $(function() {
                 success: function (d) {
                     clearTimeout(timerId);
                     let btnChange = getHTML.find(".rejectedTd");
-                    btnChange.html("<button type='button' class='btn btn-success published'>Опубликовать</button>");
+                    btnChange.html("<button type='button' class='btn hoverBtn published'><span>Опубликовать</span></button>");
                     btnChange.toggleClass("rejectedTd publishedTd");
                     notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
                     timerId = setTimeout(function () {

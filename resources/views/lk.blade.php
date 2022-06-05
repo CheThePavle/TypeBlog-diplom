@@ -36,7 +36,7 @@
                         <h3>{{ auth()->user()->login }}</h3>
                         <p>{{ auth()->user()->getRoleRus() }}</p>
                         <div class="change_info">
-                            <p class="emailField"><i class="fa fa-envelope" aria-hidden="true"></i> {{ $getInfoUser[0]['email'] }}</p>
+                            <p><i class="fa fa-envelope" aria-hidden="true"></i> <span class="emailField">{{ $getInfoUser[0]['email'] }}</span></p>
                             <p class="aboutField">{{ $getInfoUser[0]['about'] }}</p>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ $(function() {
 
             change_info.html("");
             change_info.html(`
-                <p class="emailField">${valEmail}</p>
+                <p><i class="fa fa-envelope" aria-hidden="true"></i> <span class="emailField">${valEmail}</span></p>
                 <p class="aboutField">${valAbout}</p>
             `);
         });
@@ -67,7 +67,7 @@ $(function() {
                     valEmail = d?.result?.data?.email;
                     valAbout = d?.result?.data?.about;
                     change_info.html(`
-                        <p class="emailField">${valEmail}</p>
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> <span class="emailField">${valEmail}</span></p>
                         <p class="aboutField">${valAbout}</p>
                     `);
                     notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
@@ -197,7 +197,7 @@ $(function() {
                                                 <img src="${el?.img_url}" alt="${el?.heading}">
                                             </div>
                                         `}
-                                        <div class="date">${el?.created_at}</div>
+                                        <div class="date">${new Date(el?.created_at + ' UTC').toLocaleString()}</div>
                                         <h3 class="titlePost">${el?.heading}</h3>
                                     </div>
                                     <div>
@@ -210,7 +210,7 @@ $(function() {
                                         </div>
                                         ${strTags && `<p class="tagsPost">Теги: ${strTags}</p>`}
                                         <a href="/post/${el?.id_post}" class="btn hoverBtn readPost" target="_blank"><span>Посмотреть</span></a>
-                                        ${el?.id_status == 4 ? `<a href="/post/change/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Изменить</span></a>` : ''}
+                                        ${el?.id_status == 4 || el?.id_status == 3 ? `<a href="/post/change/${el?.id_post}" class="btn hoverBtn" target="_blank"><span>Изменить</span></a>` : ''}
                                     </div>
                                 </div>
                             `);

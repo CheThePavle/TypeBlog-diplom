@@ -4,6 +4,11 @@ $(function() {
         let notify = $(".notify");
         let timerId = 0;
 
+        let created_at = document.querySelectorAll('.created_at');
+        created_at.forEach((el) => {
+            el.innerHTML = new Date(el.innerHTML + ' UTC').toLocaleString();
+        })
+
         complaintsHTML.on( "click", ".more", function() {
             console.log('dad')
             let getId = $(this).data('id');

@@ -24,7 +24,7 @@ class TagController extends Controller
         $idPost = correct($request->id);
         $infoPost = DB::select("SELECT id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
 
-        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && $infoPost[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && ($infoPost[0]['id_status'] == 3 || $infoPost[0]['id_status'] == 4)) || Auth::user()->isModerOrAdmin()) {
             $res = DB::select("SELECT t.name_tag FROM post_tag as pt JOIN tag as t ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$idPost]);
 
             return result(200, "", $res);

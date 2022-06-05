@@ -8,6 +8,11 @@ $(function() {
         let postsHTML = $('.posts');
         let loadPost = true;
 
+        let created_at = document.querySelectorAll('.created_at');
+        created_at.forEach((el) => {
+            el.innerHTML = new Date(el.innerHTML + ' UTC').toLocaleString();
+        })
+
         $(".reset_btn").click(function () {
             window.location.href = '/';
         });
@@ -64,7 +69,7 @@ $(function() {
                                             <img src="${el?.img_url}" alt="${el?.heading}">
                                         </div>
                                     `}
-                                    <div class="date">${el?.created_at}</div>
+                                    <div class="date">${new Date(el?.created_at + ' UTC').toLocaleString()}</div>
                                     <h3>${el?.heading}</h3>
                                     <div class="meta">
                                         <div><i class="fa-solid fa-user"></i> <a href="/profile/${el?.id_creator}">${el?.user_login}</a></div>
