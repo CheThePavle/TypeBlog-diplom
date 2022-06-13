@@ -61,7 +61,23 @@ $(function() {
                 "|", "{", "}", "[", "]", "\\", "\'", "<", ">", ",", ".", "/"],
             "tag-char": "#"
         };
-        $("#tagBox").tagging(myOptionsTagging);
+        let tagBox = $("#tagBox");
+
+        const validateTags = () => {
+            let getLengthTags = $('#tagBox .tag').length;
+            if (getLengthTags > 10) {
+                clearTimeout(timerId);
+                let value = $('#tagBox .tag:last input').val();
+                tagBox.tagging( "remove", value);
+                let errorTags = $(".errorTags");
+                errorTags.html('<div class="alert alert-warning">Можно задать не более 10 тегов!</div>');
+                timerId = setTimeout(() => {
+                    errorTags.html('')
+                }, 3000)
+            }
+        }
+
+        tagBox.tagging(myOptionsTagging);
         $(".type-zone").keyup(function (e) {
             if (e.key === 'б' && this.value.length === 0) {
                 this.value = 'б'
@@ -69,19 +85,20 @@ $(function() {
                 this.value = 'Б'
             }
 
-            let getLengthTags = $('#tagBox .tag').length;
-            if (getLengthTags > 10) {
-                clearTimeout(timerId);
-                $('#tagBox .tag:last').remove();
-                let errorTags = $(".errorTags");
-                errorTags.html('<div class="alert alert-warning">Можно задать не более 10 тегов!</div>');
-                timerId = setTimeout(() => {
-                    errorTags.html('')
-                }, 3000)
-            }
+            validateTags();
         })
         $('.type-zone').on('keyup paste', function() {
             $(this).val(function(i, value) { return value.substr(0, 25); });
+        });
+
+        tagBox.append(`<button type="button" class="btn hoverBtn btnCreateTag"><span>Добавить</span></button>`);
+        $('.btnCreateTag').on('click', function() {
+            let typeZone = $('.type-zone');
+            let value = typeZone.val();
+            $('#tagBox').tagging( "add", value);
+            typeZone.val('');
+
+            validateTags();
         });
 
         const readURL = (input) => {

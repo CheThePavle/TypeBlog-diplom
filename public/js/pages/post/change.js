@@ -35,6 +35,25 @@ $(function() {
             }
         })
 
+        $.ajax({
+            url: '/tag/findByPostId',
+            method: 'POST',
+            data: {
+                id
+            },
+            success: function (d) {
+                let arr = d?.result?.data;
+                let newArr = [];
+                arr.map(function(el) {
+                    newArr.push(el?.name_tag);
+                });
+                $("#tagBox").tagging("add", newArr);
+            },
+            error: function (d) {
+                console.log(d)
+            }
+        })
+
         let myOptionsTagging = {
             "no-comma": true,
             "case-sensitive": false,
@@ -62,26 +81,23 @@ $(function() {
                 "|", "{", "}", "[", "]", "\\", "\'", "<", ">", ",", ".", "/"],
             "tag-char": "#"
         };
-        $("#tagBox").tagging(myOptionsTagging);
 
-        $.ajax({
-            url: '/tag/findByPostId',
-            method: 'POST',
-            data: {
-                id
-            },
-            success: function (d) {
-                let arr = d?.result?.data;
-                let newArr = [];
-                arr.map(function(el) {
-                    newArr.push(el?.name_tag);
-                });
-                $("#tagBox").tagging("add", newArr);
-            },
-            error: function (d) {
-                console.log(d)
+        let tagBox = $("#tagBox");
+        tagBox.tagging(myOptionsTagging);
+
+        const validateTags = () => {
+            let getLengthTags = $('#tagBox .tag').length;
+            if (getLengthTags > 10) {
+                clearTimeout(timerId);
+                let value = $('#tagBox .tag:last input').val();
+                tagBox.tagging( "remove", value);
+                let errorTags = $(".errorTags");
+                errorTags.html('<div class="alert alert-warning">Можно задать не более 10 тегов!</div>');
+                timerId = setTimeout(() => {
+                    errorTags.html('')
+                }, 3000)
             }
-        })
+        }
 
         $(".type-zone").keyup(function (e) {
             if (e.key === 'б' && this.value.length === 0) {
@@ -90,19 +106,20 @@ $(function() {
                 this.value = 'Б'
             }
 
-            let getLengthTags = $('#tagBox .tag').length;
-            if (getLengthTags > 10) {
-                clearTimeout(timerId);
-                $('#tagBox .tag:last').remove();
-                let errorTags = $(".errorTags");
-                errorTags.html('<div class="alert alert-warning">Можно задать не более 10 тегов!</div>');
-                timerId = setTimeout(() => {
-                    errorTags.html('')
-                }, 3000)
-            }
+            validateTags();
         })
         $('.type-zone').on('keyup paste', function() {
             $(this).val(function(i, value) { return value.substr(0, 25); });
+        });
+
+        tagBox.append(`<button type="button" class="btn hoverBtn btnCreateTag"><span>Добавить</span></button>`);
+        $('.btnCreateTag').on('click', function() {
+            let typeZone = $('.type-zone');
+            let value = typeZone.val();
+            $('#tagBox').tagging( "add", value);
+            typeZone.val('');
+
+            validateTags();
         });
 
         const readURL = (input) => {

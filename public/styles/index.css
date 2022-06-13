@@ -495,7 +495,7 @@ ul.listTags li input[type="checkbox"] {
 .bodyCommentItem > div{
     color: var(--text);
     font-weight: 700;
-    font-size: 12px;
+    font-size: 14px;
 }
 .commentDate{
     margin-top: 8px;
