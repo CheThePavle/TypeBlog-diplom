@@ -4,10 +4,14 @@
     <title>{{ env('NAME_SITE') }} - Изменение поста</title>
     <meta name='description' content='Изменение поста на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пост, изменение, редактирование' />
+    <link rel='stylesheet' href='{{ asset('libs/EditorJS/blocks/simple-image.css') }}'>
+    <link rel='stylesheet' href='{{ asset('libs/taggingJS/tag-basic-style.css') }}'>
+    <link rel='stylesheet' href='{{ asset('styles/pages/post/change.css') }}'>
+@endsection
 
+@section('scripts')
     <script src='{{ asset('libs/EditorJS/editorjs.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/simple-image.js') }}'></script>
-    <link rel='stylesheet' href='{{ asset('libs/EditorJS/blocks/simple-image.css') }}'>
     <script src='{{ asset('libs/EditorJS/blocks/header.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/warning.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/marker.js') }}'></script>
@@ -21,10 +25,8 @@
     <script src='{{ asset('libs/EditorJS/blocks/text-variant-tune.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/checklist.js') }}'></script>
 
-    <link rel='stylesheet' href='{{ asset('libs/taggingJS/tag-basic-style.css') }}'>
     <script src='{{ asset('libs/taggingJS/tagging.min.js') }}'></script>
 
-    <link rel='stylesheet' href='{{ asset('styles/pages/post/change.css') }}'>
     <script src='{{ asset('js/pages/post/change.js') }}'></script>
 @endsection
 
@@ -93,7 +95,7 @@
                 </div>
 
                 <div class="btnPost">
-                    @if($getPostInfo['id_status'] == 4)
+                    @if($getPostInfo['id_status'] == 3 || $getPostInfo['id_status'] == 4)
                         <button type="submit" class="btn hoverBtn btnSend"><span>Отправить</span></button>
                         <button type="submit" class="btn hoverBtn btnDraftOrChange"><span>Сохранить</span></button>
                     @else

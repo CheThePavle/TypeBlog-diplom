@@ -34,7 +34,7 @@ class PostController extends Controller
                                     FROM post as p JOIN category as c ON c.id_category = p.id_category WHERE id_post = ?;", [$getId]);
         $getPostInfo = $getPostInfo[0];
 
-        if (($getPostInfo['id_creator'] == Auth::user()->id_user && $getPostInfo['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+        if (($getPostInfo['id_creator'] == Auth::user()->id_user && ($getPostInfo['id_status'] == 3 || $getPostInfo['id_status'] == 4)) || Auth::user()->isModerOrAdmin()) {
             $getCategory = DB::select("SELECT * FROM `category`;");
 
             $getPostInfo['imgUrl'] = route('/') . '/storage/data/posts/' . $getPostInfo['main_folder'] . '/main_img.' . $getPostInfo['main_img_type'];
@@ -54,7 +54,7 @@ class PostController extends Controller
         $idPost = correct($request->id);
         $res = DB::select("SELECT body, id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
 
-        if ((Auth::user()->id_user == $res[0]['id_creator'] && $res[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+        if ((Auth::user()->id_user == $res[0]['id_creator'] && ($res[0]['id_status'] == 3 || $res[0]['id_status'] == 4)) || Auth::user()->isModerOrAdmin()) {
             $res[0]['body'] = json_decode($res[0]['body'], true);
             foreach ($res[0]['body']['blocks'] as &$el) {
                 if ($el['type'] == 'image') {
@@ -84,7 +84,7 @@ class PostController extends Controller
         }
         $infoPost = DB::select("SELECT id_status, id_creator FROM post WHERE id_post = ?;", [$idPost]);
 
-        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && $infoPost[0]['id_status'] == 4) || Auth::user()->isModerOrAdmin()) {
+        if ((Auth::user()->id_user == $infoPost[0]['id_creator'] && ($infoPost[0]['id_status'] == 3 || $infoPost[0]['id_status'] == 4)) || Auth::user()->isModerOrAdmin()) {
             $heading = correct($request->heading);
             $description = correct($request->description);
             $category = correct($request->category);
@@ -186,16 +186,23 @@ class PostController extends Controller
 
             $infoStatus = DB::select("SELECT id_status FROM post WHERE id_post = ?;", [$idPost]);
 
-            $change = DB::update("UPDATE `post` SET `id_category` = ?, `id_status` = ?, `heading` = ?, `description` = ?, `main_folder` = ?, `main_img_type` = ?, `body` = ?
+            if ($send) {
+                $idStatus = Auth::user()->isModerOrAdmin() ? 2 : 1;
+            } else {
+                $idStatus = $infoStatus[0]['id_status'];
+            }
+
+            $change = DB::update("UPDATE `post` SET `id_category` = ?, `id_status` = ?, `heading` = ?, `description` = ?, `main_folder` = ?, `main_img_type` = ?, `body` = ?, `updated_at` = ?
                                     WHERE `post`.`id_post` = ?;",
                 [
                     $category,
-                    $send ? 1 : $infoStatus[0]['id_status'],
+                    $idStatus == 3 ? 4 : $idStatus,
                     $heading,
                     $description,
                     $uniqUrl,
                     $typeMainImg ? $typeMainImg : $res[0]['main_img_type'],
-                    json_encode($body),
+                    json_encode($body, JSON_UNESCAPED_UNICODE),
+                    date("Y-m-d H:i:s"),
                     $idPost
                 ]);
             if (!$change) {
@@ -223,7 +230,12 @@ class PostController extends Controller
             $oldDir = 'public/data/posts/'.$res[0]['main_folder'];
             Storage::deleteDirectory($oldDir);
 
-            return result(200, $send ? "Пост был успешно отправлен на проверку" : "Пост был успешно изменен");
+            if ($send) {
+                $msg = Auth::user()->isModerOrAdmin() ? "Пост был успешно опубликован" : "Пост был успешно отправлен на проверку";
+            } else {
+                $msg = "Пост был успешно изменен";
+            }
+            return result(200, $msg);
         } else {
             return result(409, "Нет доступа!");
         }
@@ -305,7 +317,6 @@ class PostController extends Controller
             return result(409, "Что-то пошло не так главное изображение не было загружено на сервер!");
         }
 
-        //fixme
         $body['storage'] = 0;
 
         foreach ($body["blocks"] as &$el) {
@@ -331,8 +342,8 @@ class PostController extends Controller
             $idStatus = Auth::user()->isModerOrAdmin() ? 2 : 1;
         }
 
-        $res = DB::insert("INSERT INTO `post` (`id_category`, `id_creator`, `heading`, `description`, `main_folder`, `main_img_type`, `body`, `id_status`, `updated_at`)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+        $res = DB::insert("INSERT INTO `post` (`id_category`, `id_creator`, `heading`, `description`, `main_folder`, `main_img_type`, `body`, `id_status`, `created_at`, `updated_at`)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
             [
                 $category,
                 $id_creator,
@@ -340,8 +351,9 @@ class PostController extends Controller
                 $description,
                 $uniqUrl,
                 $typeMainImg,
-                json_encode($body),
+                json_encode($body, JSON_UNESCAPED_UNICODE),
                 $idStatus,
+                date('Y-m-d H:i:s'),
                 NULL
             ]);
         if (!$res) {
@@ -417,7 +429,7 @@ class PostController extends Controller
         if (Auth::check() && Auth::user()->isModerOrAdmin()) {
             $idPost = correct($request->id);
 
-            $res = DB::update("UPDATE `post` SET `id_status` = ? WHERE `post`.`id_post` = ?;", [3, $idPost]);
+            $res = DB::update("UPDATE `post` SET `id_status` = ?, `updated_at` = ? WHERE `post`.`id_post` = ?;", [3, date("Y-m-d H:i:s"), $idPost]);
             if ($res) {
                 return result(200, "Пост успешно отклонен!");
             } else {
@@ -439,7 +451,7 @@ class PostController extends Controller
                 }
             }
 
-            $res = DB::update("UPDATE `post` SET `id_status` = ? WHERE `post`.`id_post` = ?;", [2, $idPost]);
+            $res = DB::update("UPDATE `post` SET `id_status` = ?, `updated_at` = ? WHERE `post`.`id_post` = ?;", [2, date("Y-m-d H:i:s"), $idPost]);
             if ($res) {
                 return result(200, "Пост успешно опубликован!");
             } else {
@@ -477,7 +489,7 @@ class PostController extends Controller
         $get = correct($request->searchPostAndUser);
         $get = '%' . $get . '%';
 
-        $res = DB::select("SELECT `id_post`, `heading` FROM `post` WHERE heading LIKE ? ORDER BY heading;", [$get]);
+        $res = DB::select("SELECT `id_post`, `heading` FROM `post` WHERE heading LIKE ? AND id_status = ? ORDER BY heading;", [$get, 2]);
 
         if (!$res) {
             $res = DB::select("SELECT `id_user`, `login` FROM `user` WHERE login LIKE ? ORDER BY login;", [$get]);
@@ -500,9 +512,9 @@ class PostController extends Controller
                 $res = DB::select("SELECT p.id_post, p.heading, u.login, p.created_at, p.main_folder, p.main_img_type, p.description, p.id_creator, p.body, c.id_category, c.name_category
                                     FROM post as p JOIN category as c ON c.id_category = p.id_category JOIN user as u ON u.id_user = p.id_creator WHERE p.id_post = ?;", [$id]);
             } else {
-                $check = DB::select("SELECT id_creator FROM post WHERE id_post = ?;", [$id]);
+                $check = DB::select("SELECT id_creator, id_status FROM post WHERE id_post = ?;", [$id]);
                 if (Auth::check()) {
-                    if ($check[0]['id_creator'] == Auth::user()->id_user) {
+                    if ($check[0]['id_creator'] == Auth::user()->id_user || $check[0]['id_status'] == 2) {
                         $res = DB::select("SELECT p.id_post, p.heading, u.login, p.created_at, p.main_folder, p.main_img_type, p.description, p.id_creator, p.body, c.id_category, c.name_category
                                     FROM post as p JOIN category as c ON c.id_category = p.id_category JOIN user as u ON u.id_user = p.id_creator WHERE p.id_post = ?;", [$id]);
                     }
@@ -511,11 +523,7 @@ class PostController extends Controller
                                     FROM post as p JOIN category as c ON c.id_category = p.id_category JOIN user as u ON u.id_user = p.id_creator WHERE p.id_post = ? AND p.id_status = ?;", [$id, 2]);
                 }
             }
-//            if (!$res) {
-//                return result(404, "Пост не найден");
-//            }
 
-            // оптимизировать
             $res[0]['tags'] = DB::select("SELECT t.id_tag, t.name_tag FROM tag as t JOIN post_tag as pt ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;", [$id]);
             $get = DB::select("SELECT COUNT(cl.mark) as 'like' FROM post_like as cl WHERE cl.id_post = ? AND cl.mark = ?
                                 UNION SELECT COUNT(cl.mark) FROM post_like as cl WHERE cl.id_post = ? AND cl.mark = ?;", [$id, 1, $id, 0]);
@@ -696,7 +704,7 @@ class PostController extends Controller
 
         if (!Auth::check()) {
             $infoPost = DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ? AND id_status = ?;", [$idPost, 2]);
-        } elseif ((Auth::user()->id_user == $infoPost[0]['id_creator'] && ($infoPost[0]['id_status'] == 1 || $infoPost[0]['id_status'] == 3 || $infoPost[0]['id_status'] == 4)) ||  Auth::user()->isModerOrAdmin()) {
+        } elseif (Auth::user()->id_user == $infoPost[0]['id_creator'] || $infoPost[0]['id_status'] == 2 ||  Auth::user()->isModerOrAdmin()) {
             $infoPost = DB::select("SELECT heading, description, main_folder, main_img_type, id_category FROM post WHERE id_post = ?;", [$idPost]);
         }
 
@@ -721,11 +729,7 @@ class PostController extends Controller
         $getMainUmgType = $infoPost['main_img_type'];
         $imgUrl = route('/') . '/storage/data/posts/' . $getMainFolder . '/main_img.' . $getMainUmgType;
 
-
-        //TODO fixme учитывать ли просмотры с разных аккаунтов с одного ip ???
-
         $ip = $_SERVER['REMOTE_ADDR'];
-//  возможно можно оптимизировать + добавить доп. проверки + попробовать без id_view сравнивать ip - адреса
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             $getIdPost = correct($id);
             $idLooked = Auth::check() ? Auth::user()->id_user : NULL;
@@ -811,7 +815,7 @@ class PostController extends Controller
 
         $getTag = DB::select("SELECT * FROM `tag`WHERE public_tag = ?;", [1]);
 
-        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
+        $getLastComments = DB::select("SELECT p.id_post, u.folder, u.img_type, u.login, p.heading, c.body_comment, c.created_at FROM comment as c JOIN user as u ON c.id_author = u.id_user JOIN post as p ON c.id_post = p.id_post WHERE p.id_status = ? ORDER BY id_comment DESC LIMIT ?, ?", [2, 0, 3]);
 
         foreach ($getLastComments as &$comment) {
             $comment['img_url'] = isset($comment['folder']) && isset($comment['img_type'])
@@ -889,7 +893,7 @@ class PostController extends Controller
                 break;
         }
 
-        $count = 3; //fixme
+        $count = 3;
 
         $res = DB::select("SELECT $selectParams FROM `post` as p $where $whereOrTags $rightScob $whereOrder LIMIT $start, $count;", $params);
 
@@ -944,7 +948,6 @@ class PostController extends Controller
             $res[$i]['read_post'] = $getReadPost[$i] ?? false;
             $res[$i]['comments_count'] = $getCommentsCount[$i] ?? false;
 
-            //fixme
             $res[$i]['img_url'] = route('/') . '/storage/data/posts/' . $res[$i]['main_folder']. '/main_img.' . $res[$i]['main_img_type'];
         }
 
@@ -955,13 +958,11 @@ class PostController extends Controller
         $start = correct($request->start);
         $id_user = correct($request->id_user);
 
-//        $params = [];
-
         if (!$id_user) {
             return result(409, "Пользователь не передан");
         }
 
-        $count = 3; //fixme
+        $count = 3;
 
         $res = DB::select("SELECT * FROM `post` as p JOIN category as c ON p.id_category = c.id_category
                             WHERE p.id_creator = ? AND p.id_status = ? ORDER BY p.id_post DESC LIMIT $start, $count;", [$id_user, 2]);
@@ -1017,7 +1018,6 @@ class PostController extends Controller
             $res[$i]['read_post'] = $getReadPost[$i] ?? false;
             $res[$i]['comments_count'] = $getCommentsCount[$i] ?? false;
 
-            //fixme
             $res[$i]['img_url'] = route('/') . '/storage/data/posts/' . $res[$i]['main_folder']. '/main_img.' . $res[$i]['main_img_type'];
         }
 
@@ -1031,7 +1031,7 @@ class PostController extends Controller
         if ($lk) {
             $getIdUser = Auth::user()->id_user;
             if ($getIdUser) {
-                $count = 4; //fixme
+                $count = 4;
 
                 $res = DB::select("SELECT * FROM `post` as p JOIN category as c ON p.id_category = c.id_category
                                     JOIN post_status as ps ON ps.id_status = p.id_status
@@ -1088,7 +1088,6 @@ class PostController extends Controller
                     $res[$i]['read_post'] = $getReadPost[$i] ?? false;
                     $res[$i]['comments_count'] = $getCommentsCount[$i] ?? false;
 
-                    //fixme
                     $res[$i]['img_url'] = route('/') . '/storage/data/posts/' . $res[$i]['main_folder']. '/main_img.' . $res[$i]['main_img_type'];
                 }
 

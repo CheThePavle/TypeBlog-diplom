@@ -5,23 +5,26 @@
     <meta name='description' content='Все посты сайта - {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='главная, посты, фильтры' />
     <link rel='stylesheet' href='{{ asset('styles/pages/index.css') }}'>
-    <script src='{{ asset('js/pages/index.js') }}'></script>
     <link rel='stylesheet' href='{{ asset('styles/components/postLoader.css') }}'>
+@endsection
+
+@section('scripts')
+    <script src='{{ asset('js/pages/index.js') }}'></script>
 @endsection
 
 @section('content')
 
     <div class="container">
-        <div class="row">
-            <h1 class="text-center title">
-                @switch($order)
-                    @case(1)
-                    Старые посты
-                    @break
-                    @default
-                    Последние посты
-                @endswitch
-            </h1>
+        <h1 class="text-center title">
+            @switch($order)
+                @case(1)
+                Старые посты
+                @break
+                @default
+                Последние посты
+            @endswitch
+        </h1>
+        <div class="row content">
             <div class="col-lg-8">
                 <div class="posts"></div>
                 <div class="msg"></div>
@@ -52,15 +55,20 @@
                         <div class="category">
                             @if(count($getCategory) > 0)
                                 @foreach($getCategory as $cat)
-                                    @php
-                                        $idCategory = $cat['id_category'];
-                                        $checked = ($category == $idCategory ? 'checked' : $idCategory == 1) ? 'checked' : '';
-                                    @endphp
-                                    <div>
-                                        <input type="radio" class="btn-check" name="category" id='id{{ $idCategory }}' value='{{ $idCategory }}' {{ $checked }}>
-                                        <label class="btn btn-secondary labelCategory" for="id{{ $idCategory }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
-                                    </div>
+                                    @if ($loop->iteration === 2 && $cat['id_category'] === 1)
+                                    @else
+                                        @php
+                                            $idCategory = $cat['id_category'];
+                                            $checked = ($category == $idCategory ? 'checked' : $idCategory == 1) ? 'checked' : '';
+                                        @endphp
+                                        <div>
+                                            <input type="radio" class="btn-check" name="category" id='id{{ $idCategory }}' value='{{ $idCategory }}' {{ $checked }}>
+                                            <label class="btn btn-secondary labelCategory" for="id{{ $idCategory }}">{{ $cat['name_category'] }} <span class="countCategory">{{ $loop->first ? $getCountDefaultCategory : $cat['count'] }}</span></label>
+                                        </div>
+                                    @endif
                                 @endforeach
+                            @else
+                                <div>Категорий пока нету</div>
                             @endif
                         </div>
                     </div>
@@ -86,6 +94,8 @@
                                             echo "<li><input name='tag[]' type='checkbox' id='idT$idTag' $checked value='$idTag'><label class='labelTag' for='idT$idTag'> $nameTag</label></li>";
                                         }
                                     @endphp
+                                @else
+                                    <div>Тегов пока нету</div>
                                 @endif
                             </ul>
                         </div>
@@ -142,15 +152,20 @@
                 <div class="sidebarItem">
                     <h5>Последние комментарии</h5>
                     <div>
-                        @foreach($getLastComments as $comment)
-                            <div class="commentItem">
-                                <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
-                                <div class="bodyCommentItem">
-                                    <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
-                                    <div>{{ $comment['created_at'] }}</div>
+                        @if (count($getLastComments) > 0)
+                            @foreach($getLastComments as $comment)
+                                <div class="commentItem">
+                                    <img src="{{ $comment['img_url'] }}" alt="{{ $comment['heading'] }}">
+                                    <div class="bodyCommentItem">
+                                        <h6>{{ $comment['login'] }}<span> в </span><a href="{{ route('post', ['id' => $comment['id_post']]) }}">{{ $comment['heading'] }}</a></h6>
+                                        <div>{{ $comment['body_comment'] }}</div>
+                                        <div class="commentDate created_at">{{ $comment['created_at'] }}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            <div>Комментариев пока нету</div>
+                        @endif
                     </div>
                 </div>
             </div>

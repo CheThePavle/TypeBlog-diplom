@@ -31,6 +31,8 @@ Route::get('/login', [UserController::class, 'showLogin'])->name('login');
 Route::get('/register', [UserController::class, 'showRegister'])->name('register');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/captcha', [UserController::class, 'genCaptcha'])->name('captcha');
+Route::get('/reset/password', [UserController::class, 'showResetPassword'])->name('reset.password');
+Route::post('/reset/password', [UserController::class, 'resetPassword'])->name('reset.password');
 
 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile');
 

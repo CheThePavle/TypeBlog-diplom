@@ -4,10 +4,14 @@
     <title>{{ env('NAME_SITE') }} - Создание поста</title>
     <meta name='description' content='Создание поста на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пост, создание, отправление, проверка' />
+    <link rel='stylesheet' href='{{ asset('libs/EditorJS/blocks/simple-image.css') }}'>
+    <link rel='stylesheet' href='{{ asset('libs/taggingJS/tag-basic-style.css') }}'>
+    <link rel='stylesheet' href='{{ asset('styles/pages/post/create.css') }}'>
+@endsection
 
+@section('scripts')
     <script src='{{ asset('libs/EditorJS/editorjs.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/simple-image.js') }}'></script>
-    <link rel='stylesheet' href='{{ asset('libs/EditorJS/blocks/simple-image.css') }}'>
     <script src='{{ asset('libs/EditorJS/blocks/header.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/warning.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/marker.js') }}'></script>
@@ -21,16 +25,14 @@
     <script src='{{ asset('libs/EditorJS/blocks/text-variant-tune.js') }}'></script>
     <script src='{{ asset('libs/EditorJS/blocks/checklist.js') }}'></script>
 
-    <link rel='stylesheet' href='{{ asset('libs/taggingJS/tag-basic-style.css') }}'>
     <script src='{{ asset('libs/taggingJS/tagging.min.js') }}'></script>
 
-    <link rel='stylesheet' href='{{ asset('styles/pages/post/create.css') }}'>
     <script src='{{ asset('js/pages/post/create.js') }}'></script>
 @endsection
 
 @section('content')
 
-    <div class="container">
+    <div class="container px-4">
         <div class="row">
             <h1 class="text-center title">Создать пост</h1>
 

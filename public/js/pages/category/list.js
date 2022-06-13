@@ -18,11 +18,11 @@ $(function() {
                 <form id="formCategoryChange">
                     <input type="text" value="${getVal}" maxlength="30" id="text_change_category" name="change_category" class="form-control">
                     <div class="mar-top clearfix">
-                        <button id="btn_send_category_change" class="btn btn-sm btn-primary pull-right" type="submit">
-                            <i class="fa fa-pencil fa-fw"></i> Изменить
+                        <button id="btn_send_category_change" class="btn btn-sm hoverBtn" type="submit">
+                            <span><i class="fa fa-pencil fa-fw"></i> Изменить</span>
                         </button>
-                        <button id="btn_send_category_change_closed" class="btn btn-sm btn-danger pull-right">
-                            <i class="fa fa-pencil fa-fw"></i> Отмена
+                        <button id="btn_send_category_change_closed" class="btn btn-sm hoverBtn">
+                            <span>Отмена</span>
                         </button>
                     </div>
                 </form>
@@ -49,7 +49,6 @@ $(function() {
                     getHTML.find(".val_category").text(val[0]['value']);
                     getHTML.find(".body_change_category").html("");
                     notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
-                    window.location.reload();
                     timerId = setTimeout(function () {
                         notify.html(``);
                     }, 4000);

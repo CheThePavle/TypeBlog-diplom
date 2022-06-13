@@ -5,6 +5,9 @@
     <meta name='description' content='Жалобы пользователей на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пользователь, пользователи, изменение, список, блокировка, жалоба, жалобы' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/complaint.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/complaint.js') }}'></script>
 @endsection
 
@@ -17,7 +20,7 @@
             <x-panel-lk />
 
             <div class="table-responsive">
-                <table class="table table-striped body_complaints">
+                <table class="table table-striped body_complaints minWTable">
                     <thead>
                     <tr>
                         <th scope="col">Id жалобы</th>
@@ -37,22 +40,21 @@
                                 <td>{{ $branch[0]['body_complaint'] }}</td>
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_accused']]) }}' target='_blank'>{{ $branch[0]['accused'] }}</a></td>
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_witness']]) }}' target='_blank'>{{ $branch[0]['witness'] }}</a></td>
-                                <td>{{ $branch[0]['created_at'] }}</td>
-                                <td><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>
-                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить</span></button></td>
+                                <td class="created_at">{{ $branch[0]['created_at'] }}</td>
+                                <td><button type='button' class='btn hoverBtn blocked'><span>Заблокировать</span></button></td>
+                                <td><button type='button' class='btn hoverBtn rejected'><span>Отклонить</span></button></td>
                             </tr>
                         @else
                             <tr class='more id_complaint' data-id='{{ $branch[0]['id_complaint'] }}'>
                                 <td>
-{{--                                    TODO fixme--}}
-                                    <i class="fa-solid fa-plus"></i>
+                                    <i class="fa-solid iconMore fa-plus"></i>
                                 </td>
                                 <td></td>
                                 <td><a href='{{ route('profile', ['id' => $branch[0]['id_accused']]) }}' target='_blank'>{{ $branch[0]['accused'] }}</td>
                                 <td></td>
                                 <td></td>
-                                <td><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>
-                                <td><button type='button' class='btn hoverBtn btn-success rejected'><span>Отклонить</span></button></td>
+                                <td><button type='button' class='btn hoverBtn blocked'><span>Заблокировать</span></button></td>
+                                <td><button type='button' class='btn hoverBtn rejected'><span>Отклонить</span></button></td>
                             </tr>
                             @foreach($branch as $item)
                                 <tr class='collapse row{{ $branch[0]['id_complaint'] }}'>
@@ -60,13 +62,16 @@
                                     <td>{{ $item['body_complaint'] }}</td>
                                     <td></td>
                                     <td><a href='{{ route('profile', ['id' => $item['id_witness']]) }}' target='_blank'>{{ $item['witness'] }}</a></td>
-                                    <td>{{ $item['created_at'] }}</td>
+                                    <td class="created_at">{{ $item['created_at'] }}</td>
                                 </tr>
                             @endforeach
                         @endif
                     @endforeach
                     </tbody>
                 </table>
+                @if (count($treeComplaint) < 1)
+                    <div class="text-center">Жалобы не найдены</div>
+                @endif
             </div>
         </div>
 

@@ -49,11 +49,26 @@ h1:after{
     left: calc(50% - 35px);
     background: var(--bgBlock);
 }
+.logoMenu{
+    background: url("/imgs/logo.png") no-repeat;
+    background-size: cover;
+    height: 56px;
+    width: 254px;
+}
+.logoMenuDark{
+    background: url("/imgs/logoDark.png") no-repeat;
+    background-size: cover;
+    height: 56px;
+    width: 254px;
+}
 th, td{
     color: var(--textTitle);
 }
 table button{
     width: 190px;
+}
+.minWTable{
+    min-width: 1200px;
 }
 .table-striped>tbody>tr:nth-of-type(odd){
     --bs-table-accent-bg: var(--colorOdd) !important;
@@ -134,6 +149,37 @@ input[type="checkbox"]{
     top: 15px;
     right: 10px;
     cursor: pointer;
+}
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--bgBlock);
+    border: 0 none #ffffff;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bgBlock);
+}
+::-webkit-scrollbar-thumb:active {
+    background: var(--bgBlock);
+}
+::-webkit-scrollbar-track {
+    background: var(--hoverBgBtn);
+    border: 0 none #ffffff;
+}
+::-webkit-scrollbar-track:hover {
+    background: var(--activeBgBtn);
+}
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 /* header */
@@ -449,7 +495,10 @@ ul.listTags li input[type="checkbox"] {
 .bodyCommentItem > div{
     color: var(--text);
     font-weight: 700;
-    font-size: 12px;
+    font-size: 14px;
+}
+.commentDate{
+    margin-top: 8px;
 }
 
 /* footer */
@@ -461,6 +510,18 @@ footer{
 /* Стили для EditorJS */
 .ce-block__content, .ce-toolbar__content {
     max-width: 1170px;
+}
+.ce-inline-toolbar__dropdown{
+    color: black !important;
+}
+.cdx-marker{
+    background: var(--bgBlock) !important;
+}
+.ce-toolbar__actions{
+    padding-right: 10px
+}
+.ce-toolbar__plus{
+    padding-left: 5px;
 }
 
 .required {
@@ -486,63 +547,63 @@ footer{
 }
 
 /* Прелоадер */
-.preloader {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--bgMain);
-    z-index: 1001;
-}
-.preloader__row {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    width: 70px;
-    height: 70px;
-    margin-top: -35px;
-    margin-left: -35px;
-    text-align: center;
-    animation: preloader-rotate 2s infinite linear;
-}
-.preloader__item {
-    position: absolute;
-    display: inline-block;
-    top: 0;
-    background-color: var(--bgBlock);
-    border-radius: 100%;
-    width: 35px;
-    height: 35px;
-    animation: preloader-bounce 2s infinite ease-in-out;
-}
-.preloader__item:last-child {
-    top: auto;
-    bottom: 0;
-    animation-delay: -1s;
-}
-@keyframes preloader-rotate {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-@keyframes preloader-bounce {
-    0%,
-    100% {
-        transform: scale(0);
-    }
+/*.preloader {*/
+/*    position: fixed;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background: var(--bgMain);*/
+/*    z-index: 1001;*/
+/*}*/
+/*.preloader__row {*/
+/*    position: relative;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    width: 70px;*/
+/*    height: 70px;*/
+/*    margin-top: -35px;*/
+/*    margin-left: -35px;*/
+/*    text-align: center;*/
+/*    animation: preloader-rotate 2s infinite linear;*/
+/*}*/
+/*.preloader__item {*/
+/*    position: absolute;*/
+/*    display: inline-block;*/
+/*    top: 0;*/
+/*    background-color: var(--bgBlock);*/
+/*    border-radius: 100%;*/
+/*    width: 35px;*/
+/*    height: 35px;*/
+/*    animation: preloader-bounce 2s infinite ease-in-out;*/
+/*}*/
+/*.preloader__item:last-child {*/
+/*    top: auto;*/
+/*    bottom: 0;*/
+/*    animation-delay: -1s;*/
+/*}*/
+/*@keyframes preloader-rotate {*/
+/*    100% {*/
+/*        transform: rotate(360deg);*/
+/*    }*/
+/*}*/
+/*@keyframes preloader-bounce {*/
+/*    0%,*/
+/*    100% {*/
+/*        transform: scale(0);*/
+/*    }*/
 
-    50% {
-        transform: scale(1);
-    }
-}
-.loaded_hiding .preloader {
-    transition: 0.3s opacity;
-    opacity: 0;
-}
-.loaded .preloader {
-    display: none;
-}
+/*    50% {*/
+/*        transform: scale(1);*/
+/*    }*/
+/*}*/
+/*.loaded_hiding .preloader {*/
+/*    transition: 0.3s opacity;*/
+/*    opacity: 0;*/
+/*}*/
+/*.loaded .preloader {*/
+/*    display: none;*/
+/*}*/
 
 /* Поиск по постам и пользователям */
 .resultSearch{
@@ -607,6 +668,10 @@ footer{
         transform: translateY(0px);
         opacity: 1;
     }
+}
+.noAnime{
+    animation: none;
+    transition: none;
 }
 
 /* переключатель темы */
@@ -710,6 +775,6 @@ footer{
 
 /* для пагинации */
 .paginateBlock{
-   display: flex;
+    display: flex;
     justify-content: center;
 }

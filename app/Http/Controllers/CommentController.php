@@ -30,11 +30,12 @@ class CommentController extends Controller
             return result(409, "Ответный комментарий не может быть больше 1000 символов!");
         }
 
-        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `id_parent_comment`, `updated_at`) VALUES (?, ?, ?, ?, ?);", [
+        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `id_parent_comment`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?);", [
             $idPost,
             $id_author,
             $parent_comment,
             $id_parent_comment,
+            date('Y-m-d H:i:s'),
             NULL
         ]);
 
@@ -60,14 +61,15 @@ class CommentController extends Controller
             return result(409, "Измененный комментарий не может быть больше 1000 символов!");
         }
 
-        $res = DB::update("UPDATE `comment` SET `id_author` = ?, `body_comment` = ? WHERE `comment`.`id_comment` = ?;", [
+        $res = DB::update("UPDATE `comment` SET `id_author` = ?, `body_comment` = ?, `updated_at` = ? WHERE `comment`.`id_comment` = ?;", [
             $id_author,
             $change_comment,
+            date("Y-m-d H:i:s"),
             $idComment
         ]);
 
         if ($res) {
-            return result(200, "Ответный комментарий добавлен!");
+            return result(200, "Комментарий изменен!");
         } else {
             return result(409, "Что-то пошло не так, невозможно изменить комментарий!");
         }
@@ -91,10 +93,11 @@ class CommentController extends Controller
             return result(409, "Комментарий не может быть больше 1000 символов!");
         }
 
-        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `updated_at`) VALUES (?, ?, ?, ?);", [
+        DB::insert("INSERT INTO `comment` (`id_post`, `id_author`, `body_comment`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?);", [
             $idPost,
             $id_author,
             $comment,
+            date('Y-m-d H:i:s'),
             NULL,
         ]);
 
@@ -322,7 +325,6 @@ class CommentController extends Controller
             $res[$i]['myComment'] = $getYourComment[$i] ?? false;
             $res[$i]['deleteComment'] = $getDeleteComment[$i] ?? false;
 
-            //fixme
             $res[$i]['imgUrl'] = isset($res[$i]['folder']) || isset($res[$i]['img_type'])
                 ? route('/') . '/storage/data/users/' . $res[$i]['folder']. '/avatar.' . $res[$i]['img_type']
                 : route('/') . '/public/imgs/profile.png';

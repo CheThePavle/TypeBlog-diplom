@@ -8,6 +8,11 @@ $(function() { // normalizeSpace()
         let likesPost = $(".likesPost");
         let notify = $(".notify");
 
+        let created_at = document.querySelectorAll('.created_at');
+        created_at.forEach((el) => {
+            el.innerHTML = new Date(el.innerHTML + ' UTC').toLocaleString();
+        })
+
         let postHTML = $(".post");
         postHTML.on( "click", ".likePost", function() {
             let likePost = $(`.likePost`);
@@ -97,7 +102,7 @@ $(function() { // normalizeSpace()
                             <img src="${d?.img_main_url}" alt="${d?.heading}">
                         </div>
                         `}
-                        <div class="date">${d?.created_at}</div>
+                        <div class="date">${new Date(d?.created_at + ' UTC').toLocaleString()}</div>
                         <h3>${d?.heading} ${d?.read_post ? '<span class="readPost">(просмотрен)</span>' : ''}</h3>
                         <div class="meta">
                             <div><i class="fa-solid fa-user"></i> <a href="/profile/${d?.id_creator}">${d?.login}</a></div>
@@ -424,6 +429,11 @@ $(function() { // normalizeSpace()
                     timerId = setTimeout(function () {
                         msgCommentChange.html(``);
                     }, 3000);
+
+                    notify.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
+                    timerId = setTimeout(function () {
+                        notify.html(``);
+                    }, 3000)
                     getComments(1);
                 },
                 error: function (d) {
@@ -647,7 +657,7 @@ $(function() { // normalizeSpace()
                     let $list = $('<ul></ul>');
 
                     array.forEach(function(li_obj) {
-                        console.log(li_obj)
+                        //console.log(li_obj)
                         let $li = $(`
                                         <li>
                                             <div class="media-block id_comment" data-id="${li_obj.value?.id_comment}">
@@ -664,9 +674,9 @@ $(function() { // normalizeSpace()
                                                             ${+li_obj.value?.like > 0 ? '+' +li_obj.value?.like : +li_obj.value?.like}
                                                         </span>
                                                         ${li_obj.value?.updated_at
-                                                            ? `<span class="text-muted text-sm"><i class="fa fa-lg"></i>Изменен ${li_obj.value?.updated_at}</span>`
+                                                            ? `<span class="text-muted text-sm"><i class="fa fa-lg"></i>Изменен ${new Date(li_obj.value?.updated_at + ' UTC').toLocaleString()}</span>`
                                                             : ''}
-                                                        <p class="text-muted text-sm"><i class="fa fa-lg"></i>Добавлен ${li_obj.value?.created_at}</p>
+                                                        <p class="text-muted text-sm"><i class="fa fa-lg"></i>Добавлен ${new Date(li_obj.value?.created_at + ' UTC').toLocaleString()}</p>
                                                     </div>
                                                     <p class="val_comment">${li_obj.value?.body_comment}</p>
                                                     <div class="pad-ver">

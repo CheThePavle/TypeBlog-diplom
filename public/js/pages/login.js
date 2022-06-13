@@ -41,7 +41,7 @@ $(function() {
                 method: 'POST',
                 data: th.serialize(),
                 success: function (d) {
-                    console.log(d)
+                    // console.log(d)
                     clearTimeout(timerId);
                     activeBtn(true);
                     msg.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);

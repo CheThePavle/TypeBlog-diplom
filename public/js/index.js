@@ -4,6 +4,7 @@ $(function() {
             let th = $(this);
             th.toggleClass('dark');
 
+            let burger = $('.navbar');
             let root = $(':root');
             if (th.hasClass('dark')) {
                 root.css('--bgMenu', '#353535');
@@ -33,6 +34,9 @@ $(function() {
                 root.css('--colorDislike', '#ff5959');
                 root.css('--colorOdd', '#474747');
 
+                burger.removeClass('navbar-light');
+                burger.addClass('navbar-dark');
+
                 $.ajax({
                     url: '/changeTheme',
                     method: 'POST',
@@ -40,6 +44,8 @@ $(function() {
                         dark: true
                     }
                 })
+
+                $('.logoMenu').toggleClass('logoMenuDark logoMenu');
             } else {
                 root.css('--bgMenu', '#f8f8f8');
                 root.css('--textMenu', '#000000');
@@ -68,6 +74,9 @@ $(function() {
                 root.css('--colorDislike', '#ff8e8e');
                 root.css('--colorOdd', '#eeeeee');
 
+                burger.removeClass('navbar-dark');
+                burger.addClass('navbar-light');
+
                 $.ajax({
                     url: '/changeTheme',
                     method: 'POST',
@@ -75,6 +84,8 @@ $(function() {
                         dark: false
                     }
                 })
+
+                $('.logoMenuDark').toggleClass('logoMenu logoMenuDark');
             }
         });
 

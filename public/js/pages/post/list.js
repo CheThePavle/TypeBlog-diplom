@@ -4,6 +4,11 @@ $(function() {
         let notify = $(".notify");
         let timerId = 0;
 
+        let created_at = document.querySelectorAll('.created_at');
+        created_at.forEach((el) => {
+            el.innerHTML = new Date(el.innerHTML + ' UTC').toLocaleString();
+        })
+
         postsHTML.on( "click", ".published", function() {
             let getHTML = $(this).closest('.id_post');
             let id = getHTML.data('id');

@@ -5,6 +5,9 @@
     <meta name='description' content='Изменение пароля на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пароль, изменение, редактирование, смена' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/change/password.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/change/password.js') }}'></script>
 @endsection
 
@@ -44,11 +47,11 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn hoverBtn btn-success btn_change_password"><span>Изменить</span></button>
+                    <button type="submit" class="btn hoverBtn btn_change_password"><span>Изменить</span></button>
                 </div>
+
+                <div class="msg"></div>
             </form>
-            <br>
-            <div class="msg"></div>
         </div>
     </div>
 

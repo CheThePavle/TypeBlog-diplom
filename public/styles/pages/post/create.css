@@ -85,8 +85,11 @@ h2{
     max-width: 465px;
     justify-content: space-between;
 }
-.btnCreate{
+.btnCreate, .btnCreateTag{
     max-width: 150px;
+}
+.btnCreateTag{
+    margin: 5px 0 0 15px;
 }
 .btnDraft{
     max-width: 300px;

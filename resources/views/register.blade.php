@@ -5,13 +5,13 @@
     <meta name='description' content='Регистрация на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='регистрация, аккаунт' />
     <link rel='stylesheet' href='{{ asset('styles/pages/register.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/register.js') }}'></script>
 @endsection
 
 @section('content')
-{{--    <div id='stars'></div>--}}
-{{--    <div id='stars2'></div>--}}
-{{--    <div id='stars3'></div>--}}
 
     <form id="formReg">
         <h1 class="text-center">Регистрация</h1>

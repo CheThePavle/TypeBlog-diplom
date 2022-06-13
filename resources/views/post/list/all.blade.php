@@ -5,6 +5,9 @@
     <meta name='description' content='Список постов на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пост, посты, редактирование, изменение, список' />
     <link rel='stylesheet' href='{{ asset('styles/pages/post/list/all.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/post/list/all.js') }}'></script>
 @endsection
 
@@ -17,7 +20,7 @@
             <x-panel-lk />
 
             <div class="table-responsive">
-                <table class="table table-striped body_posts">
+                <table class="table table-striped body_posts minWTable">
                     <thead>
                     <tr>
                         <th scope="col">Id поста</th>
@@ -37,23 +40,25 @@
                             <td>{{ $list['heading'] }}</td>
                             <td><a href='{{ route('profile', ['id' => $list['id_user']]) }}' target='_blank'>{{ $list['login'] }}</a></td>
                             <td>{{ $list['name'] }}</td>
-                            <td>{{ $list['created_at'] }}</td>
+                            <td class="created_at">{{ $list['created_at'] }}</td>
                             @if($list['code'] == 'published')
-                                <td class='rejectedTd'><button type='button' class='btn hoverBtn btn-warning rejected'><span>Отклонить</span></button></td>
+                                <td class='rejectedTd'><button type='button' class='btn hoverBtn rejected'><span>Отклонить</span></button></td>
                             @else
-                                <td class='publishedTd'><button type='button' class='btn hoverBtn btn-success published'><span>Опубликовать</span></button></td>
+                                <td class='publishedTd'><button type='button' class='btn hoverBtn published'><span>Опубликовать</span></button></td>
                             @endif
-                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn btn-primary changed'><span>Изменить</span></button></a></td>
-                            <td><button type='button' class='btn hoverBtn btn-danger deleted'><span>Удалить</span></button></td>
+                            <td><a href='{{ route('post.change', ['id' => $list['id_post']]) }}' target='_blank'><button type='button' class='btn hoverBtn changed'><span>Изменить</span></button></a></td>
+                            <td><button type='button' class='btn hoverBtn deleted'><span>Удалить</span></button></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                @if (count($getList) < 1)
+                    <div class="text-center">Посты не найдены</div>
+                @endif
             </div>
         </div>
 
         {{ $getList->links('components.paginate') }}
     </div>
-
 
 @endsection

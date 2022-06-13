@@ -1,18 +1,25 @@
 tr{
     word-break: break-word;
 }
-.body_change_tag {
-    max-width: 126px
-}
 #btn_send_category_change_closed{
     margin-right: 10px;
-}
-.clearfix{
-    margin-top: 10px;
 }
 #formCreateCategory{
     max-width: 300px;
 }
 #formCreateCategory > div{
     margin-bottom: 25px;
+}
+.body_val_category{
+    position: relative;
+}
+.body_change_category{
+    position: absolute;
+    z-index: 9999;
+    background-color: white;
+    top: 10px;
+}
+.body_change_category button{
+    width: 100%;
+    margin-top: 5px;
 }

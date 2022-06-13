@@ -2,50 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class MailerController extends Controller
 {
-    public function verifyEmail($email, $login) {
+    public function resetPasswordEmail($user) {
         require base_path("vendor/autoload.php");
-        $mail = new PHPMailer();     // Passing `true` enables exceptions
+        $mail = new PHPMailer();
 
         try {
-            // Email server settings
             $mail->SMTPDebug = 0;
             $mail->CharSet = 'utf-8';
             $mail->isSMTP();
-            $mail->Host = 'smtp.yandex.ru';           //  smtp host
+            $mail->Host = env('RP_MAILER_HOST');
             $mail->SMTPAuth = true;
-            $mail->Username = 'typeblog@yandex.ru';   //  sender username
-            $mail->Password = 'QwErTy123';       // sender password
-            $mail->SMTPSecure = 'ssl';                  // encryption - ssl/tls
-            $mail->Port = 465;                         // port - 587/465
+            $mail->Username = env('RP_MAILER_EMAIL');
+            $mail->Password = env('RP_MAILER_PASSWORD');
+            $mail->SMTPSecure = env('RP_MAILER_SMTPSECURE');
+            $mail->Port = env('RP_MAILER_PORT');
 
-            $mail->setFrom('typeblog@yandex.ru');
-            $mail->addAddress($email);
+            $mail->setFrom(env('RP_MAILER_EMAIL'));
+            $mail->addAddress($user->email);
             $mail->isHTML(true);
 
-            $mail->Subject = "Код для подтверждения регистрации пользователя - $login";
-//            $mail->AltBody = '';
+            $mail->Subject = env('RP_MAILER_HEADER');
 
-            $code = mt_rand(10000, 99999);
-
-            session(['verifyCode' => $code]);
-            session(['attempts' => 4]);
-
-            $mail->Body = "Ваш код $code";
+            $newPassword = Str::random();
+            $mail->Body = "Ваш новый пароль - $newPassword <br> Вы можете поменять его в личном кабинете";
 
             if(!$mail->send()) {
-                session(['verifyCode' => false]);
-                session(['attempts' => false]);
-                return result(409, "Невозможно доставить письмо на вашу почту");
+                return "Невозможно отправить письмо на вашу почту";
             } else {
-                return result(200, "На вашу почту отправлен код подтверждения регистрации!");
+                $user->changePassword($newPassword);
+                return "На вашу почту был отправлен новый пароль";
             }
         } catch (Exception $e) {
-            return result(409, "Невозможно отправить письмо (что-то пошло не так или почта не найдена)");
+            return "Невозможно отправить письмо (что-то пошло не так или почта не найдена)";
         }
     }
 }

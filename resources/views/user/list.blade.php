@@ -5,6 +5,9 @@
     <meta name='description' content='Список пользователей на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='пользователь, пользователи, изменение, список, блокировка' />
     <link rel='stylesheet' href='{{ asset('styles/pages/user/list.css') }}'>
+@endsection
+
+@section('scripts')
     <script src='{{ asset('js/pages/user/list.js')}}'></script>
 @endsection
 
@@ -17,7 +20,7 @@
             <x-panel-lk />
 
             <div class="table-responsive">
-                <table class="table table-striped body_users">
+                <table class="table table-striped body_users minWTable">
                     <thead>
                     <tr>
                         <th scope="col">Id пользователя</th>
@@ -53,10 +56,10 @@
                             echo "<td>$emailUser</td>";
                             echo "<td><a href='/profile/$idUser' target='_blank'>$loginUser</a></td>";
                             echo "<td><select class='change_role defaultSelect' name='role'>". $roleHTML ."</select></td>";
-                            echo "<td>$createdAtUser</td>";
+                            echo "<td class='created_at'>$createdAtUser</td>";
                             echo $blockedUser == '1'
-                                ? "<td class='unblockedTd'><button type='button' class='btn hoverBtn btn-success unblocked'><span>Разблокировать</span></button></td>"
-                                : "<td class='blockedTd'><button type='button' class='btn hoverBtn btn-danger blocked'><span>Заблокировать</span></button></td>";
+                                ? "<td class='unblockedTd'><button type='button' class='btn hoverBtn unblocked'><span>Разблокировать</span></button></td>"
+                                : "<td class='blockedTd'><button type='button' class='btn hoverBtn blocked'><span>Заблокировать</span></button></td>";
                             echo "</tr>";
 
                             $roleHTML = '';
@@ -64,6 +67,9 @@
                     @endphp
                     </tbody>
                 </table>
+                @if (count($getList) < 1)
+                    <div class="text-center">Пользователи не найдены</div>
+                @endif
             </div>
         </div>
 

@@ -9,13 +9,13 @@ $(function() {
         $("#login").keyup(function() {
             let th = $(this);
             let val = th.val();
-            th.val(normalizeSpace(val))
+            th.val(val.replace(/[^A-z0-9]/g,''))
 
             let errorLoginHTML = $('.errorLogin');
             errorLoginHTML.html('');
 
             if (val?.length < 5) {
-                errorLoginHTML.html('<div class="alert alert-warning">Логин не может быть меньше 5 символов!</div>')
+                errorLoginHTML.html('<div class="alert alert-warning noAnime">Логин не может быть меньше 5 символов!</div>')
                 activeBtn(true);
             }
 
@@ -30,7 +30,7 @@ $(function() {
                 error: function (d) {
                     // console.log(d)
                     activeBtn(true);
-                    errorLoginHTML.html(`<div class="alert alert-warning">${d?.responseJSON?.result?.msg}</div>`);
+                    errorLoginHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
                 }
             })
         });
@@ -44,7 +44,7 @@ $(function() {
             errorEmailHTML.html('');
 
             if (val?.length < 1) {
-                errorEmailHTML.html('<div class="alert alert-warning">Заполните почту!</div>')
+                errorEmailHTML.html('<div class="alert alert-warning noAnime">Заполните почту!</div>')
                 activeBtn(true);
             }
 
@@ -55,7 +55,7 @@ $(function() {
                 data: th.serialize(),
                 error: function (d) {
                     activeBtn(true);
-                    errorEmailHTML.html(`<div class="alert alert-warning">${d?.responseJSON?.result?.msg}</div>`);
+                    errorEmailHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
                 }
             })
         });
@@ -86,17 +86,17 @@ $(function() {
             let th = $(this);
             let val = th.val();
 
-            th.val(normalizeSpace(val));
+            th.val(val.replace(/\s/g, ''));
 
             errorPasswordHTML.html('');
             activeBtn(false);
 
             if (val?.length  < 6) {
-                errorPasswordHTML.html('<div class="alert alert-warning">Пароль не может быть меньше 6 символов!</div>')
+                errorPasswordHTML.html('<div class="alert alert-warning noAnime">Пароль не может быть меньше 6 символов!</div>')
                 activeBtn(true);
             }
             if (val?.length  > 32) {
-                errorPasswordHTML.html('<div class="alert alert-warning">Пароль не может быть больше 32 символов!</div>')
+                errorPasswordHTML.html('<div class="alert alert-warning noAnime">Пароль не может быть больше 32 символов!</div>')
                 activeBtn(true);
             }
         })
@@ -105,14 +105,14 @@ $(function() {
             let p = $("#password").val();
             let p2 = th.val();
 
-            th.val(normalizeSpace(p2));
+            th.val(p2.replace(/\s/g, ''));
 
             errorPasswordHTML.html('');
             activeBtn(false);
 
             if (p !== p2) {
                 activeBtn(true);
-                errorPasswordHTML.html('<div class="alert alert-warning">Пароли не совпадают</div>')
+                errorPasswordHTML.html('<div class="alert alert-warning noAnime">Пароли не совпадают</div>')
             }
         })
 

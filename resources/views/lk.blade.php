@@ -5,8 +5,11 @@
     <meta name='description' content='Личный кабинет на сайте {{ env('NAME_SITE') }}'>
     <meta name='keywords' content='лк, профиль, кабинет, личный' />
     <link rel='stylesheet' href='{{ asset('styles/pages/lk.css') }}'>
-    <script src='{{ asset('js/pages/lk.js') }}'></script>
     <link rel='stylesheet' href='{{ asset('styles/components/postLoader.css') }}'>
+@endsection
+
+@section('scripts')
+    <script src='{{ asset('js/pages/lk.js') }}'></script>
 @endsection
 
 @section('content')
@@ -33,7 +36,7 @@
                         <h3>{{ auth()->user()->login }}</h3>
                         <p>{{ auth()->user()->getRoleRus() }}</p>
                         <div class="change_info">
-                            <p class="emailField"><i class="fa fa-envelope" aria-hidden="true"></i> {{ $getInfoUser[0]['email'] }}</p>
+                            <p><i class="fa fa-envelope" aria-hidden="true"></i> <span class="emailField">{{ $getInfoUser[0]['email'] }}</span></p>
                             <p class="aboutField">{{ $getInfoUser[0]['about'] }}</p>
                         </div>
                     </div>

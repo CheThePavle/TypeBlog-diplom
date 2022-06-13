@@ -3,8 +3,7 @@
 
     use Illuminate\Pagination\LengthAwarePaginator;
 
-    function arrayPaginate($array, $request, $perPage = 10)
-    {
+    function arrayPaginate($array, $request, $perPage = 10) {
         $getPage = correct($request->page);
 
         $page = $getPage ? $getPage : 1;
