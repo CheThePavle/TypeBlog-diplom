@@ -299,6 +299,8 @@ $(function() {
                 formChangePost.submit(function (e) {
                     e.preventDefault();
 
+                    $('button').attr('disabled', true);
+
                     let formData = new FormData(this);
                     let msg = $('.msg');
 
@@ -315,7 +317,6 @@ $(function() {
                             processData: false,
                             data: formData,
                             success: function (d) {
-                                console.log(d)
                                 clearTimeout(timerId);
                                 activeBtn(true);
                                 msg.html(`<div class="alert alert-success">${d?.result?.msg}</div>`);
@@ -324,7 +325,7 @@ $(function() {
                                 }, 2000);
                             },
                             error: function (d) {
-                                console.log(d)
+                                $('button').attr('disabled', false);
                                 clearTimeout(timerId);
                                 activeBtn(true);
                                 msg.html(`<div class="alert alert-danger">${d?.responseJSON?.result?.msg || 'Что-то пошло не так!'}</div>`);

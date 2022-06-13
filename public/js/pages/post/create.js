@@ -268,6 +268,8 @@ $(function() {
         forCreatePost.submit(function (e) {
             e.preventDefault();
 
+            $('button').attr('disabled', true);
+
             let formData = new FormData(this);
             let msg = $('.msg');
 
@@ -291,6 +293,7 @@ $(function() {
                         }, 2000);
                     },
                     error: function (d) {
+                        $('button').attr('disabled', false);
                         clearTimeout(timerId);
                         activeBtn(true);
                         msg.html(`<div class="alert alert-danger">${d?.responseJSON?.result?.msg || 'Что-то пошло не так!'}</div>`);
