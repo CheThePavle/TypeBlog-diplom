@@ -20,19 +20,22 @@ $(function() {
             }
 
             activeBtn(false);
-            $.ajax({
-                url: '/user/findLogin',
-                method: 'POST',
-                data: th.serialize(),
-                // success: function (d) {
-                //     console.log(d)
-                // },
-                error: function (d) {
-                    // console.log(d)
-                    activeBtn(true);
-                    errorLoginHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
-                }
-            })
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+                $.ajax({
+                    url: '/user/findLogin',
+                    method: 'POST',
+                    data: th.serialize(),
+                    // success: function (d) {
+                    //     console.log(d)
+                    // },
+                    error: function (d) {
+                        // console.log(d)
+                        activeBtn(true);
+                        errorLoginHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
+                    }
+                })
+            }, 1000);
         });
 
         $("#email").keyup(function() {
@@ -49,15 +52,20 @@ $(function() {
             }
 
             activeBtn(false);
-            $.ajax({
-                url: '/user/findEmail',
-                method: 'POST',
-                data: th.serialize(),
-                error: function (d) {
-                    activeBtn(true);
-                    errorEmailHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
-                }
-            })
+            clearTimeout(timerId);
+            timerId = setTimeout(() => {
+                $.ajax({
+                    url: '/user/findEmail',
+                    method: 'POST',
+                    data: th.serialize(),
+                    error: function (d) {
+                        activeBtn(true);
+                        errorEmailHTML.html(`<div class="alert alert-warning noAnime">${d?.responseJSON?.result?.msg}</div>`);
+                    }
+                })
+            }, 1000);
+
+            activeBtn(false);
         });
 
         $(".eye1").click(function () {
